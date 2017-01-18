@@ -40,7 +40,6 @@ setup(
     license='Apache Software License 2.0',
     install_requires=requirements,
     packages=find_packages(exclude=("tests",)),
-    data_files=[("", ["LICENSE_MA"])],
     include_package_data=True,
     test_suite='nose.collector',
     tests_require=['nose'],
