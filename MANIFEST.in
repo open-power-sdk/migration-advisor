@@ -1,0 +1,3 @@
+include LICENSE_MA
+include requirements.txt
+recursive-include data *
