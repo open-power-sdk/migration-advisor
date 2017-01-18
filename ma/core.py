@@ -25,6 +25,10 @@ import subprocess
 import commands
 import time
 import sys
+import os
+
+# MA supported file extensions
+SUPPORTED_EXTENSIONS = (".c", ".cpp", ".h")
 
 
 def execute(command):
@@ -57,3 +61,22 @@ def cmdexists(command):
 def get_timestamp():
     """Return the current timestamp"""
     return time.strftime("%Y%m%d_%H%M%S")
+
+
+def get_files(directory):
+    """ Return all files from a directory in a absolute path format """
+    files = []
+    for root, dirnames, filenames in os.walk(directory):
+        for filename in filenames:
+            files.append(os.path.join(root, filename))
+    return files
+
+
+def get_supported_files(file_names):
+    """ Given a list of files, return a list with supported files only,
+    based on their extension """
+    supported_files = []
+    for file_name in file_names:
+        if file_name.endswith(SUPPORTED_EXTENSIONS):
+            supported_files.append(file_name)
+    return supported_files

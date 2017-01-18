@@ -31,10 +31,8 @@ import core
 
 class Controller(object):
     """
-    Controls the execution of CPI commands
+    Controls the execution of MA commands
     """
-    def __init__(self):
-        print
 
     def run(self, args):
         """
@@ -43,4 +41,24 @@ class Controller(object):
         Parameters:
             args - arguments collected by argparser
         """
-        print args
+        location = args.location[0]
+
+        files = []
+        if os.path.isdir(location):
+            files = core.get_files(location)
+        elif os.path.isfile(location):
+            files.append(location)
+        else:
+            sys.stderr.write("invalid file or directory: {0}\n".format(
+                location))
+            sys.exit(1)
+
+        files = core.get_supported_files(files)
+        if not files:
+            sys.stderr.write("None of the files provided are supported by "
+                             "Migration Advisor. \n")
+            sys.exit(1)
+
+        print "supported files = ", files
+        # TODO: at this point "files" variable has all supported files, we need
+        # to pass each of them to clang to create the Translation Units

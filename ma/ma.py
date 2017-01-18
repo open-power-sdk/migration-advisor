@@ -68,7 +68,11 @@ def main(argv=None):
         parser.add_argument('-V', '--version',
                             action='version',
                             version=program_version_message)
-        subparsers = parser.add_subparsers(help='\nMA commands\n\n')
+        parser.add_argument(
+            dest='location',
+            metavar="LOCATION",
+            help="file or directory where the files to be migrated are",
+            nargs=1)
 
         # Process arguments
         args = parser.parse_args()
