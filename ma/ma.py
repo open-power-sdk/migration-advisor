@@ -24,12 +24,11 @@ limitations under the License.
 """
 
 import sys
-import argparse
 from argparse import ArgumentParser
 from argparse import RawTextHelpFormatter
 import pkg_resources
 
-from controller import Controller
+import controller
 
 __all__ = []
 __version__ = pkg_resources.require("ma")[0].version
@@ -76,8 +75,7 @@ def main(argv=None):
 
         # Process arguments
         args = parser.parse_args()
-        ctrller = Controller()
-        ctrller.run(args)
+        controller.run(args)
     except KeyboardInterrupt:
         return 1
 

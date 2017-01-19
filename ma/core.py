@@ -80,3 +80,11 @@ def get_supported_files(file_names):
         if file_name.endswith(SUPPORTED_EXTENSIONS):
             supported_files.append(file_name)
     return supported_files
+
+
+def get_file_content(file_name, offset, length):
+    """ Read the content of a file given the offset and the length. The offset
+    is where the read begins and length is how many characters will be read """
+    with open(file_name, "rb") as infile:
+        infile.seek(offset, 0)
+        return infile.read(length)

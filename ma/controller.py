@@ -25,40 +25,56 @@ limitations under the License.
 import os
 import sys
 import time
+from clang.cindex import Index
+from clang.cindex import TranslationUnit
 
+from checkers.asm_checker import AsmChecker
+from visitor import Visitor
+from problem_reporter import ProblemReporter
 import core
 
 
-class Controller(object):
+def run(args):
     """
-    Controls the execution of MA commands
+    Executes the correct action according the user input.
+
+    Parameters:
+        args - arguments collected by argparser
     """
+    files = __get_files(args.location[0])
 
-    def run(self, args):
-        """
-        Executes the correct action according the user input.
+    # TODO: checkers need to be inputed by user in argparser
+    asm_checker = AsmChecker()
 
-        Parameters:
-            args - arguments collected by argparser
-        """
-        location = args.location[0]
+    # List with all active checkers
+    checkers = [asm_checker]
 
-        files = []
-        if os.path.isdir(location):
-            files = core.get_files(location)
-        elif os.path.isfile(location):
-            files.append(location)
-        else:
-            sys.stderr.write("invalid file or directory: {0}\n".format(
-                location))
-            sys.exit(1)
+    visitor = Visitor(checkers)
+    index = Index.create()
+    print "Amount of files to be checked: " + str(len(files)) + "\n"
+    for c_file in files:
+        print "Checking file: " + c_file
+        tu = index.parse(c_file, options=TranslationUnit.PARSE_DETAILED_PROCESSING_RECORD)
+        visitor.visit_nodes(tu.cursor)
+    problem_reporter = ProblemReporter()
+    problem_reporter.print_problems()
 
-        files = core.get_supported_files(files)
-        if not files:
-            sys.stderr.write("None of the files provided are supported by "
-                             "Migration Advisor. \n")
-            sys.exit(1)
 
-        print "supported files = ", files
-        # TODO: at this point "files" variable has all supported files, we need
-        # to pass each of them to clang to create the Translation Units
+def __get_files(location):
+    """ Get a list of supported file names given a location (that can be either
+    a file or a directory). If no supported file is found, force to exit """
+    files = []
+    if os.path.isdir(location):
+        files = core.get_files(location)
+    elif os.path.isfile(location):
+        files.append(location)
+    else:
+        sys.stderr.write("invalid file or directory: {0}\n".format(location))
+        sys.exit(1)
+
+    files = core.get_supported_files(files)
+    if not files:
+        sys.stderr.write("None of the files provided are supported by "
+                         "Migration Advisor. \n")
+        sys.exit(1)
+    return files
