@@ -32,7 +32,7 @@ import pkg_resources
 from controller import Controller
 
 __all__ = []
-__version__ = pkg_resources.require("cpi")[0].version
+__version__ = pkg_resources.require("ma")[0].version
 
 
 class CLIError(Exception):
