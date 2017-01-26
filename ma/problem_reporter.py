@@ -76,17 +76,11 @@ class Problem(object):
 
     def get_name(self):
         """ Get the node raw name """
-        name = self.node.displayname
-        if not name:
-            name = self.node.spelling
-        # If displayname and spelling do not provide the name of the node,
-        # parse the file using the offset information
-        if not name:
-            ext = self.node.extent
-            start = ext.start.offset
-            end = ext.end.offset
-            length = end - start
-            name = core.get_file_content(str(self.get_file()), start, length)
+        ext = self.node.extent
+        start = ext.start.offset
+        end = ext.end.offset
+        length = end - start
+        name = core.get_file_content(str(self.get_file()), start, length)
         return name
 
     def get_problem_msg(self):
