@@ -29,6 +29,7 @@ from clang.cindex import Index
 from clang.cindex import TranslationUnit
 
 from checkers.asm_checker import AsmChecker
+from checkers.long_double_checker import LongDoubleChecker
 from visitor import Visitor
 from problem_reporter import ProblemReporter
 import core
@@ -43,11 +44,12 @@ def run(args):
     """
     files = __get_files(args.location[0])
 
-    # TODO: checkers need to be inputed by user in argparser
+    # TODO: checkers need to be input by user in argparser
     asm_checker = AsmChecker()
+    long_double_checker = LongDoubleChecker()
 
     # List with all active checkers
-    checkers = [asm_checker]
+    checkers = [asm_checker, long_double_checker]
 
     visitor = Visitor(checkers)
     index = Index.create()

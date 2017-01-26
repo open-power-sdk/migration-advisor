@@ -17,12 +17,14 @@ limitations under the License.
 
     Contributors:
         * Roberto Oliveira <rdutra@br.ibm.com>
+        * Daniel Kreling <dbkreling@br.ibm.com>
 """
 
 import os
 import unittest
 
 from ma.checkers.asm_checker import AsmChecker
+from ma.checkers.long_double_checker import LongDoubleChecker
 from checkers_base import CheckersBase
 
 
@@ -39,6 +41,13 @@ class Checkers(unittest.TestCase):
         folder = self.resources_folder + "asm"
         self.base.run(AsmChecker(), folder)
         expected_lines = [5, 6, 7]
+        self.__check_lines(expected_lines)
+
+    def long_double_test(self):
+        """ Long double declarations """
+        folder = self.resources_folder + "long_double"
+        self.base.run(LongDoubleChecker(), folder)
+        expected_lines = [2, 5, 8]
         self.__check_lines(expected_lines)
 
     def __check_lines(self, expected_lines):

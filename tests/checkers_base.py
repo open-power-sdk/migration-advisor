@@ -19,6 +19,7 @@ limitations under the License.
         * Roberto Oliveira <rdutra@br.ibm.com>
 """
 
+
 from clang.cindex import Index
 from clang.cindex import TranslationUnit
 
