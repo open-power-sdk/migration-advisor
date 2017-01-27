@@ -1,3 +1,5 @@
+
+
 # -*- coding: utf-8 -*-
 
 """
@@ -16,22 +18,16 @@ See the License for the specific language governing permissions and
 limitations under the License.
 
     Contributors:
-        * Roberto Oliveira <rdutra@br.ibm.com>
+        * Diego Fernandez-Merjildo <merjildo@br.ibm.com>
 """
 
-from ma.problem_reporter import ProblemReporter
-from clang.cindex import CursorKind
-from ma.checkers.checker import Checker
+import abc
 
-class AsmChecker(Checker):
-    """ Checker for inline assembly declarations """
 
-    def __init__(self):
-        self.reporter = ProblemReporter()
-        self.problem_type = "Inline assembly"
-        self.problem_msg = "Possible arch specific assembly"
-
+class Checker(object):
+    """ Abstract class Checker """
+    __metaclass__ = abc.ABCMeta
+    @abc.abstractmethod
     def check(self, node):
-        if node.kind == (CursorKind.ASM_STMT or CursorKind.MS_ASM_STMT):
-            self.reporter.report_problem(node, self.problem_type,
-                                         self.problem_msg)
+        """ Check node from AST"""
+        raise NotImplementedError('users must define __check__ to use this base class')
