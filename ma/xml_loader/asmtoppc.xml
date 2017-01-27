@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<assembly>
+  <asm type="builtin" replacer="__atomic_test_and_set(/*void *ptr, int memmodel*/);" target="xchgl;"/>
+  <asm type="builtin" replacer="__atomic_test_and_set(/*void *ptr, int memmodel*/);" target="lock;xchgl;"/>
+  <asm type="builtin" replacer="__atomic_fetch_add(/*type *ptr, type val, int memmodel*/);" target="lock;add;"/>
+  <asm type="builtin" replacer="__atomic_fetch_and(/*type *ptr, type val, int memmodel*/);" target="lock;and;"/>
+  <asm type="builtin" replacer="__atomic_fetch_nand(/*type *ptr, type val, int memmodel*/);" target="lock;and;not;"/>
+  <asm type="builtin" replacer="__atomic_fetch_or(/*type *ptr, type val, int memmodel*/);" target="lock;or;"/>
+  <asm type="builtin" replacer="__atomic_fetch_sub(/*type *ptr, type val, int memmodel*/);" target="lock;sub;"/>
+  <asm type="builtin" replacer="__atomic_fetch_xor(/*type *ptr, type val, int memmodel*/);" target="lock;xor;"/>
+  <asm type="builtin" replacer="__atomic_fetch_add(/*type *ptr, type val, int memmodel*/);" target="lock;addl;"/>
+  <asm type="builtin" replacer="__atomic_fetch_add(/*type *ptr, type val, int memmodel*/);" target="lock;xaddl;"/>
+  <asm type="builtin" replacer="__atomic_fetch_and(/*type *ptr, type val, int memmodel*/);" target="lock;andl;"/>
+  <asm type="builtin" replacer="__atomic_fetch_nand(/*type *ptr, type val, int memmodel*/);" target="lock;andl;notl;"/>
+  <asm type="builtin" replacer="__atomic_fetch_or(/*type *ptr, type val, int memmodel*/);" target="lock;orl;"/>
+  <asm type="builtin" replacer="__atomic_fetch_sub(/*type *ptr, type val, int memmodel*/);" target="lock;subl;"/>
+  <asm type="builtin" replacer="__atomic_fetch_xor(/*type *ptr, type val, int memmodel*/);" target="lock;xorl;"/>
+  <asm type="builtin" replacer="__builtin_ffsl(/*unsigned long x*/);" target="bsfl;movl;cmove;incl;"/>
+  <asm type="builtin" replacer="__builtin_ffs(/*unsigned int x*/);" target="bsf;mov;cmove;inc;"/>
+  <asm type="builtin" replacer="__builtin_clzl(/*unsigned long x*/);" target="bsrl;xorl;"/>
+  <asm type="builtin" replacer="__builtin_clz(/*unsigned int x*/);" target="bsr;xor;"/>
+  <asm type="builtin" replacer="__builtin_ctzl(/*unsigned long x*/);" target="bsfl;"/>
+  <asm type="builtin" replacer="__builtin_ctz(/*unsigned int x*/);" target="bsf;"/>
+  <asm type="builtin" replacer="__builtin_parityl(/*unsigned long x*/);" target="movl;shrl;xorl;xorb;setnp;"/>
+  <asm type="builtin" replacer="__builtin_parity(/*unsigned int x*/);" target="mov;shr;xor;xorb;setnp;"/>
+  <asm type="builtin" replacer="__builtin_popcountl(/*unsigned long x*/);" target="popcntl;"/>
+  <asm type="builtin" replacer="__builtin_popcount(/*unsigned int x*/);" target="popcnt;"/>
+  <asm type="builtin" replacer="__atomic_compare_exchange(/*type *ptr, type *expected, type *desired, bool weak, int success_memmodel, int failure_memmodel*/);" target="lock;cmpxchg;sete;"/>
+  <asm type="builtin" replacer="__atomic_compare_exchange(/*type *ptr, type *expected, type *desired, bool weak, int success_memmodel, int failure_memmodel*/);" target="cmpxchg;sete;"/>
+  <asm type="builtin" replacer="__atomic_compare_exchange(/*type *ptr, type *expected, type *desired, bool weak, int success_memmodel, int failure_memmodel*/);" target="lock;cmpxchgl;"/>
+  <asm type="builtin" replacer="__atomic_compare_exchange(/*type *ptr, type *expected, type *desired, bool weak, int success_memmodel, int failure_memmodel*/);" target="lock;cmpxchgl;sete;"/>
+
+  <asm type="asm" replacer='"or 27,27,27; isync"' target="pause;"/>
+  <asm type="asm" replacer='*"0:\n\t"&#xA;"mfspr %0, 269\n\t"&#xA;"mfspr %1, 268\n\t"&#xA;"mfspr %2, 269\n\t"&#xA;"cmpw %0, %2\n\t"&#xA;"bne- 0b"&#xA; : "=r" (/*unsigned int TBU*/), "=r" (/*unsigned int TBL*/), "=r" (/*unsigned int x*/)|"mfspr %0, 268" : "=r" (/*unsigned long TB*/)' target="rdtsc;"/>
+</assembly>
