@@ -19,8 +19,6 @@ limitations under the License.
         * Roberto Oliveira <rdutra@br.ibm.com>
 """
 
-import abc
-
 
 class Visitor(object):
     """ Class used to visit the translation unit nodes and run checkers """
@@ -32,11 +30,6 @@ class Visitor(object):
         """ Visit all nodes from translation unit and for each node, call all
         activate checkers to seek for problems """
         for checker in self.checkers_list:
-            checker.visit(node)
-        for n in node.get_children():
-            self.visit_nodes(n)
-
-    @abc.abstractmethod
-    def visit(self, node):
-        """ Visit a node from translation unit """
-        raise NotImplementedError("Implement this method in checkers classes")
+            checker.check(node)
+        for node in node.get_children():
+            self.visit_nodes(node)
