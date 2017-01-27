@@ -52,6 +52,14 @@ class ProblemReporter(object):
                 print "   Line: " + str(problem.get_line())
                 print ""
 
+    def get_problems(self):
+        """ Get all reported problems """
+        return self.problems
+
+    def clear_problems(self):
+        """ Clear reported problems """
+        self.problems.clear()
+
     @classmethod
     def __print_logo(cls):
         """ Print the report logo """
