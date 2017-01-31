@@ -32,6 +32,7 @@ from checkers.asm_checker import AsmChecker
 from checkers.long_double_checker import LongDoubleChecker
 from visitor import Visitor
 from problem_reporter import ProblemReporter
+from report_blocker import ReportBlocker
 import core
 
 
@@ -57,6 +58,7 @@ def run(args):
     for c_file in files:
         print "Checking file: " + c_file
         tu = index.parse(c_file, options=TranslationUnit.PARSE_DETAILED_PROCESSING_RECORD)
+        ReportBlocker.blocked_lines = []
         visitor.visit_nodes(tu.cursor)
     problem_reporter = ProblemReporter()
     problem_reporter.print_problems()

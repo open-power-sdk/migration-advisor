@@ -20,6 +20,7 @@ limitations under the License.
 """
 
 import core
+from report_blocker import ReportBlocker
 
 
 class ProblemReporter(object):
@@ -28,8 +29,12 @@ class ProblemReporter(object):
 
     def report_problem(self, node, problem_type, problem_msg):
         """ Add the reported problem in a dictionary """
+        node_loc = node.location
         # Do not report if location is not known
-        if not node.location.file:
+        if not node_loc.file:
+            return
+        # Do not report if node is inside a blocked line
+        if node_loc.line in ReportBlocker.blocked_lines:
             return
 
         problem = Problem(node, problem_msg)
