@@ -18,6 +18,7 @@ limitations under the License.
     Contributors:
         * Roberto Oliveira <rdutra@br.ibm.com>
         * Daniel Kreling <dbkreling@br.ibm.com>
+        * Rafael Peria de Sene <rpsene@br.ibm.com>
 """
 
 import os

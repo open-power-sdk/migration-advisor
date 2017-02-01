@@ -27,8 +27,10 @@ import time
 import sys
 import os
 
-# MA supported file extensions
-SUPPORTED_EXTENSIONS = (".c", ".cpp", ".h")
+
+def get_supported_extensions():
+    """Returns the list of supported extesions on MA"""
+    return ['*.cpp', '*.c', '*.h']
 
 
 def execute(command):
@@ -63,23 +65,27 @@ def get_timestamp():
     return time.strftime("%Y%m%d_%H%M%S")
 
 
-def get_files(directory):
+def get_files(directory, hint):
     """ Return all files from a directory in a absolute path format """
-    files = []
-    for root, dirnames, filenames in os.walk(directory):
-        for filename in filenames:
-            files.append(os.path.join(root, filename))
-    return files
+    output_tmp_file = '/tmp/ma_tmp_' + str(time.time())
+    extensions = ','.join([str(e.replace('*.', '')) for e in get_supported_extensions()])
+    cmd = 'grep -r --files-with-matches --include=\\*.{' + extensions + '} \''
+    cmd += hint + '\' ' + directory + ' > ' + output_tmp_file
+    execute(cmd)
+    return file_to_array(output_tmp_file)
 
 
-def get_supported_files(file_names):
-    """ Given a list of files, return a list with supported files only,
-    based on their extension """
-    supported_files = []
-    for file_name in file_names:
-        if file_name.endswith(SUPPORTED_EXTENSIONS):
-            supported_files.append(file_name)
-    return supported_files
+def file_to_array(file_location):
+    """
+    Converts the list of files locate at file_location to an
+    array and removes the temporary file
+    """
+    array_files = []
+    with open(file_location) as set_of_files:
+        for _file in set_of_files:
+            array_files.append(_file.rstrip())
+    execute('rm -f ' + file_location)
+    return array_files
 
 
 def get_file_content(file_name, offset, length):

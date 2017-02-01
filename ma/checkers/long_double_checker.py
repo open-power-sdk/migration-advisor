@@ -18,6 +18,7 @@ limitations under the License.
     Contributors:
         * Daniel Kreling <dbkreling@br.ibm.com>
         * Roberto Oliveira <rdutra@br.ibm.com>
+        * Rafael Peria de Sene <rpsene@br.ibm.com>
 """
 
 from ma.problem_reporter import ProblemReporter
@@ -34,6 +35,12 @@ class LongDoubleChecker(Checker):
         self.problem_type = "Long double usage"
         self.problem_msg = "Potential migration issue due size of long double"\
                            " variables in Power architecture."
+
+    def get_pattern_hint(self):
+        return 'long double'
+
+    def get_description(self):
+        return self.problem_type, self.problem_msg
 
     def check(self, node):
         if node.kind != CursorKind.VAR_DECL:

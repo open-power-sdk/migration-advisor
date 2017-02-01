@@ -25,6 +25,7 @@ limitations under the License.
 import os
 import sys
 import time
+import fnmatch
 from clang.cindex import Index
 from clang.cindex import TranslationUnit
 
@@ -43,7 +44,8 @@ def run(args):
     Parameters:
         args - arguments collected by argparser
     """
-    files = __get_files(args.location[0])
+
+    files_locations = args.location[0]
 
     # TODO: checkers need to be input by user in argparser
     asm_checker = AsmChecker()
@@ -51,32 +53,42 @@ def run(args):
 
     # List with all active checkers
     checkers = [asm_checker, long_double_checker]
-
-    visitor = Visitor(checkers)
-    index = Index.create()
-    print "Amount of files to be checked: " + str(len(files)) + "\n"
-    for c_file in files:
-        print "Checking file: " + c_file
-        tu = index.parse(c_file, options=TranslationUnit.PARSE_DETAILED_PROCESSING_RECORD)
-        ReportBlocker.blocked_lines = []
-        visitor.visit_nodes(tu.cursor)
+    for chk in checkers:
+        _run_checker(chk, files_locations)
     problem_reporter = ProblemReporter()
     problem_reporter.print_problems()
 
 
-def __get_files(location):
+def _run_checker(checker, set_of_files):
+    files = __get_files(set_of_files, checker.get_pattern_hint())
+    print __current_wip(checker, files)
+    visitor = Visitor(checker)
+    index = Index.create()
+    for c_file in files:
+        tu = index.parse(c_file, options=TranslationUnit.PARSE_DETAILED_PROCESSING_RECORD)
+        ReportBlocker.blocked_lines = []
+        visitor.visit_nodes(tu.cursor)
+
+
+def __current_wip(checker, files):
+    wip_msg = 'Looking for ' + checker.get_description()[0].lower()
+    wip_msg += ' problems in ' + str(len(files)) + ' suspect files.'
+    return wip_msg
+
+
+def __get_files(location, hint):
     """ Get a list of supported file names given a location (that can be either
     a file or a directory). If no supported file is found, force to exit """
     files = []
     if os.path.isdir(location):
-        files = core.get_files(location)
+        files = core.get_files(location, hint)
     elif os.path.isfile(location):
-        files.append(location)
+        for ext in core.get_supported_extensions():
+            if fnmatch.fnmatch(location, ext):
+                files.append(location)
     else:
-        sys.stderr.write("invalid file or directory: {0}\n".format(location))
+        sys.stderr.write("Invalid file or directory: {0}\n".format(location))
         sys.exit(1)
-
-    files = core.get_supported_files(files)
     if not files:
         sys.stderr.write("None of the files provided are supported by "
                          "Migration Advisor. \n")

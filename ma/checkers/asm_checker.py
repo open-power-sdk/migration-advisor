@@ -17,11 +17,14 @@ limitations under the License.
 
     Contributors:
         * Roberto Oliveira <rdutra@br.ibm.com>
+        * Rafael Peria de Sene <rpsene@br.ibm.com>
 """
 
-from ma.problem_reporter import ProblemReporter
 from clang.cindex import CursorKind
+
+from ma.problem_reporter import ProblemReporter
 from ma.checkers.checker import Checker
+
 
 class AsmChecker(Checker):
     """ Checker for inline assembly declarations """
@@ -30,6 +33,12 @@ class AsmChecker(Checker):
         self.reporter = ProblemReporter()
         self.problem_type = "Inline assembly"
         self.problem_msg = "Possible arch specific assembly"
+
+    def get_pattern_hint(self):
+        return 'asm'
+
+    def get_description(self):
+        return self.problem_type, self.problem_msg
 
     def check(self, node):
         if node.kind == (CursorKind.ASM_STMT or CursorKind.MS_ASM_STMT):

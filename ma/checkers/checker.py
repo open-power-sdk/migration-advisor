@@ -17,6 +17,7 @@ limitations under the License.
 
     Contributors:
         * Diego Fernandez-Merjildo <merjildo@br.ibm.com>
+        * Rafael Peria de Sene <rpsene@br.ibm.com>
 """
 
 import abc
@@ -25,7 +26,18 @@ import abc
 class Checker(object):
     """ Abstract class Checker """
     __metaclass__ = abc.ABCMeta
+
     @abc.abstractmethod
     def check(self, node):
         """ Check node from AST"""
         raise NotImplementedError('users must define __check__ to use this base class')
+
+    @abc.abstractmethod
+    def get_pattern_hint(self):
+        """Return the pattern that should be used to get the problematics files"""
+        raise NotImplementedError('users must define __get_pattern_hint__ to use this base class')
+
+    @abc.abstractmethod
+    def get_description(self):
+        """Return the description of the checker"""
+        raise NotImplementedError('users must define __get_description__ to use this base class')

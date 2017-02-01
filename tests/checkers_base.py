@@ -17,6 +17,7 @@ limitations under the License.
 
     Contributors:
         * Roberto Oliveira <rdutra@br.ibm.com>
+        * Rafael Peria de Sene <rpsene@br.ibm.com>
 """
 
 
@@ -38,9 +39,9 @@ class CheckersBase():
         and the run of checker. The checker is the one that will be activated
         and the path is the folder with the files used in the test """
         self.reporter.clear_problems()
-        visitor = Visitor([checker])
+        visitor = Visitor(checker)
         index = Index.create()
-        files = core.get_files(path)
+        files = core.get_files(path, checker.get_pattern_hint())
         for f in files:
             tu = index.parse(f, options=TranslationUnit.PARSE_DETAILED_PROCESSING_RECORD)
             visitor.visit_nodes(tu.cursor)
