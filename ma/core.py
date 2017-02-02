@@ -22,10 +22,7 @@ limitations under the License.
         * Roberto Oliveira <rdutra@br.ibm.com>
 """
 import subprocess
-import commands
 import time
-import sys
-import os
 
 
 def get_supported_extensions():

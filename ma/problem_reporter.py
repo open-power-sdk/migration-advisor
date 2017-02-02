@@ -17,6 +17,7 @@ limitations under the License.
 
     Contributors:
         * Roberto Oliveira <rdutra@br.ibm.com>
+        * Diego Fernandez-Merjildo <merjildo@br.ibm.com>
 """
 
 import core
@@ -27,7 +28,8 @@ class ProblemReporter(object):
     """ Class to handle with reported problems """
     problems = {}
 
-    def report_problem(self, node, problem_type, problem_msg):
+    @classmethod
+    def report_problem(cls, node, problem_type, problem_msg):
         """ Add the reported problem in a dictionary """
         node_loc = node.location
         # Do not report if location is not known
@@ -38,17 +40,18 @@ class ProblemReporter(object):
             return
 
         problem = Problem(node, problem_msg)
-        if self.problems.get(problem_type, None) is not None:
-            self.problems.get(problem_type).append(problem)
+        if cls.problems.get(problem_type, None) is not None:
+            cls.problems.get(problem_type).append(problem)
         else:
             problem_list = []
             problem_list.append(problem)
-            self.problems[problem_type] = problem_list
+            cls.problems[problem_type] = problem_list
 
-    def print_problems(self):
+    @classmethod
+    def print_problems(cls):
         """ Print all reported problems """
-        self.__print_logo()
-        for problem_type, problems in self.problems.items():
+        cls.__print_logo()
+        for problem_type, problems in cls.problems.items():
             print "Problem type: " + problem_type
             print "Problem description: " + problems[0].get_problem_msg()
             for problem in problems:

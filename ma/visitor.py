@@ -18,12 +18,14 @@ limitations under the License.
     Contributors:
         * Roberto Oliveira <rdutra@br.ibm.com>
         * Rafael Sene <rpsene@br.ibm.com>
+        * Diego Fernandez-Merjildo <merjildo@br.ibm.com>
 """
 
 from clang.cindex import CursorKind
 
 from report_blocker import ReportBlocker
 
+from problem_reporter import ProblemReporter
 
 class Visitor(object):
     """ Class used to visit the translation unit nodes and run checkers """
@@ -36,6 +38,11 @@ class Visitor(object):
         activate checkers to seek for problems """
         if node.kind == CursorKind.MACRO_INSTANTIATION:
             ReportBlocker.check_node(node)
-        self.checker.check(node)
+
+        if self.checker.check(node):
+            ProblemReporter.report_problem(node,
+                                           self.checker.get_problem_msg(),
+                                           self.checker.get_problem_type())
+
         for node in node.get_children():
             self.visit_nodes(node)
