@@ -27,8 +27,9 @@ import unittest
 from ma.checkers.asm_checker import AsmChecker
 from ma.checkers.long_double_checker import LongDoubleChecker
 from ma.checkers.syscall_checker import SyscallChecker
-from checkers_base import CheckersBase
+from ma.checkers.long_checker import LongChecker
 
+from checkers_base import CheckersBase
 
 class Checkers(unittest.TestCase):
     """ Test class to run checkers """
@@ -57,6 +58,13 @@ class Checkers(unittest.TestCase):
         folder = self.resources_folder + "syscalls"
         self.base.run(SyscallChecker(), folder)
         expected_lines = range(2, 38)
+        self.__check_lines(expected_lines)
+
+    def long_test(self):
+        """ Long declarations test"""
+        folder = self.resources_folder + "long"
+        self.base.run(LongChecker(), folder)
+        expected_lines = [2, 5, 8]
         self.__check_lines(expected_lines)
 
     def __check_lines(self, expected_lines):

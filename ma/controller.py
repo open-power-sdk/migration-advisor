@@ -30,6 +30,7 @@ from clang.cindex import TranslationUnit
 
 from checkers.asm_checker import AsmChecker
 from checkers.long_double_checker import LongDoubleChecker
+from checkers.long_checker import LongChecker
 from checkers.syscall_checker import SyscallChecker
 from visitor import Visitor
 from problem_reporter import ProblemReporter
@@ -76,9 +77,10 @@ def _load_checkers():
     It returns a list with all active checkers """
     asm_checker = AsmChecker()
     long_double_checker = LongDoubleChecker()
+    long_checker = LongChecker()
     syscall_checker = SyscallChecker()
     # List with all active checkers
-    return [asm_checker, long_double_checker, syscall_checker]
+    return [asm_checker, long_double_checker, long_checker, syscall_checker]
 
 
 def __current_wip(checker, files):
