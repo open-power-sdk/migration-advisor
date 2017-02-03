@@ -30,6 +30,7 @@ from clang.cindex import TranslationUnit
 
 from checkers.asm_checker import AsmChecker
 from checkers.long_double_checker import LongDoubleChecker
+from checkers.syscall_checker import SyscallChecker
 from visitor import Visitor
 from problem_reporter import ProblemReporter
 from report_blocker import ReportBlocker
@@ -64,15 +65,17 @@ def _run_checker(checker, set_of_files):
         ReportBlocker.blocked_lines = []
         visitor.visit_nodes(root.cursor)
 
+
 def _load_checkers():
     """ This function load select checker.
     It returns a list with all active checkers """
 
     asm_checker = AsmChecker()
     long_double_checker = LongDoubleChecker()
+    syscall_checker = SyscallChecker()
 
     # List with all active checkers
-    return [asm_checker, long_double_checker]
+    return [asm_checker, long_double_checker, syscall_checker]
 
 
 def __current_wip(checker, files):

@@ -32,18 +32,15 @@ class Checker(object):
         """ Check node from AST"""
         raise NotImplementedError('users must define __check__ to use this base class')
 
-
     @abc.abstractmethod
     def get_pattern_hint(self):
         """Return the pattern that should be used to get the problematics files"""
         raise NotImplementedError('users must define __get_pattern_hint__ to use this base class')
 
-
     @abc.abstractmethod
     def get_problem_msg(self):
         """Return the problem message of the checker"""
         raise NotImplementedError('users must define __get_problem_msg__ to use this base class')
-
 
     @abc.abstractmethod
     def get_problem_type(self):

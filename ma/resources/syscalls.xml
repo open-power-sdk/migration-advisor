@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<syscalls>
+	<syscall target="chfchown32" replacer="" includes="" adjParams=""/>
+	<syscall target="chget_thread_area" replacer="" includes="" adjParams=""/>
+	<syscall target="chgetegid32" replacer="" includes="" adjParams=""/>
+	<syscall target="chgeteuid32" replacer="" includes="" adjParams=""/>
+	<syscall target="chgetgid32" replacer="" includes="" adjParams=""/>
+	<syscall target="chgetgroups32" replacer="" includes="" adjParams=""/>
+	<syscall target="chgetresgid32" replacer="" includes="" adjParams=""/>
+	<syscall target="chgetresuid32" replacer="" includes="" adjParams=""/>
+	<syscall target="chgetuid32" replacer="" includes="" adjParams=""/>
+	<syscall target="chlchown32" replacer="" includes="" adjParams=""/>
+	<syscall target="chmadvise1" replacer="" includes="" adjParams=""/>
+	<syscall target="chown32" replacer="" includes="" adjParams=""/>
+	<syscall target="chset_thread_area" replacer="" includes="" adjParams=""/>
+	<syscall target="chsetfsgid32" replacer="" includes="" adjParams=""/>
+	<syscall target="chsetfsuid32" replacer="" includes="" adjParams=""/>
+	<syscall target="chsetgid32" replacer="" includes="" adjParams=""/>
+	<syscall target="chsetgroups32" replacer="" includes="" adjParams=""/>
+	<syscall target="chsetregid32" replacer="" includes="" adjParams=""/>
+	<syscall target="chsetresgid32" replacer="" includes="" adjParams=""/>
+	<syscall target="chsetresuid32" replacer="" includes="" adjParams=""/>
+	<syscall target="chsetreuid32" replacer="" includes="" adjParams=""/>
+	<syscall target="chsetuid32" replacer="" includes="" adjParams=""/>
+	<syscall target="chsync_file_range" replacer="" includes="" adjParams=""/>
+	<syscall target="chvm86old" replacer="" includes="" adjParams=""/>
+	<syscall target="chvserver" replacer="" includes="" adjParams=""/>
+	<syscall target="newfstatat" replacer="" includes="" adjParams=""/>
+	<syscall target="SYS_truncate64" replacer="" includes="" adjParams=""/>
+	<syscall target="SYS_ftruncate64" replacer="ftruncate" includes="" adjParams=""/>
+	<syscall target="SYS_sendfile64" replacer="sendfile" includes="" adjParams=""/>
+	<syscall target="SYS_fadvise64_64" replacer="fadvise64_64" includes="" adjParams=""/>
+	<syscall target="SYS_fcntl64" replacer="fcntl" includes="fcntl.h" adjParams=""/>
+	<syscall target="SYS_mmap2" replacer="mmap" includes="sys/mman.h" adjParams=""/>
+	<syscall target="SYS_fstat64" replacer="fstat" includes="sys/stat.h" adjParams="3@struct stat64@struct stat"/>
+	<syscall target="SYS_stat64" replacer="stat" includes="sys/stat.h" adjParams="3@struct stat64@struct stat"/>
+	<syscall target="SYS_lstat64" replacer="lstat" includes="sys/stat.h" adjParams="3@struct stat64@struct stat"/>
+	<syscall target="SYS_fstatat64" replacer="fstatat" includes="sys/stat.h" adjParams="4@struct stat64@struct stat"/>
+</syscalls>

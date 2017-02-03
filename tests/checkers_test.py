@@ -26,6 +26,7 @@ import unittest
 
 from ma.checkers.asm_checker import AsmChecker
 from ma.checkers.long_double_checker import LongDoubleChecker
+from ma.checkers.syscall_checker import SyscallChecker
 from checkers_base import CheckersBase
 
 
@@ -45,10 +46,17 @@ class Checkers(unittest.TestCase):
         self.__check_lines(expected_lines)
 
     def long_double_test(self):
-        """ Long double declarations """
+        """ Long double declaration tests """
         folder = self.resources_folder + "long_double"
         self.base.run(LongDoubleChecker(), folder)
         expected_lines = [2, 5, 8]
+        self.__check_lines(expected_lines)
+
+    def syscalls_test(self):
+        """ Syscalls not supported in Power tests """
+        folder = self.resources_folder + "syscalls"
+        self.base.run(SyscallChecker(), folder)
+        expected_lines = range(2, 38)
         self.__check_lines(expected_lines)
 
     def __check_lines(self, expected_lines):
