@@ -32,6 +32,7 @@ from checkers.asm_checker import AsmChecker
 from checkers.long_double_checker import LongDoubleChecker
 from checkers.long_checker import LongChecker
 from checkers.syscall_checker import SyscallChecker
+from checkers.char_checker import CharChecker
 from visitor import Visitor
 from problem_reporter import ProblemReporter
 from report_blocker import ReportBlocker
@@ -79,8 +80,10 @@ def _load_checkers():
     long_double_checker = LongDoubleChecker()
     long_checker = LongChecker()
     syscall_checker = SyscallChecker()
+    char_checker = CharChecker()
     # List with all active checkers
-    return [asm_checker, long_double_checker, long_checker, syscall_checker]
+    return [asm_checker, long_double_checker, long_checker, syscall_checker,
+            char_checker]
 
 
 def __current_wip(checker, files):

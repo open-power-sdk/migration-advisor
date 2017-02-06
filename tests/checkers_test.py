@@ -28,8 +28,10 @@ from ma.checkers.asm_checker import AsmChecker
 from ma.checkers.long_double_checker import LongDoubleChecker
 from ma.checkers.syscall_checker import SyscallChecker
 from ma.checkers.long_checker import LongChecker
+from ma.checkers.char_checker import CharChecker
 
 from checkers_base import CheckersBase
+
 
 class Checkers(unittest.TestCase):
     """ Test class to run checkers """
@@ -65,6 +67,15 @@ class Checkers(unittest.TestCase):
         folder = self.resources_folder + "long"
         self.base.run(LongChecker(), folder)
         expected_lines = [2, 5, 8]
+        self.__check_lines(expected_lines)
+
+    def char_test(self):
+        """ Char usage tests """
+        folder = self.resources_folder + "char"
+        self.base.run(CharChecker(), folder)
+        expected_lines = []
+        expected_lines.extend(range(48, 60))
+        expected_lines.extend(range(65, 79))
         self.__check_lines(expected_lines)
 
     def __check_lines(self, expected_lines):
