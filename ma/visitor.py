@@ -41,8 +41,8 @@ class Visitor(object):
 
         if self.checker.check(node):
             ProblemReporter.report_problem(node,
-                                           self.checker.get_problem_msg(),
-                                           self.checker.get_problem_type())
+                                           self.checker.get_problem_type(),
+                                           self.checker.get_problem_msg())
 
         for node in node.get_children():
             self.visit_nodes(node)
