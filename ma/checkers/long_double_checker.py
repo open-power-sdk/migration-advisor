@@ -19,9 +19,9 @@ limitations under the License.
         * Daniel Kreling <dbkreling@br.ibm.com>
         * Roberto Oliveira <rdutra@br.ibm.com>
         * Rafael Peria de Sene <rpsene@br.ibm.com>
+        * Diego Fernandez-Merjildo <merjildo@br.ibm.com>
 """
 
-from ma.problem_reporter import ProblemReporter
 from ma.checkers.checker import Checker
 from clang.cindex import CursorKind
 from clang.cindex import TypeKind
@@ -31,26 +31,32 @@ class LongDoubleChecker(Checker):
     """ Checker for long double declarations """
 
     def __init__(self):
-        self.reporter = ProblemReporter()
+        super(LongDoubleChecker, self).__init__()
         self.problem_type = "Long double usage"
         self.problem_msg = "Potential migration issue due size of long double"\
                            " variables in Power architecture."
+        self.hint = "long double"
+
 
     def get_pattern_hint(self):
-        return 'long double'
+        return self.hint
 
-    def get_description(self):
-        return self.problem_type, self.problem_msg
+
+    def get_problem_msg(self):
+        return self.problem_msg
+
+
+    def get_problem_type(self):
+        return self.problem_type
+
 
     def check(self, node):
         if node.kind != CursorKind.VAR_DECL:
-            return 0
+            return False
 
         node_type = node.type
         node_kind = node_type.kind
         if node_kind == TypeKind.TYPEDEF:
             node_kind = node.type.get_canonical().kind
 
-        if node_kind == TypeKind.LONGDOUBLE:
-            self.reporter.report_problem(node, self.problem_type,
-                                         self.problem_msg)
+        return node_kind == TypeKind.LONGDOUBLE

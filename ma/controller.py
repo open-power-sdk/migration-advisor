@@ -24,7 +24,6 @@ limitations under the License.
 
 import os
 import sys
-import time
 import fnmatch
 from clang.cindex import Index
 from clang.cindex import TranslationUnit
@@ -47,16 +46,12 @@ def run(args):
 
     files_locations = args.location[0]
 
-    # TODO: checkers need to be input by user in argparser
-    asm_checker = AsmChecker()
-    long_double_checker = LongDoubleChecker()
+    checkers = _load_checkers()
 
-    # List with all active checkers
-    checkers = [asm_checker, long_double_checker]
     for chk in checkers:
         _run_checker(chk, files_locations)
-    problem_reporter = ProblemReporter()
-    problem_reporter.print_problems()
+
+    ProblemReporter.print_problems()
 
 
 def _run_checker(checker, set_of_files):
@@ -65,13 +60,23 @@ def _run_checker(checker, set_of_files):
     visitor = Visitor(checker)
     index = Index.create()
     for c_file in files:
-        tu = index.parse(c_file, options=TranslationUnit.PARSE_DETAILED_PROCESSING_RECORD)
+        root = index.parse(c_file, options=TranslationUnit.PARSE_DETAILED_PROCESSING_RECORD)
         ReportBlocker.blocked_lines = []
-        visitor.visit_nodes(tu.cursor)
+        visitor.visit_nodes(root.cursor)
+
+def _load_checkers():
+    """ This function load select checker.
+    It returns a list with all active checkers """
+
+    asm_checker = AsmChecker()
+    long_double_checker = LongDoubleChecker()
+
+    # List with all active checkers
+    return [asm_checker, long_double_checker]
 
 
 def __current_wip(checker, files):
-    wip_msg = 'Looking for ' + checker.get_description()[0].lower()
+    wip_msg = 'Looking for ' + checker.get_problem_type().lower()
     wip_msg += ' problems in ' + str(len(files)) + ' suspect files.'
     return wip_msg
 
