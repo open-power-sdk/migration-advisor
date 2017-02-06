@@ -57,23 +57,26 @@ def run(args):
 
 def _run_checker(checker, set_of_files):
     files = __get_files(set_of_files, checker.get_pattern_hint())
-    print __current_wip(checker, files)
-    visitor = Visitor(checker)
-    index = Index.create()
-    for c_file in files:
-        root = index.parse(c_file, options=TranslationUnit.PARSE_DETAILED_PROCESSING_RECORD)
-        ReportBlocker.blocked_lines = []
-        visitor.visit_nodes(root.cursor)
+    if not files:
+        cnf = 'Could not find any problem related to '
+        cnf += checker.get_problem_type().lower()
+        sys.stderr.write(cnf + '\n')
+    else:
+        print __current_wip(checker, files)
+        visitor = Visitor(checker)
+        index = Index.create()
+        for c_file in files:
+            root = index.parse(c_file, options=TranslationUnit.PARSE_DETAILED_PROCESSING_RECORD)
+            ReportBlocker.blocked_lines = []
+            visitor.visit_nodes(root.cursor)
 
 
 def _load_checkers():
     """ This function load select checker.
     It returns a list with all active checkers """
-
     asm_checker = AsmChecker()
     long_double_checker = LongDoubleChecker()
     syscall_checker = SyscallChecker()
-
     # List with all active checkers
     return [asm_checker, long_double_checker, syscall_checker]
 
@@ -96,9 +99,5 @@ def __get_files(location, hint):
                 files.append(location)
     else:
         sys.stderr.write("Invalid file or directory: {0}\n".format(location))
-        sys.exit(1)
-    if not files:
-        sys.stderr.write("None of the files provided are supported by "
-                         "Migration Advisor. \n")
         sys.exit(1)
     return files
