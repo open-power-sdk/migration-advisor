@@ -40,7 +40,7 @@ class Visitor(object):
             ReportBlocker.check_node(node, self.current_file)
 
         if self.checker.check(node):
-            ProblemReporter.report_problem(node,
+            ProblemReporter.report_problem(node, self.current_file,
                                            self.checker.get_problem_type(),
                                            self.checker.get_problem_msg())
 

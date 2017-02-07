@@ -29,14 +29,9 @@ class ProblemReporter(object):
     problems = {}
 
     @classmethod
-    def report_problem(cls, node, problem_type, problem_msg):
+    def report_problem(cls, node, current_file, problem_type, problem_msg):
         """ Add the reported problem in a dictionary """
-        node_loc = node.location
-        # Do not report if location is not known
-        if not node_loc.file:
-            return
-        # Do not report if node is inside a blocked line
-        if node_loc.line in ReportBlocker.blocked_lines:
+        if not cls.__should_report(node, current_file):
             return
 
         problem = Problem(node, problem_msg)
@@ -67,6 +62,22 @@ class ProblemReporter(object):
     def clear_problems(self):
         """ Clear reported problems """
         self.problems.clear()
+
+    @classmethod
+    def __should_report(cls, node, current_file):
+        """ Check if should report the node """
+        node_loc = node.location
+        node_file = node_loc.file
+        # Location is not known
+        if not node_file:
+            return False
+        # Node is not in the current file
+        if str(node_file) != current_file:
+            return False
+        # Node is inside a blocked line
+        if node_loc.line in ReportBlocker.blocked_lines:
+            return False
+        return True
 
     @classmethod
     def __print_logo(cls):
