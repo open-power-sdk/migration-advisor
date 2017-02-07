@@ -36,17 +36,19 @@ class ReportBlocker(object):
     blocked_lines = []
 
     @classmethod
-    def check_node(cls, node):
+    def check_node(cls, node, current_file):
         """ Check if node is inside a preprocessor block that should not be
-        reported.If it is, add to blocked lines """
+        reported. If it is, add to blocked lines """
         name = node.displayname.lower()
         if any(x in name for x in cls.SKIP_BLOCKS):
             node_loc = node.location
-            line = node_loc.line
-            file_name = str(node_loc.file)
-            start = node.extent.start.offset
-            lines = cls.__get_lines_in_block(file_name, start, line)
-            cls.blocked_lines.extend(lines)
+            node_file = str(node_loc.file)
+            # Just add blocked line if node is inside the current file
+            if node_file == current_file:
+                line = node_loc.line
+                start = node.extent.start.offset
+                lines = cls.__get_lines_in_block(node_file, start, line)
+                cls.blocked_lines.extend(lines)
 
     @classmethod
     def __get_lines_in_block(cls, file_name, offset, line):

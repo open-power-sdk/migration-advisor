@@ -24,8 +24,8 @@ limitations under the License.
 from clang.cindex import CursorKind
 
 from report_blocker import ReportBlocker
-
 from problem_reporter import ProblemReporter
+
 
 class Visitor(object):
     """ Class used to visit the translation unit nodes and run checkers """
@@ -37,7 +37,7 @@ class Visitor(object):
         """ Visit all nodes from translation unit and for each node, call all
         activate checkers to seek for problems """
         if node.kind == CursorKind.MACRO_INSTANTIATION:
-            ReportBlocker.check_node(node)
+            ReportBlocker.check_node(node, self.current_file)
 
         if self.checker.check(node):
             ProblemReporter.report_problem(node,
@@ -46,3 +46,7 @@ class Visitor(object):
 
         for node in node.get_children():
             self.visit_nodes(node)
+
+    def set_current_file(self, file_name):
+        """ Set the name of the current file that is being visited """
+        self.current_file = file_name

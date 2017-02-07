@@ -44,6 +44,7 @@ class CheckersBase():
         files = core.get_files(path, checker.get_pattern_hint())
         for f in files:
             tu = index.parse(f, options=TranslationUnit.PARSE_DETAILED_PROCESSING_RECORD)
+            visitor.set_current_file(f)
             visitor.visit_nodes(tu.cursor)
 
     def get_reported_lines(self):
