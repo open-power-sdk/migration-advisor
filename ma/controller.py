@@ -33,6 +33,7 @@ from checkers.long_double_checker import LongDoubleChecker
 from checkers.long_checker import LongChecker
 from checkers.syscall_checker import SyscallChecker
 from checkers.char_checker import CharChecker
+from checkers.htm_checker import HtmChecker
 from visitor import Visitor
 from problem_reporter import ProblemReporter
 from report_blocker import ReportBlocker
@@ -74,7 +75,6 @@ def _run_checker(checker, set_of_files):
             visitor.visit_includes(core.get_includes(c_file))
             visitor.visit_nodes(root.cursor)
 
-
 def _load_checkers():
     """ This function load select checker.
     It returns a list with all active checkers """
@@ -83,9 +83,10 @@ def _load_checkers():
     long_checker = LongChecker()
     syscall_checker = SyscallChecker()
     char_checker = CharChecker()
+    htm_checker = HtmChecker()
     # List with all active checkers
-    return [asm_checker, long_double_checker, long_checker, syscall_checker,
-            char_checker]
+    return [asm_checker, htm_checker, long_double_checker, long_checker,
+            syscall_checker, char_checker]
 
 
 def __current_wip(checker, files):

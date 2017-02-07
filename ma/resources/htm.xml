@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<htmapis>
+
+  <!--Target: HTM headers -->
+  <htmapi type="header" compatible="true" replacer="htmintrin.h" target="rtmintrin.h"/>
+
+  <!--Target: HTM functions -->
+  <htmapi type="function" compatible="true" replacer="__builtin_tbegin" target="_xbegin"/>
+  <htmapi type="function" compatible="true" replacer="__builtin_tabort" target="_xabort"/>
+  <htmapi type="function" compatible="true" replacer= "__builtin_tend" target="_xend"/>
+  <htmapi type="function" compatible="true" replacer="__builtin_ttest" target="_xtest"/>
+
+</htmapis>

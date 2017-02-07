@@ -29,7 +29,7 @@ from ma.checkers.long_double_checker import LongDoubleChecker
 from ma.checkers.syscall_checker import SyscallChecker
 from ma.checkers.long_checker import LongChecker
 from ma.checkers.char_checker import CharChecker
-
+from ma.checkers.htm_checker import HtmChecker
 from checkers_base import CheckersBase
 
 
@@ -76,6 +76,12 @@ class Checkers(unittest.TestCase):
         expected_lines = []
         expected_lines.extend(range(48, 60))
         expected_lines.extend(range(65, 79))
+
+    def htm_test(self):
+        """ HTM calls not supported in Power tests """
+        folder = self.resources_folder + "htm"
+        self.base.run(HtmChecker(), folder)
+        expected_lines = [1, 5, 7, 9]
         self.__check_lines(expected_lines)
 
     def __check_lines(self, expected_lines):
