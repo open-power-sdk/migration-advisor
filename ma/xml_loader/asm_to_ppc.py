@@ -22,7 +22,7 @@ import xml.etree.ElementTree as elemTree
 import os
 
 DIR_PATH = os.path.dirname(os.path.realpath(__file__))
-LOCAL_XML_ASM = DIR_PATH + "/asmtoppc.xml"
+LOCAL_XML_ASM = DIR_PATH + "/../resources/asmtoppc.xml"
 
 
 class AssemblyReplacer(object):
