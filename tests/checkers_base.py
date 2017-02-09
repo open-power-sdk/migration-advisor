@@ -52,5 +52,5 @@ class CheckersBase():
         problems = self.reporter.get_problems()
         lines = []
         for problem in problems.values()[0]:
-            lines.append(problem.get_line())
+            lines.append(problem.line)
         return lines

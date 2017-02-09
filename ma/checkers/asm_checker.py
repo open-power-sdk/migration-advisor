@@ -30,23 +30,18 @@ class AsmChecker(Checker):
     """ Checker for inline assembly declarations """
 
     def __init__(self):
-        super(AsmChecker, self).__init__()
         self.problem_type = "Inline assembly"
         self.problem_msg = "Possible arch specific assembly"
         self.hint = "asm"
 
-
     def get_pattern_hint(self):
         return self.hint
-
 
     def get_problem_msg(self):
         return self.problem_msg
 
-
     def get_problem_type(self):
         return self.problem_type
 
-
-    def check(self, node):
+    def check_node(self, node):
         return node.kind == (CursorKind.ASM_STMT or CursorKind.MS_ASM_STMT)

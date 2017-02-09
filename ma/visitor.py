@@ -21,6 +21,7 @@ limitations under the License.
         * Diego Fernandez-Merjildo <merjildo@br.ibm.com>
 """
 
+import os
 from clang.cindex import CursorKind
 
 from report_blocker import ReportBlocker
@@ -39,13 +40,23 @@ class Visitor(object):
         if node.kind == CursorKind.MACRO_INSTANTIATION:
             ReportBlocker.check_node(node, self.current_file)
 
-        if self.checker.check(node):
-            ProblemReporter.report_problem(node, self.current_file,
-                                           self.checker.get_problem_type(),
-                                           self.checker.get_problem_msg())
+        if self.checker.check_node(node):
+            ProblemReporter.report_node(node, self.current_file,
+                                        self.checker.get_problem_type(),
+                                        self.checker.get_problem_msg())
 
         for node in node.get_children():
             self.visit_nodes(node)
+
+    def visit_includes(self, includes_dict):
+        """ Visit includes from translation unit and for each include, call
+        all activate checkers to seek for problems """
+        for line, name in includes_dict.items():
+            name = os.path.basename(name)
+            if self.checker.check_include(name):
+                ProblemReporter.report_include(name, self.current_file, line,
+                                               self.checker.get_problem_type(),
+                                               self.checker.get_problem_msg())
 
     def set_current_file(self, file_name):
         """ Set the name of the current file that is being visited """

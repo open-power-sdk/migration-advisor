@@ -43,9 +43,9 @@ def execute_stdout(command):
     """ Execute a command with its parameter and return the exit code
     and the command output """
     try:
-        subprocess.check_output([command], stderr=subprocess.STDOUT,
-                                shell=True)
-        return 0, ""
+        output = subprocess.check_output([command], stderr=subprocess.STDOUT,
+                                         shell=True)
+        return 0, output
     except subprocess.CalledProcessError as excp:
         return excp.returncode, excp.output
 
@@ -91,3 +91,21 @@ def get_file_content(file_name, offset, length):
     with open(file_name, "rb") as infile:
         infile.seek(offset, 0)
         return infile.read(length)
+
+
+def get_includes(file_path):
+    """ Get the includes from a C/C++ file and return it as a dictionary with
+    include line and name """
+    includes_dict = {}
+    command = "grep -n '#\s*include' " + file_path
+    status, output = execute_stdout(command)
+    includes_list = output.strip().split('\n')
+    delimiter = ":"
+    for include in includes_list:
+        if delimiter in include:
+            line = int(include.split(delimiter)[0])
+            name = include.split(delimiter)[1]
+            name = name.replace("#", "").replace("include", "").replace(
+                "<", "").replace(">", "").replace("\"", "")
+            includes_dict[line] = name.strip()
+    return includes_dict

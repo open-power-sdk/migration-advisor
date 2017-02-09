@@ -30,14 +30,12 @@ class SyscallChecker(Checker):
     """ Checker for syscall declarations """
 
     def __init__(self):
-        super(SyscallChecker, self).__init__()
         self.problem_type = "Syscall usage"
         self.problem_msg = "Syscall not available in Power architecture."
         self.hint = 'ch[s/g/l/f/v/o/m/]\|[A-Za-z][0-9]\|' + 'statat'
         self.syscalls_names = SyscallsLoader().get_names()
 
     def get_pattern_hint(self):
-        """ Returns a regex to match all 32 and all 64 bits syscalls"""
         return self.hint
 
     def get_problem_msg(self):
@@ -46,8 +44,7 @@ class SyscallChecker(Checker):
     def get_problem_type(self):
         return self.problem_type
 
-    def check(self, node):
-        """ Return true if a call expression is one of the problematic syscalls"""
+    def check_node(self, node):
         if node.kind != CursorKind.CALL_EXPR:
             return False
 

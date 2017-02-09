@@ -44,7 +44,7 @@ class LongChecker(Checker):
     def get_problem_type(self):
         return self.problem_type
 
-    def check(self, node):
+    def check_node(self, node):
         if node.kind != CursorKind.VAR_DECL:
             return False
 

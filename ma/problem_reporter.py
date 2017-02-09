@@ -29,12 +29,32 @@ class ProblemReporter(object):
     problems = {}
 
     @classmethod
-    def report_problem(cls, node, current_file, problem_type, problem_msg):
-        """ Add the reported problem in a dictionary """
-        if not cls.__should_report(node, current_file):
+    def report_include(cls, name, file_name, line, problem_type, problem_msg):
+        """ Report a problem in an include directive """
+        name = "include " + name
+        problem = Problem(name, file_name, line, problem_msg)
+        cls.__report_problem(problem, problem_type)
+
+    @classmethod
+    def report_node(cls, node, current_file, problem_type, problem_msg):
+        """ Report a problem in a node """
+        node_loc = node.location
+        node_file = node_loc.file
+        node_line = node_loc.line
+        if not cls.__should_report(node_file, node_line, current_file):
             return
 
-        problem = Problem(node, problem_msg)
+        ext = node.extent
+        start = ext.start.offset
+        end = ext.end.offset
+        name = core.get_file_content(str(node_file), start, end - start)
+
+        problem = Problem(name, node_file, node_line, problem_msg)
+        cls.__report_problem(problem, problem_type)
+
+    @classmethod
+    def __report_problem(cls, problem, problem_type):
+        """ Add the reported problem in a dictionary """
         if cls.problems.get(problem_type, None) is not None:
             cls.problems.get(problem_type).append(problem)
         else:
@@ -48,11 +68,11 @@ class ProblemReporter(object):
         cls.__print_logo()
         for problem_type, problems in cls.problems.items():
             print "Problem type: " + problem_type
-            print "Problem description: " + problems[0].get_problem_msg()
+            print "Problem description: " + problems[0].problem_msg
             for problem in problems:
-                print "   Name: " + problem.get_name()
-                print "   File: " + str(problem.get_file())
-                print "   Line: " + str(problem.get_line())
+                print "   Name: " + problem.name
+                print "   File: " + problem.file_name
+                print "   Line: " + str(problem.line)
                 print ""
 
     def get_problems(self):
@@ -64,10 +84,8 @@ class ProblemReporter(object):
         self.problems.clear()
 
     @classmethod
-    def __should_report(cls, node, current_file):
+    def __should_report(cls, node_file, node_line, current_file):
         """ Check if should report the node """
-        node_loc = node.location
-        node_file = node_loc.file
         # Location is not known
         if not node_file:
             return False
@@ -75,7 +93,7 @@ class ProblemReporter(object):
         if str(node_file) != current_file:
             return False
         # Node is inside a blocked line
-        if node_loc.line in ReportBlocker.blocked_lines:
+        if node_line in ReportBlocker.blocked_lines:
             return False
         return True
 
@@ -92,32 +110,28 @@ class ProblemReporter(object):
 
 class Problem(object):
     """ Class to represent a problem """
-    def __init__(self, node, problem_msg):
-        self.node = node
-        self.problem_msg = problem_msg
-        self.location = node.location
+    def __init__(self, name, file_name, line, problem_msg):
+        self._name = name
+        self._file_name = str(file_name)
+        self._line = line
+        self._problem_msg = problem_msg
 
-    def get_node(self):
-        """ Get the node (cursor) """
-        return self.node
+    @property
+    def name(self):
+        """ Raw name """
+        return self._name
 
-    def get_name(self):
-        """ Get the node raw name """
-        ext = self.node.extent
-        start = ext.start.offset
-        end = ext.end.offset
-        length = end - start
-        name = core.get_file_content(str(self.get_file()), start, length)
-        return name
+    @property
+    def problem_msg(self):
+        """ Problem message """
+        return self._problem_msg
 
-    def get_problem_msg(self):
-        """ Get problem message """
-        return self.problem_msg
+    @property
+    def file_name(self):
+        """ File name """
+        return self._file_name
 
-    def get_file(self):
-        """ Get the line path """
-        return self.location.file
-
-    def get_line(self):
-        """ Get the line """
-        return self.location.line
+    @property
+    def line(self):
+        """ Line number """
+        return self._line

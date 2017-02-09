@@ -18,6 +18,7 @@ limitations under the License.
     Contributors:
         * Diego Fernandez-Merjildo <merjildo@br.ibm.com>
         * Rafael Peria de Sene <rpsene@br.ibm.com>
+        * Roberto Oliveira <rdutra@br.ibm.com>
 """
 
 import abc
@@ -28,9 +29,13 @@ class Checker(object):
     __metaclass__ = abc.ABCMeta
 
     @abc.abstractmethod
-    def check(self, node):
-        """ Check node from AST"""
+    def check_node(self, node):
+        """ Check node from AST and return if it is a migration issue """
         raise NotImplementedError('users must define __check__ to use this base class')
+
+    def check_include(self, include_name):
+        """ Check include from AST and return if it is a migration issue """
+        return False
 
     @abc.abstractmethod
     def get_pattern_hint(self):

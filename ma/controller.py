@@ -71,6 +71,7 @@ def _run_checker(checker, set_of_files):
             root = index.parse(c_file, options=TranslationUnit.PARSE_DETAILED_PROCESSING_RECORD)
             ReportBlocker.blocked_lines = []
             visitor.set_current_file(c_file)
+            visitor.visit_includes(core.get_includes(c_file))
             visitor.visit_nodes(root.cursor)
 
 

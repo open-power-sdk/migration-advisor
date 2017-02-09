@@ -31,26 +31,21 @@ class LongDoubleChecker(Checker):
     """ Checker for long double declarations """
 
     def __init__(self):
-        super(LongDoubleChecker, self).__init__()
         self.problem_type = "Long double usage"
         self.problem_msg = "Potential migration issue due size of long double"\
                            " variables in Power architecture."
         self.hint = "long double"
 
-
     def get_pattern_hint(self):
         return self.hint
-
 
     def get_problem_msg(self):
         return self.problem_msg
 
-
     def get_problem_type(self):
         return self.problem_type
 
-
-    def check(self, node):
+    def check_node(self, node):
         if node.kind != CursorKind.VAR_DECL:
             return False
 

@@ -43,7 +43,7 @@ class CharChecker(Checker):
     def get_problem_type(self):
         return self.problem_type
 
-    def check(self, node):
+    def check_node(self, node):
         kind = node.kind
         if kind != CursorKind.BINARY_OPERATOR and kind != CursorKind.VAR_DECL:
             return False
