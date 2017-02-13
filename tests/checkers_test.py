@@ -30,8 +30,8 @@ from ma.checkers.syscall_checker import SyscallChecker
 from ma.checkers.long_checker import LongChecker
 from ma.checkers.char_checker import CharChecker
 from ma.checkers.htm_checker import HtmChecker
+from ma.checkers.performance_degradation_checker import PerformanceDegradationChecker
 from checkers_base import CheckersBase
-
 
 class Checkers(unittest.TestCase):
     """ Test class to run checkers """
@@ -83,6 +83,14 @@ class Checkers(unittest.TestCase):
         self.base.run(HtmChecker(), folder)
         expected_lines = [1, 5, 7, 9]
         self.__check_lines(expected_lines)
+
+    def perf_degrad_test(self):
+        """ Performance degradation usage tests """
+        folder = self.resources_folder + "perf_degrad"
+        self.base.run(PerformanceDegradationChecker(), folder)
+        expected_lines = ['6', '14', '38', '46', '52', '64', '74', '92', '98']
+        self.__check_lines(expected_lines)
+
 
     def __check_lines(self, expected_lines):
         """ Auxiliar method to check if reported lines match to the expected

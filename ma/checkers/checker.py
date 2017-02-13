@@ -51,3 +51,7 @@ class Checker(object):
     def get_problem_type(self):
         """Return the problem type of the checker"""
         raise NotImplementedError('users must define __get_problem_type__ to use this base class')
+
+    def check_file(self, filename):
+        """Check issues into filename, it returns a data structure with issues"""
+        pass

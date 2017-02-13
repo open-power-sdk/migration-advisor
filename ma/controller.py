@@ -34,6 +34,7 @@ from checkers.long_checker import LongChecker
 from checkers.syscall_checker import SyscallChecker
 from checkers.char_checker import CharChecker
 from checkers.htm_checker import HtmChecker
+from checkers.performance_degradation_checker import PerformanceDegradationChecker
 from visitor import Visitor
 from problem_reporter import ProblemReporter
 from report_blocker import ReportBlocker
@@ -72,8 +73,7 @@ def _run_checker(checker, set_of_files):
             root = index.parse(c_file, options=TranslationUnit.PARSE_DETAILED_PROCESSING_RECORD)
             ReportBlocker.blocked_lines = []
             visitor.set_current_file(c_file)
-            visitor.visit_includes(core.get_includes(c_file))
-            visitor.visit_nodes(root.cursor)
+            visitor.visit(root.cursor)
 
 def _load_checkers():
     """ This function load select checker.
@@ -84,9 +84,10 @@ def _load_checkers():
     syscall_checker = SyscallChecker()
     char_checker = CharChecker()
     htm_checker = HtmChecker()
+    perf_degrad_checker = PerformanceDegradationChecker()
     # List with all active checkers
     return [asm_checker, htm_checker, long_double_checker, long_checker,
-            syscall_checker, char_checker]
+            syscall_checker, char_checker, perf_degrad_checker]
 
 
 def __current_wip(checker, files):

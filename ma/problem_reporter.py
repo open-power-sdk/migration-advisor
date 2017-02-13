@@ -53,6 +53,13 @@ class ProblemReporter(object):
         cls.__report_problem(problem, problem_type)
 
     @classmethod
+    def report_file(cls, file_name, num_line, name,
+                    problem_type, problem_msg):
+        """ Report a problem in a file """
+        problem = Problem(name, file_name, num_line, problem_msg)
+        cls.__report_problem(problem, problem_type)
+
+    @classmethod
     def __report_problem(cls, problem, problem_type):
         """ Add the reported problem in a dictionary """
         if cls.problems.get(problem_type, None) is not None:

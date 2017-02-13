@@ -17,6 +17,7 @@ limitations under the License.
 
     Contributors:
         * Roberto Oliveira <rdutra@br.ibm.com>
+        * Diego Fernandez-Merjildo <merjildo@br.ibm.com>
 """
 
 from clang.cindex import CursorKind

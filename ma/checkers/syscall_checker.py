@@ -18,12 +18,12 @@ limitations under the License.
     Contributors:
         * Daniel Kreling <dbkreling@br.ibm.com>
         * Roberto Oliveira <rdutra@br.ibm.com>
+        * Diego Fernandez-Merjildo <merjildo@br.ibm.com>
 """
 
 from ma.checkers.checker import Checker
 from ma.xml_loader.syscalls_loader import SyscallsLoader
 from clang.cindex import CursorKind
-from clang.cindex import TypeKind
 
 
 class SyscallChecker(Checker):

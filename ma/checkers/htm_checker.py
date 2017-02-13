@@ -22,7 +22,6 @@ limitations under the License.
 from ma.checkers.checker import Checker
 from ma.xml_loader.htm_loader import HtmLoader
 from clang.cindex import CursorKind
-from clang.cindex import TypeKind
 
 
 class HtmChecker(Checker):
