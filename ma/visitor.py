@@ -35,7 +35,7 @@ class Visitor(object):
     def __init__(self, checker):
         self.checker = checker
         self.current_file = ''
-        self.files_treat_list = ["Performance degradation"]
+        self.files_treat_list = ["Performance degradation", "Decimal Floating Point (DFP) API"]
 
     def visit(self, node, file_name):
         """ Visit all nodes from translation unit and for each node, call all

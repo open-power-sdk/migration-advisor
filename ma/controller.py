@@ -35,6 +35,7 @@ from checkers.syscall_checker import SyscallChecker
 from checkers.char_checker import CharChecker
 from checkers.htm_checker import HtmChecker
 from checkers.performance_degradation_checker import PerformanceDegradationChecker
+from checkers.api_dfp_checker import ApiDfpChecker
 from visitor import Visitor
 from problem_reporter import ProblemReporter
 from report_blocker import ReportBlocker
@@ -78,6 +79,7 @@ def _run_checker(checker, set_of_files):
 def _load_checkers():
     """ This function load select checker.
     It returns a list with all active checkers """
+    api_dfp_checker = ApiDfpChecker()
     asm_checker = AsmChecker()
     long_double_checker = LongDoubleChecker()
     long_checker = LongChecker()
@@ -86,8 +88,8 @@ def _load_checkers():
     htm_checker = HtmChecker()
     perf_degrad_checker = PerformanceDegradationChecker()
     # List with all active checkers
-    return [asm_checker, htm_checker, long_double_checker, long_checker,
-            syscall_checker, char_checker, perf_degrad_checker]
+    return [api_dfp_checker, asm_checker, htm_checker, long_double_checker,
+            long_checker, syscall_checker, char_checker, perf_degrad_checker]
 
 
 def __current_wip(checker, files):
