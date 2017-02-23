@@ -63,26 +63,13 @@ def get_timestamp():
 
 
 def get_files(directory, hint):
-    """ Return all files from a directory in a absolute path format """
-    output_tmp_file = '/tmp/ma_tmp_' + str(time.time())
+    """ Return all files from a directory that contains the 'hint',
+    in a absolute path format """
     extensions = ','.join([str(e.replace('*.', '')) for e in get_supported_extensions()])
     cmd = 'grep -r --files-with-matches --include=\\*.{' + extensions + '} \''
-    cmd += hint + '\' ' + directory + ' > ' + output_tmp_file
-    execute(cmd)
-    return file_to_array(output_tmp_file)
-
-
-def file_to_array(file_location):
-    """
-    Converts the list of files locate at file_location to an
-    array and removes the temporary file
-    """
-    array_files = []
-    with open(file_location) as set_of_files:
-        for _file in set_of_files:
-            array_files.append(_file.rstrip())
-    execute('rm -f ' + file_location)
-    return array_files
+    cmd += hint + '\' ' + directory
+    status, files = execute_stdout(cmd)
+    return files.split()
 
 
 def get_file_content(file_name, offset, length):
