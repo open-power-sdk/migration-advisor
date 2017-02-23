@@ -40,7 +40,7 @@ class Visitor(object):
                                  "Integrated Performance Primitives (IPP) API",
                                  "Math Kernel Library (MKL) API",
                                  "Message Passing Interface (MPI) API",
-                                 "Non Portable Pthread"]
+                                 "Non Portable Pthread", "Built-in"]
 
     def visit(self, node, file_name):
         """ Visit all nodes from translation unit and for each node, call all

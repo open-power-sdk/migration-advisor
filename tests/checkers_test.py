@@ -36,7 +36,9 @@ from ma.checkers.api_ipp_checker import ApiIppChecker
 from ma.checkers.api_mkl_checker import ApiMklChecker
 from ma.checkers.api_mpi_checker import ApiMpiChecker
 from ma.checkers.pthread_checker import PthreadChecker
+from ma.checkers.builtin_checker import BuiltinChecker
 from checkers_base import CheckersBase
+
 
 class Checkers(unittest.TestCase):
     """ Test class to run checkers """
@@ -129,6 +131,13 @@ class Checkers(unittest.TestCase):
         folder = self.resources_folder + "pthread"
         self.base.run(PthreadChecker(), folder)
         expected_lines = [5, 6, 7, 12, 13, 18, 19]
+        self.__check_lines(expected_lines)
+
+    def builtin_test(self):
+        """ x86 Built-in tests """
+        folder = self.resources_folder + "builtin"
+        self.base.run(BuiltinChecker(), folder)
+        expected_lines = [2, 3, 9, 10, 12, 13, 14, 14, 15, 16, 17]
         self.__check_lines(expected_lines)
 
     def __check_lines(self, expected_lines):
