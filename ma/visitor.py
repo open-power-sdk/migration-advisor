@@ -28,6 +28,7 @@ from report_blocker import ReportBlocker
 from problem_reporter import ProblemReporter
 import core
 
+
 class Visitor(object):
     """ Class used to visit the translation unit nodes and run checkers """
 
@@ -36,16 +37,16 @@ class Visitor(object):
         self.current_file = ''
         self.files_treat_list = ["Performance degradation"]
 
-    def visit(self, node):
+    def visit(self, node, file_name):
         """ Visit all nodes from translation unit and for each node, call all
         activate checkers to seek for problems """
+        self.current_file = file_name
+        self.visit_includes(core.get_includes(self.current_file))
 
         if self.checker.get_problem_type() in self.files_treat_list:
             self.visit_file()
         else:
             self.visit_nodes(node)
-
-        self.visit_includes(core.get_includes(self.current_file))
 
     def visit_nodes(self, node):
         """ Visit all nodes from translation unit and for each node, call all
@@ -72,21 +73,11 @@ class Visitor(object):
                                                self.checker.get_problem_msg())
 
     def visit_file(self):
-        """ Visit a file and look for problems that clang doesn't treat"""
-        problem_type = self.checker.get_problem_type()
-        problem_msg = self.checker.get_problem_msg()
-
-        ifdef_list = self.checker.check_file(self.current_file)
-        for code_block in ifdef_list:
-            num_and_problm = (''.join(code_block.keys())).strip(' \t\n\r')
-            num_line = num_and_problm.split(":")[0]
-            name = num_and_problm.split(":")[1]
-            ProblemReporter.report_file(self.current_file,
-                                        num_line,
-                                        name,
-                                        problem_type,
-                                        problem_msg)
-
-    def set_current_file(self, file_name):
-        """ Set the name of the current file that is being visited """
-        self.current_file = file_name
+        """ Visit files and look for problems that clang doesn't treat """
+        reports = self.checker.check_file(self.current_file)
+        for report in reports:
+            name = report[0]
+            num_line = report[1]
+            ProblemReporter.report_file(self.current_file, num_line, name,
+                                        self.checker.get_problem_type(),
+                                        self.checker.get_problem_msg())

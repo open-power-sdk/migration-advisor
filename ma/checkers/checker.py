@@ -28,14 +28,18 @@ class Checker(object):
     """ Abstract class Checker """
     __metaclass__ = abc.ABCMeta
 
-    @abc.abstractmethod
     def check_node(self, node):
         """ Check node from AST and return if it is a migration issue """
-        raise NotImplementedError('users must define __check__ to use this base class')
+        return False
 
     def check_include(self, include_name):
         """ Check include from AST and return if it is a migration issue """
         return False
+
+    def check_file(self, file_name):
+        """ Check issues into file and return a list of lists, containing the
+        problem name and line number """
+        return []
 
     @abc.abstractmethod
     def get_pattern_hint(self):
@@ -51,7 +55,3 @@ class Checker(object):
     def get_problem_type(self):
         """Return the problem type of the checker"""
         raise NotImplementedError('users must define __get_problem_type__ to use this base class')
-
-    def check_file(self, filename):
-        """Check issues into filename, it returns a data structure with issues"""
-        pass

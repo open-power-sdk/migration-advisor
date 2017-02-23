@@ -22,6 +22,7 @@ limitations under the License.
 import re
 from ma.checkers.checker import Checker
 
+
 class PerformanceDegradationChecker(Checker):
     """ This checker finds preprocessor ifs with architecture
     optimizations and without an optimization for Linux on Power"""
@@ -43,22 +44,26 @@ class PerformanceDegradationChecker(Checker):
     def get_problem_type(self):
         return self.problem_type
 
-    def check_node(self, node):
-        pass
-
     def check_file(self, filename):
         with open(filename) as c_file:
             lines = c_file.readlines()
         ifdef_lst = self.__get_ifdefs(lines)
-        ret_lst = []
 
         if not ifdef_lst:
             return []
 
+        report_list = []
         for code_block in ifdef_lst:
             # Look for Power declaration
             if re.search(self.ppc, code_block.values()[0]) is None:
-                ret_lst.append(code_block)
+                report_list.append(code_block)
+
+        ret_lst = []
+        for report in report_list:
+            num_and_problm = (''.join(report.keys())).strip(' \t\n\r')
+            num_line = num_and_problm.split(":")[0]
+            name = num_and_problm.split(":")[1]
+            ret_lst.append([name, num_line])
         return ret_lst
 
     @classmethod
