@@ -176,6 +176,8 @@ def format_statements(statements, names):
             # Assemble the statement
             while not any(x in token for x in statement_end):
                 index += 1
+                if index >= len(tokens):
+                    break
                 token += tokens[index]
             # Remove the delimiter and extra spaces
             statement = token[:-1]

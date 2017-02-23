@@ -34,8 +34,8 @@ from ma.checkers.performance_degradation_checker import PerformanceDegradationCh
 from ma.checkers.api_dfp_checker import ApiDfpChecker
 from ma.checkers.api_ipp_checker import ApiIppChecker
 from ma.checkers.api_mkl_checker import ApiMklChecker
+from ma.checkers.api_mpi_checker import ApiMpiChecker
 from checkers_base import CheckersBase
-
 
 class Checkers(unittest.TestCase):
     """ Test class to run checkers """
@@ -115,6 +115,13 @@ class Checkers(unittest.TestCase):
         self.base.run(ApiMklChecker(), folder)
         expected_lines = [1, 8, 18, 22, 23, 24, 26, 27, 28, 8, 36,
                           37, 38, 42, 43, 44, 45]
+        self.__check_lines(expected_lines)
+
+    def api_mpi_checker_test(self):
+        """ Message Passing Interface usage tests """
+        folder = self.resources_folder + "api/mpi"
+        self.base.run(ApiMpiChecker(), folder)
+        expected_lines = [1, 4, 6, 8, 10, 12, 13, 18, 19]
         self.__check_lines(expected_lines)
 
     def __check_lines(self, expected_lines):
