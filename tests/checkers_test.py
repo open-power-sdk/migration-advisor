@@ -33,6 +33,7 @@ from ma.checkers.htm_checker import HtmChecker
 from ma.checkers.performance_degradation_checker import PerformanceDegradationChecker
 from ma.checkers.api_dfp_checker import ApiDfpChecker
 from ma.checkers.api_ipp_checker import ApiIppChecker
+from ma.checkers.api_mkl_checker import ApiMklChecker
 from checkers_base import CheckersBase
 
 
@@ -106,6 +107,14 @@ class Checkers(unittest.TestCase):
         folder = self.resources_folder + "api/ipp"
         self.base.run(ApiIppChecker(), folder)
         expected_lines = [1] + range(4, 15)
+        self.__check_lines(expected_lines)
+
+    def mkl_checker_test(self):
+        """ Math Kernel Library API checker tests """
+        folder = self.resources_folder + "api/mkl"
+        self.base.run(ApiMklChecker(), folder)
+        expected_lines = [1, 8, 18, 22, 23, 24, 26, 27, 28, 8, 36,
+                          37, 38, 42, 43, 44, 45]
         self.__check_lines(expected_lines)
 
     def __check_lines(self, expected_lines):

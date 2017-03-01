@@ -68,9 +68,9 @@ def get_all_statements(names, file_name):
     # Parse the output and join lines that are part of the same statement
     statements = []
     statement = ''
-    # take out Windows End of line.
+    # take out Windows End of line
     output = output.replace("\r\n", "\n")
-    # take out Mac systems Carriage return.
+    # take out Mac systems Carriage return
     output = output.replace("\r", "\n")
 
     first_line = True
@@ -153,8 +153,8 @@ def _check_token(token, names):
     """ Checks if a token exists in names list.
     As some versions of regex module only support groups of 100, this method splits the
     names in sub-groups in order to check the token. Best case scenario, the token will
-    be found in the first 100 elements. In the worst case, it will go through all the l
-    ist as usual. """
+    be found in the first 100 elements. In the worst case, it will go through all the
+    list as usual. """
 
     max_regex = 99
     grouped_names = [names[i: i + max_regex] for i in xrange(0, len(names), max_regex)]

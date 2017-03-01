@@ -37,7 +37,8 @@ class Visitor(object):
         self.current_file = ''
         self.files_treat_list = ["Performance degradation",
                                  "Decimal Floating Point (DFP) API",
-                                 "Integrated Performance Primitives APIs"]
+                                 "Integrated Performance Primitives APIs",
+                                 "Math Kernel Library API"]
 
     def visit(self, node, file_name):
         """ Visit all nodes from translation unit and for each node, call all

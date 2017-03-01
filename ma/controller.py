@@ -37,6 +37,7 @@ from checkers.htm_checker import HtmChecker
 from checkers.performance_degradation_checker import PerformanceDegradationChecker
 from checkers.api_dfp_checker import ApiDfpChecker
 from checkers.api_ipp_checker import ApiIppChecker
+from checkers.api_mkl_checker import ApiMklChecker
 from visitor import Visitor
 from problem_reporter import ProblemReporter
 from report_blocker import ReportBlocker
@@ -89,11 +90,12 @@ def _load_checkers():
     char_checker = CharChecker()
     htm_checker = HtmChecker()
     perf_degrad_checker = PerformanceDegradationChecker()
+    mkl_checker = ApiMklChecker()
     # List with all active checkers
+
     return [api_dfp_checker, api_ipp_checker, asm_checker, htm_checker,
             long_double_checker, long_checker, syscall_checker, char_checker,
-            perf_degrad_checker]
-
+            perf_degrad_checker, mkl_checker]
 
 def __current_wip(checker, files):
     wip_msg = 'Looking for ' + checker.get_problem_type().lower()
