@@ -74,9 +74,12 @@ def get_files(directory, hint):
 
 def get_file_content(file_name, offset, length):
     """ Read the content of a file given the offset and the length. The offset
-    is where the read begins and length is how many characters will be read """
+    is where the read begins and length is how many characters will be read. If
+    length is zero, it returns the entire line content """
     with open(file_name, "rb") as infile:
         infile.seek(offset, 0)
+        if length == 0:
+            return infile.readline().strip()
         return infile.read(length)
 
 
