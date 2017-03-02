@@ -17,12 +17,13 @@ limitations under the License.
 
     Contributors:
         * Roberto Oliveira <rdutra@br.ibm.com>
+        * Diego Fernandez-Merjildo <merjildo@br.ibm.com>
 """
 
 import re
 from ma import core
 
-LINE_DELIMITER = ":"
+LINE_DELIMITER = "$"
 
 
 def get_all_statements(names, file_name):
