@@ -74,6 +74,7 @@ def get_all_statements(names, file_name):
             statement = ''
         else:
             statement += out + "\n"
+
     return statements
 
 
@@ -104,12 +105,14 @@ def format_statements(statements, names):
         content = report.split(LINE_DELIMITER)[1].strip()
 
         # Split statement and keep the delimiters
-        tokens = re.split('(\(| |=|;|\\t)', content)
+        tokens = re.split('(\\(| |=|;|\\t)', content)
         for index, token in enumerate(tokens):
             if token == "\n":
                 line += 1
-            if token not in names:
+
+            if _check_token(token, names) is False:
                 continue
+
             # Mount the statement
             while "=" not in token and ";" not in token:
                 index += 1
@@ -117,3 +120,19 @@ def format_statements(statements, names):
             statement = token[:-1]
             formatted_statements.append([statement, line])
     return formatted_statements
+
+
+def _check_token(token, names):
+    """ Checks if a token exists in names list.
+    As some versions of regex module only support groups of 100, this method splits the
+    names in sub-groups in order to check the token. Best case scenario, the token will
+    be found in the first 100 elements. In the worst case, it will go through all the l
+    ist as usual. """
+
+    max_regex = 99
+    grouped_names = [names[i : i + max_regex] for i in xrange(0, len(names), max_regex)]
+    for sub_names in grouped_names:
+        regexes = "(" + ")|(".join(sub_names) + ")"
+        if re.match(regexes, token) is not None:
+            return True
+    return False
