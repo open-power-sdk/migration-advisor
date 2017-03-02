@@ -31,7 +31,9 @@ from ma.checkers.long_checker import LongChecker
 from ma.checkers.char_checker import CharChecker
 from ma.checkers.htm_checker import HtmChecker
 from ma.checkers.performance_degradation_checker import PerformanceDegradationChecker
+from ma.checkers.api_dfp_checker import ApiDfpChecker
 from checkers_base import CheckersBase
+
 
 class Checkers(unittest.TestCase):
     """ Test class to run checkers """
@@ -91,6 +93,12 @@ class Checkers(unittest.TestCase):
         expected_lines = ['6', '14', '38', '46', '52', '64', '74', '92', '98']
         self.__check_lines(expected_lines)
 
+    def api_test(self):
+        """ Test for API calls not supported in Power """
+        folder = self.resources_folder + "api/dfp"
+        self.base.run(ApiDfpChecker(), folder)
+        expected_lines = [1, 5, 6, 8, 8, 10, 10, 12, 13, 14, 15, 16]
+        self.__check_lines(expected_lines)
 
     def __check_lines(self, expected_lines):
         """ Auxiliar method to check if reported lines match to the expected
