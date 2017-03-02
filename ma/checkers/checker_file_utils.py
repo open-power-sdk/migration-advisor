@@ -28,7 +28,7 @@ LINE_DELIMITER = "$"
 
 def _get_lines(names, file_name):
     """ Get all lines that contain names and return it as a list """
-    grep_delimiter = "\|"
+    grep_delimiter = "\\|"
     command = "grep -n '"
     for name in names:
         command += name + grep_delimiter
@@ -68,6 +68,12 @@ def get_all_statements(names, file_name):
     # Parse the output and join lines that are part of the same statement
     statements = []
     statement = ''
+    # take out Windows End of line.
+    output = output.replace("\r\n", "\n")
+    # take out Mac systems Carriage return.
+    output = output.replace("\r", "\n")
+
+    first_line = True
     for out in output.strip().split("\n"):
         if ";" in out:
             if "\n" in statement:
@@ -76,9 +82,13 @@ def get_all_statements(names, file_name):
                 statement += out
             statements.append(statement)
             statement = ''
+            first_line = True
         else:
-            statement += out + "\n"
-
+            if first_line:
+                statement += out + "\n"
+                first_line = False
+            else:
+                statement += out.split(LINE_DELIMITER)[1] + "\n"
     return statements
 
 
