@@ -26,13 +26,8 @@ from ma import core
 LINE_DELIMITER = "$"
 
 
-def get_all_statements(names, file_name):
-    """ Get all statements from a file that contains specific names. The
-    parameter 'names' is a list of names that will be searched in the file.
-    This function returns a list with the line number and the statement, e.g:
-        <line_number>:<statement>
-     """
-    # Run grep command to get lines that contain searched names
+def _get_lines(names, file_name):
+    """ Get all lines that contain names and return it as a list """
     grep_delimiter = "\|"
     command = "grep -n '"
     for name in names:
@@ -40,11 +35,27 @@ def get_all_statements(names, file_name):
     command = command[:-len(grep_delimiter)]
     command += "' " + file_name + " | cut -f1 -d:"
     lines = core.execute_stdout(command)[1]
+    return lines.split()
+
+
+def get_all_statements(names, file_name):
+    """ Get all statements from a file that contains specific names. The
+    parameter 'names' is a list of names that will be searched in the file.
+    This function returns a list with the line number and the statement, e.g:
+        <line_number>$<statement>
+     """
+    # Split list to avoid problem with command size
+    size = 2500
+    names = [names[x: x + size] for x in xrange(0, len(names), size)]
+
+    lines = []
+    for name in names:
+        lines.extend(_get_lines(name, file_name))
 
     # Run awk command to get entire statements from problematic lines
     awk_delimiter = '||'
     command = "awk '"
-    for line in lines.split():
+    for line in lines:
         command += "NR==" + line + awk_delimiter
     command = command[:-len(awk_delimiter)]
     command += ",/;/ {print NR\"" + LINE_DELIMITER + "\", $0}' " + file_name
@@ -72,7 +83,7 @@ def format_statements(statements, names):
     statement
 
     The parameter 'statements' is a list of statements to be formatted and
-    should be in format: <line_number>:<statement>
+    should be in format: <line_number>$<statement>
     The parameter 'names' is a list of names used to format the statement and
     get the minimum valid statement.
 
