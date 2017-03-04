@@ -65,8 +65,9 @@ def get_timestamp():
 def get_files(directory, hint):
     """ Return all files from a directory that contains the 'hint',
     in a absolute path format """
-    extensions = ','.join([str(e.replace('*.', '')) for e in get_supported_extensions()])
-    cmd = 'grep -r --files-with-matches --include=\\*.{' + extensions + '} \''
+    extensions = ' --include=' + \
+        ' --include='.join([str(e) for e in get_supported_extensions()])
+    cmd = 'grep -rl ' + extensions + ' \''
     cmd += hint + '\' ' + directory
     status, files = execute_stdout(cmd)
     return files.split()
