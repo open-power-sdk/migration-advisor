@@ -1,2 +1,1 @@
 argparse
-clang==3.4
