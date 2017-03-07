@@ -119,19 +119,32 @@ def format_statements(statements, names):
         content = report.split(LINE_DELIMITER)[1].strip()
 
         # Split statement and keep the delimiters
-        tokens = re.split('(\\(| |=|;|\\t)', content)
+        is_macro = False
+        tokens = re.split('(\\(| |=|;|\\t|\\n|#|{)', content)
         for index, token in enumerate(tokens):
+            # If is a line break, increment line count
             if token == "\n":
                 line += 1
+            # The line is a macro
+            if token == "define":
+                is_macro = True
 
             if _check_token(token, names) is False:
                 continue
 
-            # Mount the statement
-            while "=" not in token and ";" not in token:
+            statement_end = [";", "=", "{"]
+            # If is a macro, the statement can ends in a break line
+            if is_macro:
+                statement_end.append("\n")
+                is_macro = False
+
+            # Assemble the statement
+            while not any(x in token for x in statement_end):
                 index += 1
                 token += tokens[index]
+            # Remove the delimiter and extra spaces
             statement = token[:-1]
+            statement = statement.strip()
             formatted_statements.append([statement, line])
     return formatted_statements
 
@@ -144,7 +157,7 @@ def _check_token(token, names):
     ist as usual. """
 
     max_regex = 99
-    grouped_names = [names[i : i + max_regex] for i in xrange(0, len(names), max_regex)]
+    grouped_names = [names[i: i + max_regex] for i in xrange(0, len(names), max_regex)]
     for sub_names in grouped_names:
         regexes = "(" + ")|(".join(sub_names) + ")"
         if re.match(regexes, token) is not None:
