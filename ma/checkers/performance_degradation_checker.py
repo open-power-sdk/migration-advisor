@@ -21,6 +21,7 @@ limitations under the License.
 
 import re
 from ma.checkers.checker import Checker
+from ma import core
 
 
 class PerformanceDegradationChecker(Checker):
@@ -31,9 +32,9 @@ class PerformanceDegradationChecker(Checker):
         super(PerformanceDegradationChecker, self).__init__()
         self.problem_type = "Performance degradation"
         self.problem_msg = "This preprocessor can contain code without Power optimization"
-        self.hint = self.__set_hint("\\|")
-        self.ppc = "\\#.*if.*PPC|\\#.*if.*ppc|\\#.*if.*powerPC|"
-        self.ppc += "\\#.*if.*power[pP][cC]|\\#.*if.*POWER[pP][cC]"
+        self.hint = self.__get_x86_hint("\\|")
+        self.ppc = self.__get_ppc_hint()
+        self.x86 = self.__get_x86_hint("|")
 
     def get_pattern_hint(self):
         return self.hint
@@ -45,59 +46,39 @@ class PerformanceDegradationChecker(Checker):
         return self.problem_type
 
     def check_file(self, filename):
-        with open(filename) as c_file:
-            lines = c_file.readlines()
-        ifdef_lst = self.__get_ifdefs(lines)
-
+        ifdef_lst = core.get_ifdefs(filename)
         if not ifdef_lst:
             return []
 
         report_list = []
         for code_block in ifdef_lst:
-            # Look for Power declaration
-            if re.search(self.ppc, code_block.values()[0]) is None:
-                report_list.append(code_block)
+            num_line = code_block[0]
+            code = code_block[1]
 
-        ret_lst = []
-        for report in report_list:
-            num_and_problm = (''.join(report.keys())).strip(' \t\n\r')
-            num_line = num_and_problm.split(":")[0]
-            name = num_and_problm.split(":")[1]
-            ret_lst.append([name, num_line])
-        return ret_lst
+            # PPC part is already in the block
+            if re.search(self.ppc, code) is not None:
+                continue
 
-    @classmethod
-    def __get_ifdefs(cls, lines):
-        """ This method receives a C source code as lines.
-        Find blocks #ifdef and save it in a list of dict"""
-        hint = cls.__set_hint("|")
-        ifdef_list = []
-        code_block = ''
-        headline = ''
-
-        num_line = 1
-        for line in lines:
-            if re.search(hint, line):
-                code_block = ''
-                headline = str(num_line) + ":" + line
-            elif line.find("#endif") != -1 and re.search(hint, headline):
-                block = {}
-                block[headline] = code_block
-                ifdef_list.append(block)
-                headline = ''
-            elif headline:
-                code_block += line
-
-            num_line += 1
-
-        return ifdef_list
+            for line in code.splitlines():
+                # x86 part in the block
+                if re.search(self.x86, line) is not None:
+                    report_list.append([line, num_line])
+                num_line += 1
+        return report_list
 
     @classmethod
-    def __set_hint(cls, sep):
-        """ Return hint regular expresion for Grep use or Python"""
+    def __get_x86_hint(cls, sep):
+        """ Return hint for x86 ifdef blocks """
         hint = "\\#.*if.*amd64" + sep + "\\#.*if.*AMD64" + sep
         hint += "\\#.*if.*[xX]86" + sep + "\\#.*if.*[xX]86_64" + sep
         hint += "\\#.*if.*[iI]386" + sep + "\\#.*if.*[iI]486" + sep
         hint += "\\#.*if.*[iI]686" + sep
         hint += "\\#.*if.*intel" + sep + "\\#.*if.*INTEL"
+        return hint
+
+    @classmethod
+    def __get_ppc_hint(cls):
+        """ Return hint for ppc ifdef blocks """
+        hint = "\\#.*if.*PPC|\\#.*if.*ppc|\\#.*if.*powerPC|"
+        hint += "\\#.*if.*power[pP][cC]|\\#.*if.*POWER[pP][cC]"
         return hint

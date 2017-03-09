@@ -99,4 +99,16 @@ int main(){
        // x86 code
 #endif
 
+#if defined __PPC__
+    // ppc code
+#elif defined __x86_64__
+    // x86 code
+#endif
+
+#ifdef __arm__
+    // arm code
+#else
+    // generic code
+#endif
+
 }
