@@ -90,7 +90,7 @@ class Checkers(unittest.TestCase):
         """ Performance degradation usage tests """
         folder = self.resources_folder + "perf_degrad"
         self.base.run(PerformanceDegradationChecker(), folder)
-        expected_lines = ['6', '14', '38', '46', '52', '64', '74', '92', '98']
+        expected_lines = [6, 14, 38, 46, 52, 64, 74, 92, 98]
         self.__check_lines(expected_lines)
 
     def api_test(self):

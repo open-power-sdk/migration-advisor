@@ -23,6 +23,7 @@ limitations under the License.
 """
 import subprocess
 import time
+import re
 
 
 def get_supported_extensions():
@@ -100,3 +101,33 @@ def get_includes(file_path):
                 "<", "").replace(">", "").replace("\"", "")
             includes_dict[line] = name.strip()
     return includes_dict
+
+
+def get_ifdefs(file_path):
+    """ Get #ifdef blocks from C/C++ file and and return them in a list of
+    lists, where the first element is the line number where the block starts
+    and the second element is the block of code """
+    with open(file_path) as c_file:
+        lines = c_file.readlines()
+
+    ifdef_regex = "#.*if.*defined.*|#.*ifdef.*"
+    ifdef_list = []
+    num_line = 1
+    code_block = ''
+    line_block = 0
+    inside_block = False
+    for line in lines:
+        if re.search(ifdef_regex, line):
+            code_block += line
+            line_block = num_line
+            inside_block = True
+        elif re.search("#.*endif", line):
+            code_block += line
+            ifdef_list.append([line_block, code_block])
+            code_block = ''
+            inside_block = False
+        elif inside_block:
+            code_block += line
+        num_line += 1
+
+    return ifdef_list
