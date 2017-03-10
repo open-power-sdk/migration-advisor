@@ -52,7 +52,7 @@ class Checkers(unittest.TestCase):
         """ Inline assembly tests """
         folder = self.resources_folder + "asm"
         self.base.run(AsmChecker(), folder)
-        expected_lines = [5, 6, 7]
+        expected_lines = [5, 6, 7, 17]
         self.__check_lines(expected_lines)
 
     def long_double_test(self):
@@ -102,7 +102,8 @@ class Checkers(unittest.TestCase):
         """ Test for DFP API calls not supported in Power """
         folder = self.resources_folder + "api/dfp"
         self.base.run(ApiDfpChecker(), folder)
-        expected_lines = [1, 5, 6, 8, 8, 10, 10, 12, 13, 14, 15, 16]
+        expected_lines = [1, 5, 6, 8, 8, 10, 10, 12, 13, 14, 15, 16, 20, 21,
+                          22]
         self.__check_lines(expected_lines)
 
     def api_ipp_test(self):

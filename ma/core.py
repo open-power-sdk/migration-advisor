@@ -26,6 +26,14 @@ import time
 import re
 
 
+# List of supported x86 patterns
+X86_PATTERNS = ["amd64", "AMD64", "[xX]86", "[xX]86_64", "[iI]386", "[iI]486",
+                "[iI]686"]
+
+# List of supported ppc patterns
+PPC_PATTERNS = ["PPC", "ppc", "power[pP][cC]", "POWER[pP][cC]"]
+
+
 def get_supported_extensions():
     """Returns the list of supported extesions on MA"""
     return ['*.cpp', '*.c', '*.h']
@@ -131,3 +139,18 @@ def get_ifdefs(file_path):
         num_line += 1
 
     return ifdef_list
+
+
+def get_ifdef_regex(arch, separator):
+    """ Get the regex to find ifdef blocks for a specific architecture """
+    patterns = []
+    if arch is "x86":
+        patterns = X86_PATTERNS
+    elif arch is "ppc":
+        patterns = PPC_PATTERNS
+
+    regex = ""
+    for pattern in patterns:
+        regex += "#.*if.*" + pattern + separator
+    regex = regex[:-len(separator)]
+    return regex

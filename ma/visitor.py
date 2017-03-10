@@ -43,11 +43,12 @@ class Visitor(object):
                                  "Non Portable Pthread", "Built-in"]
 
     def visit(self, node, file_name):
-        """ Visit all nodes from translation unit and for each node, call all
-        activate checkers to seek for problems """
+        """ Run checker accordingly, either using the TranslationUnit Unit or
+        a file """
         self.current_file = file_name
-        self.visit_includes(core.get_includes(self.current_file))
+        ReportBlocker.block_lines(self.current_file)
 
+        self.visit_includes()
         if self.checker.get_problem_type() in self.files_treat_list:
             self.visit_file()
         else:
@@ -56,9 +57,6 @@ class Visitor(object):
     def visit_nodes(self, node):
         """ Visit all nodes from translation unit and for each node, call all
         activate checkers to seek for problems """
-        if node.kind == CursorKind.MACRO_INSTANTIATION:
-            ReportBlocker.check_node(node, self.current_file)
-
         if self.checker.check_node(node):
             ProblemReporter.report_node(node, self.current_file,
                                         self.checker.get_problem_type(),
@@ -67,9 +65,10 @@ class Visitor(object):
         for node in node.get_children():
             self.visit_nodes(node)
 
-    def visit_includes(self, includes_dict):
+    def visit_includes(self):
         """ Visit includes from translation unit and for each include, call
         all activate checkers to seek for problems """
+        includes_dict = core.get_includes(self.current_file)
         for line, name in includes_dict.items():
             name = os.path.basename(name)
             if self.checker.check_include(name):

@@ -32,9 +32,9 @@ class PerformanceDegradationChecker(Checker):
         super(PerformanceDegradationChecker, self).__init__()
         self.problem_type = "Performance degradation"
         self.problem_msg = "This preprocessor can contain code without Power optimization"
-        self.hint = self.__get_x86_hint("\\|")
-        self.ppc = self.__get_ppc_hint()
-        self.x86 = self.__get_x86_hint("|")
+        self.hint = core.get_ifdef_regex("x86", "\\|")
+        self.ppc = core.get_ifdef_regex("ppc", "|")
+        self.x86 = core.get_ifdef_regex("x86", "|")
 
     def get_pattern_hint(self):
         return self.hint
@@ -65,20 +65,3 @@ class PerformanceDegradationChecker(Checker):
                     report_list.append([line, num_line])
                 num_line += 1
         return report_list
-
-    @classmethod
-    def __get_x86_hint(cls, sep):
-        """ Return hint for x86 ifdef blocks """
-        hint = "\\#.*if.*amd64" + sep + "\\#.*if.*AMD64" + sep
-        hint += "\\#.*if.*[xX]86" + sep + "\\#.*if.*[xX]86_64" + sep
-        hint += "\\#.*if.*[iI]386" + sep + "\\#.*if.*[iI]486" + sep
-        hint += "\\#.*if.*[iI]686" + sep
-        hint += "\\#.*if.*intel" + sep + "\\#.*if.*INTEL"
-        return hint
-
-    @classmethod
-    def __get_ppc_hint(cls):
-        """ Return hint for ppc ifdef blocks """
-        hint = "\\#.*if.*PPC|\\#.*if.*ppc|\\#.*if.*powerPC|"
-        hint += "\\#.*if.*power[pP][cC]|\\#.*if.*POWER[pP][cC]"
-        return hint

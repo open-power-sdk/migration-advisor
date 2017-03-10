@@ -31,6 +31,8 @@ class ProblemReporter(object):
     @classmethod
     def report_include(cls, name, file_name, line, problem_type, problem_msg):
         """ Report a problem in an include directive """
+        if not cls.__should_report(file_name, line, file_name):
+            return
         name = "include " + name
         problem = Problem(name, file_name, line, problem_msg)
         cls.__report_problem(problem, problem_type)
@@ -56,6 +58,8 @@ class ProblemReporter(object):
     def report_file(cls, file_name, num_line, name,
                     problem_type, problem_msg):
         """ Report a problem in a file """
+        if not cls.__should_report(file_name, num_line, file_name):
+            return
         problem = Problem(name, file_name, num_line, problem_msg)
         cls.__report_problem(problem, problem_type)
 

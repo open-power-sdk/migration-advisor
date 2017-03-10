@@ -19,48 +19,59 @@ limitations under the License.
         * Roberto Oliveira <rdutra@br.ibm.com>
 """
 
+import re
+import core
+
 
 class ReportBlocker(object):
     """ Class deals with blocks that should not be reported, like preprocessors
     blocks with a specific architecture defined """
 
-    # All preprocessor blocks that should be skipped
-    X86_BLOCKS = ["x86", "x86_64", "i386", "i486", "i686", "amd64"]
-    PPC_BLOCKS = ["ppc", "powerpc"]
-    SKIP_BLOCKS = X86_BLOCKS + PPC_BLOCKS
-
-    # Preprocessors that represents the end of a block part
-    BLOCK_END = ["#elif", "#else", "#endif"]
-
     # List with lines that should be ignored from report
     blocked_lines = []
 
-    @classmethod
-    def check_node(cls, node, current_file):
-        """ Check if node is inside a preprocessor block that should not be
-        reported. If it is, add to blocked lines """
-        name = node.displayname.lower()
-        if any(x in name for x in cls.SKIP_BLOCKS):
-            node_loc = node.location
-            node_file = str(node_loc.file)
-            # Just add blocked line if node is inside the current file
-            if node_file == current_file:
-                line = node_loc.line
-                start = node.extent.start.offset
-                lines = cls.__get_lines_in_block(node_file, start, line)
-                cls.blocked_lines.extend(lines)
+    # All preprocessor blocks that should be skipped
+    _skip_blocks_regex = ""
+
+    # Preprocessors that represents the end of a block part
+    _block_end_regex = "#.*elif.*|#.*else|#.*endif"
 
     @classmethod
-    def __get_lines_in_block(cls, file_name, offset, line):
-        """ Get lines that are inside the current preprocessor block.
-        The offset is where the preprocessor starts and the line is the line
-        where preprocessor is """
-        lines = []
-        with open(file_name, 'r') as infile:
-            infile.seek(offset)
-            for content in infile:
-                if any(x in content for x in cls.BLOCK_END):
-                    break
-                lines.append(line)
+    def block_lines(cls, file_name):
+        """ Check all ifdef preprocessors from a file and add lines that
+        are inside preprocessors blocks that should not be reported """
+        cls._set_skip_blocks()
+
+        ifdef_list = core.get_ifdefs(file_name)
+        for ifdef in ifdef_list:
+            line = ifdef[0]
+            ifdef_block = ifdef[1]
+
+            code_block = ifdef_block.splitlines()
+            for i, code in enumerate(code_block):
                 line += 1
+                if re.search(cls._skip_blocks_regex, code) is not None:
+                    lines = cls._get_lines_in_block(code_block[i+1:], line)
+                    cls.blocked_lines.extend(lines)
+
+    @classmethod
+    def _set_skip_blocks(cls):
+        """ Set preprocessor blocks that should be skipped """
+        if cls._skip_blocks_regex:
+            return
+        sep = "|"
+        cls._skip_blocks_regex = core.get_ifdef_regex("x86", sep)
+        cls._skip_blocks_regex += sep + core.get_ifdef_regex("ppc", sep)
+
+    @classmethod
+    def _get_lines_in_block(cls, code_block, line):
+        """ Get lines that are inside the current preprocessor block. The code
+        block is a list with the code and the line is the first line inside the
+        preprocessor """
+        lines = []
+        for code in code_block:
+            if re.search(cls._block_end_regex, code):
+                break
+            lines.append(line)
+            line += 1
         return lines
