@@ -39,6 +39,7 @@ from checkers.api_dfp_checker import ApiDfpChecker
 from checkers.api_ipp_checker import ApiIppChecker
 from checkers.api_mkl_checker import ApiMklChecker
 from checkers.api_mpi_checker import ApiMpiChecker
+from checkers.pthread_checker import PthreadChecker
 from visitor import Visitor
 from problem_reporter import ProblemReporter
 from report_blocker import ReportBlocker
@@ -93,11 +94,12 @@ def _load_checkers():
     perf_degrad_checker = PerformanceDegradationChecker()
     mkl_checker = ApiMklChecker()
     api_mpi_checker = ApiMpiChecker()
+    pthread_checker = PthreadChecker()
     # List with all active checkers
 
     return [api_dfp_checker, api_ipp_checker, asm_checker, htm_checker,
             long_double_checker, long_checker, syscall_checker, char_checker,
-            perf_degrad_checker, mkl_checker, api_mpi_checker]
+            perf_degrad_checker, mkl_checker, api_mpi_checker, pthread_checker]
 
 
 def __current_wip(checker, files):

@@ -39,7 +39,8 @@ class Visitor(object):
                                  "Decimal Floating Point (DFP) API",
                                  "Integrated Performance Primitives APIs",
                                  "Math Kernel Library API",
-                                 "Message Passing Interface API"]
+                                 "Message Passing Interface API",
+                                 "Non Portable Pthread"]
 
     def visit(self, node, file_name):
         """ Visit all nodes from translation unit and for each node, call all
