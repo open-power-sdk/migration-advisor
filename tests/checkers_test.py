@@ -35,6 +35,7 @@ from ma.checkers.api_dfp_checker import ApiDfpChecker
 from ma.checkers.api_ipp_checker import ApiIppChecker
 from ma.checkers.api_mkl_checker import ApiMklChecker
 from ma.checkers.api_mpi_checker import ApiMpiChecker
+from ma.checkers.pthread_checker import PthreadChecker
 from checkers_base import CheckersBase
 
 class Checkers(unittest.TestCase):
@@ -122,6 +123,12 @@ class Checkers(unittest.TestCase):
         folder = self.resources_folder + "api/mpi"
         self.base.run(ApiMpiChecker(), folder)
         expected_lines = [1, 4, 6, 8, 10, 12, 13, 18, 19]
+
+    def pthread_test(self):
+        """ Test for no portable Pthreads """
+        folder = self.resources_folder + "pthread"
+        self.base.run(PthreadChecker(), folder)
+        expected_lines = [5, 6, 7, 12, 13, 18, 19]
         self.__check_lines(expected_lines)
 
     def __check_lines(self, expected_lines):
