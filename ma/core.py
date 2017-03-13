@@ -117,7 +117,7 @@ def get_ifdefs(file_path):
     line_block = 0
     inside_block = False
     for line in lines:
-        if re.search(ifdef_regex, line):
+        if re.search(ifdef_regex, line) and not inside_block:
             code_block += line
             line_block = num_line
             inside_block = True
