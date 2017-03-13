@@ -37,6 +37,37 @@ def _get_lines(names, file_name):
     lines = core.execute_stdout(command)[1]
     return lines.split()
 
+def __get_comments_position(file_path):
+    """ This method returns a list with comments line number """
+    with open(file_path) as c_file:
+        lines = c_file.readlines()
+
+    line_numbers = []
+    num = 1
+    comment = False
+    for line in lines:
+        line = line.strip(' ')
+        if line.startswith('/*') or line.startswith('//'):
+            line_numbers.append(num)
+            if '*/' not in line and '//' not in line:
+                comment = True
+        elif comment and '*/' not in line:
+            line_numbers.append(num)
+        elif '*/' in line and '/*' not in line:
+            line_numbers.append(num)
+            comment = False
+
+        num += 1
+    return line_numbers
+
+def __remove_comments(lines, comments_positions):
+    """ This method removes list elements containing lines numbers"""
+    new_lines = []
+    for line in lines:
+        if int(line) not in comments_positions:
+            new_lines.append(line)
+
+    return new_lines
 
 def get_all_statements(names, file_name):
     """ Get all statements from a file that contains specific names. The
@@ -55,6 +86,10 @@ def get_all_statements(names, file_name):
     # If lines list is empty it avoid to use Awk and return an empty list
     if not lines:
         return []
+
+    # Removes line comment
+    comments_positions = __get_comments_position(file_name)
+    lines = __remove_comments(lines, comments_positions)
 
     # Run awk command to get entire statements from problematic lines
     awk_delimiter = '||'
@@ -120,7 +155,7 @@ def format_statements(statements, names):
 
         # Split statement and keep the delimiters
         is_macro = False
-        tokens = re.split('(\\(| |=|;|\\t|\\n|#|{)', content)
+        tokens = re.split('(\\(| |=|;|\\t|\\n|#|\\[|{)', content)
         for index, token in enumerate(tokens):
             # If is a line break, increment line count
             if token == "\n":
