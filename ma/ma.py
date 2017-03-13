@@ -75,19 +75,19 @@ def main(argv=None):
             help='Analyze project for possible migration problems.\n'
                  'see ma run --help\n\n')
 
-        parser_run = subparsers.add_parser(
+        parser_info = subparsers.add_parser(
             'info',
             formatter_class=RawTextHelpFormatter,
             help='See information about possible checkers.\n'
                  'see ma info --help\n\n')
 
-        parser_run = subparsers.add_parser(
-            'statistics',
+        parser_stats = subparsers.add_parser(
+            'stats',
             formatter_class=RawTextHelpFormatter,
             help='Display migration statistics about your project.\n'
                  'see ma statistics --help\n\n')
 
-        parser_run.add_argument(
+        parser.add_argument(
             dest='location',
             metavar="LOCATION",
             help="file or directory where the files to be migrated are",
