@@ -110,7 +110,7 @@ class Checkers(unittest.TestCase):
         expected_lines = [1] + range(4, 15)
         self.__check_lines(expected_lines)
 
-    def mkl_checker_test(self):
+    def api_mkl_test(self):
         """ Math Kernel Library API checker tests """
         folder = self.resources_folder + "api/mkl"
         self.base.run(ApiMklChecker(), folder)
@@ -118,7 +118,7 @@ class Checkers(unittest.TestCase):
                           37, 38, 42, 43, 44, 45]
         self.__check_lines(expected_lines)
 
-    def api_mpi_checker_test(self):
+    def api_mpi_test(self):
         """ Message Passing Interface usage tests """
         folder = self.resources_folder + "api/mpi"
         self.base.run(ApiMpiChecker(), folder)

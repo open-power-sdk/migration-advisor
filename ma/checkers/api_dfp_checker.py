@@ -25,11 +25,11 @@ from ma.xml_loader.api_dfp_loader import ApiDfpLoader
 
 
 class ApiDfpChecker(Checker):
-    """ Checker for Decimal Floating Point API  """
+    """ Checker for Decimal Floating Point (DFP) API """
 
     def __init__(self):
         self.problem_type = "Decimal Floating Point (DFP) API"
-        self.problem_msg = "X86_64 APIs not supported in Power"
+        self.problem_msg = "x86 API not supported in Power"
         self.api_dfp_names = ApiDfpLoader().item_names
         self.api_dfp_targets = ApiDfpLoader().item_targets
         self.api_dfp_includes = ["bid_functions.h"]

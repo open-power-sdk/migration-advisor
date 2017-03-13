@@ -25,11 +25,11 @@ from ma.xml_loader.api_mkl_loader import ApiMklLoader
 
 
 class ApiMklChecker(Checker):
-    """ Intel MKL (Math Kernel Library) library API Checker"""
+    """ Checker for Math Kernel Library (MKL) API """
 
     def __init__(self):
-        self.problem_type = "Math Kernel Library API"
-        self.problem_msg = "Check usage of Intel Math Kernel Library API"
+        self.problem_type = "Math Kernel Library (MKL) API"
+        self.problem_msg = "x86 API not supported in Power"
         self.mkl_includes = ["mkl.h", "mkl.*.h"]
         self.hint = r"mkl.*\|MKL.*\|Mkl.*"
         self.mkl_values = ApiMklLoader().mkl_values

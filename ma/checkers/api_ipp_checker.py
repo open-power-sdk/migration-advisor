@@ -24,11 +24,11 @@ from ma.checkers.checker import Checker
 
 
 class ApiIppChecker(Checker):
-    """ Checker for Integrated Performance Primitives API  """
+    """ Checker for Integrated Performance Primitives (IPP) API  """
 
     def __init__(self):
-        self.problem_type = "Integrated Performance Primitives APIs"
-        self.problem_msg = "X86_64 APIs not supported in Power"
+        self.problem_type = "Integrated Performance Primitives (IPP) API"
+        self.problem_msg = "x86 API not supported in Power"
         self.api_ipp_includes = ["ipp.h"]
         self.hint = "Ipp[0-9][0-9]\|ipp[AacEFGgIiMmrSs]\|Ipps"
 

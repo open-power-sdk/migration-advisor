@@ -37,9 +37,9 @@ class Visitor(object):
         self.current_file = ''
         self.files_treat_list = ["Performance degradation",
                                  "Decimal Floating Point (DFP) API",
-                                 "Integrated Performance Primitives APIs",
-                                 "Math Kernel Library API",
-                                 "Message Passing Interface API",
+                                 "Integrated Performance Primitives (IPP) API",
+                                 "Math Kernel Library (MKL) API",
+                                 "Message Passing Interface (MPI) API",
                                  "Non Portable Pthread"]
 
     def visit(self, node, file_name):

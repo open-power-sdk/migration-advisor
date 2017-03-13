@@ -22,12 +22,13 @@ limitations under the License.
 import ma.checkers.checker_file_utils as utils
 from ma.checkers.checker import Checker
 
+
 class ApiMpiChecker(Checker):
-    """ Intel MPI (Message Passing Interface) library API Checker"""
+    """ Checker for Message Passing Interface (MPI) API """
 
     def __init__(self):
-        self.problem_type = "Message Passing Interface API"
-        self.problem_msg = "Check usage of Message Passing Interface Library"
+        self.problem_type = "Message Passing Interface (MPI) API"
+        self.problem_msg = "x86 API not supported in Power"
         self.mpi_includes = ["mpi.h"]
         self.hint = r"mpi.*\|MPI.*\|Mpi.*"
 
