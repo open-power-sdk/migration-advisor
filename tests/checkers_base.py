@@ -39,7 +39,7 @@ class CheckersBase():
         """ Run MA checker. The checker is the one that will be activated
         and the path is the folder with the files used in the test """
         self.reporter.clear_problems()
-        controller._run_checker(checker, path)
+        controller._run_checker(checker, False, path)
 
     def get_reported_lines(self):
         """ Return a list of lines that were reported """

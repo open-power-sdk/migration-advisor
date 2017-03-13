@@ -24,6 +24,9 @@ limitations under the License.
 import subprocess
 import time
 import re
+import os
+import sys
+import fnmatch
 
 
 # List of supported x86 patterns
@@ -71,15 +74,27 @@ def get_timestamp():
     return time.strftime("%Y%m%d_%H%M%S")
 
 
-def get_files(directory, hint):
-    """ Return all files from a directory that contains the 'hint',
-    in a absolute path format """
-    extensions = ' --include=' + \
-        ' --include='.join([str(e) for e in get_supported_extensions()])
-    cmd = 'grep -rl ' + extensions + ' \''
-    cmd += hint + '\' ' + directory
-    status, files = execute_stdout(cmd)
-    return files.split()
+def get_files(location, hint=''):
+    """ Get a list of supported file names given a location (that can be either
+    a file or a directory). If no supported file is found, force to exit.
+    It also returns all files from a directory that contains the 'hint' when it
+    is specified """
+    files = []
+    if os.path.isdir(location):
+        extensions = ' --include=' + \
+            ' --include='.join([str(e) for e in get_supported_extensions()])
+        cmd = 'grep -rl ' + extensions + ' \''
+        cmd += hint + '\' ' + location
+        status, files = execute_stdout(cmd)
+        return files.split()
+    elif os.path.isfile(location):
+        for ext in get_supported_extensions():
+            if fnmatch.fnmatch(location, ext):
+                files.append(location)
+        return files
+    else:
+        sys.stderr.write("Invalid file or directory: {0}\n".format(location))
+        sys.exit(1)
 
 
 def get_file_content(file_name, offset, length):

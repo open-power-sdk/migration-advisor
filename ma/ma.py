@@ -92,11 +92,24 @@ def main(argv=None):
             metavar="LOCATION",
             help="file or directory where the files to be migrated are",
             nargs=1)
+        parser_run.add_argument(
+            '-m', '--mode',
+            dest='execution_mode',
+            type=str,
+            choices=['full', 'lightweight'], default='lightweight',
+            help='specify the execution mode of MA which can be \'full\' or\n'
+            '\'lightweight\'. The \'full\' mode looks for problems in all files\n'
+            'located in a given directory. This option may take several minutes\n'
+            'to complete. In the other hand the \'lightweight\' mode minimize\n'
+            'the amount of files where the search for problems is executed by\n'
+            'best guessing whether a file should or not be verified.\n'
+            '    e.g: ma run --mode=full <location>')
         # Process arguments
         args = parser.parse_args()
         controller.run(args)
     except KeyboardInterrupt:
         return 1
+
 
 if __name__ == "__main__":
     sys.exit(main())

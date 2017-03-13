@@ -22,9 +22,7 @@ limitations under the License.
         * Diego Fernandez-Merjildo <merjildo@br.ibm.com>
 """
 
-import os
 import sys
-import fnmatch
 from clang.cindex import Index
 from clang.cindex import TranslationUnit
 
@@ -54,12 +52,15 @@ def run(args):
         args - arguments collected by argparser
     """
     for chk in _load_checkers():
-        _run_checker(chk, args.location[0])
+        _run_checker(chk, args.execution_mode, args.location[0])
     ProblemReporter.print_problems()
 
 
-def _run_checker(checker, set_of_files):
-    files = __get_files(set_of_files, checker.get_pattern_hint())
+def _run_checker(checker, mode, set_of_files):
+    if mode == 'full':
+        files = core.get_files(set_of_files)
+    else:
+        files = core.get_files(set_of_files, checker.get_pattern_hint())
     if not files:
         cnf = 'Could not find any problem related to '
         cnf += checker.get_problem_type().lower()
@@ -101,19 +102,3 @@ def __current_wip(checker, files):
     wip_msg = 'Looking for ' + checker.get_problem_type().lower()
     wip_msg += ' problems in ' + str(len(files)) + ' suspect files.'
     return wip_msg
-
-
-def __get_files(location, hint):
-    """ Get a list of supported file names given a location (that can be either
-    a file or a directory). If no supported file is found, force to exit """
-    files = []
-    if os.path.isdir(location):
-        files = core.get_files(location, hint)
-    elif os.path.isfile(location):
-        for ext in core.get_supported_extensions():
-            if fnmatch.fnmatch(location, ext):
-                files.append(location)
-    else:
-        sys.stderr.write("Invalid file or directory: {0}\n".format(location))
-        sys.exit(1)
-    return files
