@@ -67,12 +67,31 @@ def main(argv=None):
         parser.add_argument('-V', '--version',
                             action='version',
                             version=program_version_message)
-        parser.add_argument(
+        subparsers = parser.add_subparsers(help='\nMA commands\n\n')
+
+        parser_run = subparsers.add_parser(
+            'run',
+            formatter_class=RawTextHelpFormatter,
+            help='Analyze project for possible migration problems.\n'
+                 'see ma run --help\n\n')
+
+        parser_run = subparsers.add_parser(
+            'info',
+            formatter_class=RawTextHelpFormatter,
+            help='See information about possible checkers.\n'
+                 'see ma info --help\n\n')
+
+        parser_run = subparsers.add_parser(
+            'statistics',
+            formatter_class=RawTextHelpFormatter,
+            help='Display migration statistics about your project.\n'
+                 'see ma statistics --help\n\n')
+
+        parser_run.add_argument(
             dest='location',
             metavar="LOCATION",
             help="file or directory where the files to be migrated are",
             nargs=1)
-
         # Process arguments
         args = parser.parse_args()
         controller.run(args)
