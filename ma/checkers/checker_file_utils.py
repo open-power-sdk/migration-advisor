@@ -83,13 +83,13 @@ def get_all_statements(names, file_name):
     for name in names:
         lines.extend(_get_lines(name, file_name))
 
-    # If lines list is empty it avoid to use Awk and return an empty list
-    if not lines:
-        return []
-
     # Removes line comment
     comments_positions = __get_comments_position(file_name)
     lines = __remove_comments(lines, comments_positions)
+
+    # If lines list is empty it avoid to use Awk and return an empty list
+    if not lines:
+        return []
 
     # Run awk command to get entire statements from problematic lines
     awk_delimiter = '||'
