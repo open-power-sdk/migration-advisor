@@ -87,7 +87,7 @@ def main(argv=None):
             help='Display migration statistics about your project.\n'
                  'see ma statistics --help\n\n')
 
-        parser.add_argument(
+        parser_run.add_argument(
             dest='location',
             metavar="LOCATION",
             help="file or directory where the files to be migrated are",
