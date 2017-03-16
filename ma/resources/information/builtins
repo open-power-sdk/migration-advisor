@@ -1,0 +1,9 @@
+x86-specific compiler built-in checker
+
+Some x86 compiler built-ins are not available for 32-bit POWER or 64-bit
+POWER architectures. This checker finds all occurrences of x86-specific
+built-ins.
+
+void foo() {
+    __builtin_infq(); //x86-specific built-in
+}

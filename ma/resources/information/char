@@ -1,0 +1,13 @@
+Char usage checker
+
+The use of char might be a problem when assigning a numeric value to a
+variable of type char. By default, the char type is signed in x86 but
+it is unsigned in POWER architecture. The safe mode to use a char that
+receives a numeric value is to declare it as signed or unsigned.
+
+void foo() {
+    char c = -1;
+    int x = (int) c;
+    printf("x = %d\n", x);
+    // This prints -1 in x86 machines and 255 in ppc machines.
+}

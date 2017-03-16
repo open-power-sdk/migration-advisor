@@ -1,0 +1,8 @@
+Linux/x86-specific API checker
+
+The Intel-specific API checker looks for usage of functions from the
+following libraries:
+    * Intel Integrated Performance Primitives 7.0
+    * Intel Math Kernel Library 10.3
+    * Message Passing Interface Library 2.2
+    * Decimal Floating-Point Math Library 2.0

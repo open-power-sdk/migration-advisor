@@ -1,0 +1,38 @@
+Performance degradation checker
+
+It is usual to see performance improvements made for one specific architecture
+in an area of the code. This is mainly done using a preprocessor #if statement
+to check the current architecture. The performance degradation checker looks
+for #if and #ifdef statements that contain preprocessor definitions belonging
+to x86 or x86_64 architectures, but do not contain preprocessor definitions for
+POWER architectures. This is a sign that the code might not be optimized for
+POWER processors.
+
+#ifdef _x86_
+    __m128 ra = _mm_load_ps(&a + i);
+    __m128 rb = _mm_load_ps(&b + i);
+    _mm_store_ps(%c + i, _mm_add_ps(ra,rb));
+#else
+    c[i] = a[i] + b[i];
+    c[i + 1] = a[i + 1] + b[i + 1];
+    c[i + 2] = a[i + 2] + b[i + 2];
+    c[i + 3] = a[i + 3] + b[i + 3];
+#endif
+
+The previous code example has an x86 block. A possible fix for it could be:
+
+#ifdef _x86_
+    __m128 ra = _mm_load_ps(a + i);
+    __m128 rb = _mm_load_ps(b + i);
+    _mm_store_ps(c + i, _mm_add_ps(ra,rb));
+#elif defined __PPC__
+    // TODO: write an optimized code for Power
+    __vector float ra = *(__vector float*) (a + i);
+    __vector float rb = *(__vector float*) (b + i);
+    *(__vector float*) (c + i) = vec_add(ra, rb);
+#else
+    c[i] = a[i] + b[i];
+    c[i + 1] = a[i + 1] + b[i + 1];
+    c[i + 2] = a[i + 2] + b[i + 2];
+    c[i + 3] = a[i + 3] + b[i + 3];
+#endif

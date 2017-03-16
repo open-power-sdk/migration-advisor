@@ -42,6 +42,7 @@ from visitor import Visitor
 from stat import Statistics
 from problem_reporter import ProblemReporter
 from report_blocker import ReportBlocker
+from help import HelpCreator
 import core
 
 
@@ -52,6 +53,10 @@ def run(args):
     Parameters:
         args - arguments collected by argparser
     """
+    if 'checker_info' in args:
+        chelp = HelpCreator()
+        chelp.createHelp(args.checker_info)
+        sys.exit(0)
     for chk in _load_checkers():
         _run_checker(chk, args.execution_mode, args.location[0])
 

@@ -1,0 +1,19 @@
+Syscall not available for Linux on Power checker
+
+Almost all x86 and x86_64 Linux system calls (syscalls) are available for
+POWER architecture. Using an x86-specific system call causes problems when
+migrating your code to POWER architecture. The syscall not available for
+Linux on Power checker analyzes all system calls in your code and displays
+a warning for system calls that are not available for 32-bit or 64-bit POWER
+architectures.
+
+int main() {
+    int rc;
+    struct stat64 s;
+    char *file = "test_file.txt";
+    if ((rc = syscall(SYS_stat64, file, &s)) == -1) {
+        printf("Failed to execute syscall with rc = %d (%s)", errno, strerror(errno));
+        exit(EXIT_FAILURE);
+    }
+    exit(EXIT_SUCCESS);
+}
