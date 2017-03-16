@@ -30,7 +30,6 @@ from clang.cindex import TranslationUnit
 
 from checkers.asm_checker import AsmChecker
 from checkers.long_double_checker import LongDoubleChecker
-from checkers.long_checker import LongChecker
 from checkers.syscall_checker import SyscallChecker
 from checkers.char_checker import CharChecker
 from checkers.htm_checker import HtmChecker
@@ -54,14 +53,8 @@ def run(args):
     Parameters:
         args - arguments collected by argparser
     """
-
-    files_locations = args.location[0]
-
-    checkers = _load_checkers()
-
-    for chk in checkers:
-        _run_checker(chk, files_locations)
-
+    for chk in _load_checkers():
+        _run_checker(chk, args.location[0])
     ProblemReporter.print_problems()
 
 
@@ -86,23 +79,22 @@ def _load_checkers():
     It returns a list with all active checkers """
     api_dfp_checker = ApiDfpChecker()
     api_ipp_checker = ApiIppChecker()
+    api_mpi_checker = ApiMpiChecker()
+    api_mkl_checker = ApiMklChecker()
     asm_checker = AsmChecker()
-    long_double_checker = LongDoubleChecker()
-    long_checker = LongChecker()
-    syscall_checker = SyscallChecker()
+    builtin_checker = BuiltinChecker()
     char_checker = CharChecker()
     htm_checker = HtmChecker()
+    long_double_checker = LongDoubleChecker()
     perf_degrad_checker = PerformanceDegradationChecker()
-    mkl_checker = ApiMklChecker()
-    api_mpi_checker = ApiMpiChecker()
     pthread_checker = PthreadChecker()
-    builtin_checker = BuiltinChecker()
-    # List with all active checkers
+    syscall_checker = SyscallChecker()
 
-    return [api_dfp_checker, api_ipp_checker, asm_checker, htm_checker,
-            long_double_checker, long_checker, syscall_checker, char_checker,
-            perf_degrad_checker, mkl_checker, api_mpi_checker, pthread_checker,
-            builtin_checker]
+    # Return a list with all active checkers
+    return [api_dfp_checker, api_ipp_checker, api_mpi_checker, api_mkl_checker,
+            asm_checker, builtin_checker, char_checker, htm_checker,
+            long_double_checker, pthread_checker, perf_degrad_checker,
+            syscall_checker]
 
 
 def __current_wip(checker, files):

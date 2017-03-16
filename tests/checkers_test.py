@@ -27,7 +27,6 @@ import unittest
 from ma.checkers.asm_checker import AsmChecker
 from ma.checkers.long_double_checker import LongDoubleChecker
 from ma.checkers.syscall_checker import SyscallChecker
-from ma.checkers.long_checker import LongChecker
 from ma.checkers.char_checker import CharChecker
 from ma.checkers.htm_checker import HtmChecker
 from ma.checkers.performance_degradation_checker import PerformanceDegradationChecker
@@ -67,13 +66,6 @@ class Checkers(unittest.TestCase):
         folder = self.resources_folder + "syscalls"
         self.base.run(SyscallChecker(), folder)
         expected_lines = range(2, 38)
-        self.__check_lines(expected_lines)
-
-    def long_test(self):
-        """ Long declarations test"""
-        folder = self.resources_folder + "long"
-        self.base.run(LongChecker(), folder)
-        expected_lines = [2, 5, 8]
         self.__check_lines(expected_lines)
 
     def char_test(self):

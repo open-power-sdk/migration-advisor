@@ -20,8 +20,8 @@ limitations under the License.
         * Diego Fernandez-Merjildo <merjildo@br.ibm.com>
 """
 import unittest
-
 from ma.xml_loader.quickfix_loader import QuickfixLoader
+
 
 class QuickfixLoaderTest(unittest.TestCase):
     """ Test cases for the quickfix loader"""
