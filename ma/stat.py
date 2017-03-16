@@ -58,7 +58,40 @@ class Statistics(object):
         """ Run statistics per file """
         title = "Statistics - Per File"
         self._print_logo(title)
-        # TODO: Implement me!
+
+        # Get all files that have problems
+        files = []
+        for problems in self.problems.values():
+            for problem in problems:
+                file_name = problem.file_name
+                if file_name not in files:
+                    files.append(problem.file_name)
+
+        # Calculate the amount of problems in each file
+        data_dict = {}
+        for f in files:
+            problem_dict = {}
+            for kind, problems in self.problems.items():
+                for problem in problems:
+                    if problem.file_name == f:
+                        problem_dict[kind] = problem_dict.get(kind, 0) + 1
+            data_dict[f] = problem_dict
+
+        # Create table data
+        table_data = [["File", "Total Amount", "Problems"]]
+        for file_name, problems_dict in data_dict.items():
+            total_ammount = 0
+            problem = ""
+            for kind, ammount in problems_dict.items():
+                total_ammount += ammount
+                problem += str(ammount) + " " + kind + "\n"
+            else:
+                table_data.append([file_name, total_ammount, problem.strip()])
+
+        stat_table = AsciiTable(table_data)
+        stat_table.inner_row_border = True
+        stat_table.justify_columns = {0: 'left', 1: 'center', 2: 'left'}
+        print stat_table.table
 
     def _print_logo(self, title):
         """ Print the statistics logo """
