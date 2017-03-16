@@ -86,13 +86,15 @@ class ProblemReporter(object):
                 print "   Line: " + str(problem.line)
                 print ""
 
-    def get_problems(self):
+    @classmethod
+    def get_problems(cls):
         """ Get all reported problems """
-        return self.problems
+        return cls.problems
 
-    def clear_problems(self):
+    @classmethod
+    def clear_problems(cls):
         """ Clear reported problems """
-        self.problems.clear()
+        cls.problems.clear()
 
     @classmethod
     def __should_report(cls, node_file, node_line, current_file):

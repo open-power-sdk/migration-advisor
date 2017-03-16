@@ -81,16 +81,10 @@ def main(argv=None):
             help='See information about possible checkers.\n'
                  'see ma info --help\n\n')
 
-        parser_stats = subparsers.add_parser(
-            'stats',
-            formatter_class=RawTextHelpFormatter,
-            help='Display migration statistics about your project.\n'
-                 'see ma statistics --help\n\n')
-
         parser_run.add_argument(
             dest='location',
-            metavar="LOCATION",
-            help="file or directory where the files to be migrated are",
+            metavar='LOCATION',
+            help='file or directory where the files to be migrated are',
             nargs=1)
         parser_run.add_argument(
             '-m', '--mode',
@@ -104,6 +98,14 @@ def main(argv=None):
             'the amount of files where the search for problems is executed by\n'
             'best guessing whether a file should or not be verified.\n'
             '    e.g: ma run --mode=full <location>')
+        parser_run.add_argument(
+            '-s', '--stat',
+            dest='statistics',
+            type=str,
+            choices=['project', 'file'], default='',
+            help='display migration statistics by project or per file'
+                 '\nThis option suppresses the migraton report')
+
         # Process arguments
         args = parser.parse_args()
         controller.run(args)

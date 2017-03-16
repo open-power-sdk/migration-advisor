@@ -39,6 +39,7 @@ from checkers.api_mpi_checker import ApiMpiChecker
 from checkers.pthread_checker import PthreadChecker
 from checkers.builtin_checker import BuiltinChecker
 from visitor import Visitor
+from stat import Statistics
 from problem_reporter import ProblemReporter
 from report_blocker import ReportBlocker
 import core
@@ -53,7 +54,13 @@ def run(args):
     """
     for chk in _load_checkers():
         _run_checker(chk, args.execution_mode, args.location[0])
-    ProblemReporter.print_problems()
+
+    statistics = args.statistics
+    if statistics:
+        statistic = Statistics(statistics)
+        statistic.stat()
+    else:
+        ProblemReporter.print_problems()
 
 
 def _run_checker(checker, mode, set_of_files):
