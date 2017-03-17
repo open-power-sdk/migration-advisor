@@ -80,6 +80,27 @@ def main(argv=None):
             formatter_class=RawTextHelpFormatter,
             help='See information about possible checkers.\n'
                  'see ma info --help\n\n')
+        parser_info.add_argument(
+            '-c',
+            required=True,
+            dest='checker_info',
+            type=str,
+            choices=['api', 'asm', 'builtins', 'char', 'htm',
+                    'performance', 'pthread', 'syscall'],
+            help='\nDisplay information about the set of checkers that Migration\n'
+            'Advisor uses to identify potential migration problems.\n\n'
+            'The checkers are:\n'
+            '   api: Linux/x86-specific API\n'
+            '   asm: x86-specific assembly\n'
+            '   builtins: x86-specific compiler built-in\n'
+            '   char: Char usage\n'
+            '   htm: Hardware Transaction Memory\n'
+            '   performance: Performance degradation\n'
+            '   pthread: Non-portable Pthreads implementation\n'
+            '   syscall: Syscall not available for Linux on Power\n\n'
+            '   Usage: ma info -c <checker>\n'
+            '          e.g: ma info -c asm'
+            )
 
         parser_run.add_argument(
             dest='location',

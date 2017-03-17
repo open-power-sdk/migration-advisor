@@ -1,0 +1,10 @@
+Non-portable Pthreads implementation checker
+
+Some Pthreads functions and data types are not supported on POWER
+architectures.
+
+#include <pthread.h>
+void foo(){
+    pthread_id_np_t tid;
+    tid = pthread_getthreadid_np();
+}

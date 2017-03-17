@@ -1,0 +1,21 @@
+Hardware Transaction Memory checker
+
+This checker finds occurrences of x86 hardware transaction memory usage,
+which is not supported on POWER architectures. Transactional Synchronization
+Extensions (TSX), an x86 instruction set extension, enables hardware
+transaction memory support to speed up the execution of multithreaded programs.
+
+
+#include <rtmintrin.h>
+void foo(unsigned int a, unsigned int b){
+    while(1){
+        unsigned status = _xbegin();
+        if(status == XBEGIN_STARTED) {
+            trans_func(a, b);
+            _xend();
+            break;
+        }else{
+            _xabort();
+        }
+    }
+}

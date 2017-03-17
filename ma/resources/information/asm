@@ -1,0 +1,9 @@
+x86-specific assembly checker
+
+Inline assembly code usually cannot be migrated without problems. Therefore,
+warnings are displayed for inline assembly code.
+
+void foo() {
+    asm("mov %ax, 0"); //assembly code
+    __asm__("mov %ax, 0"); //assembly code
+}
