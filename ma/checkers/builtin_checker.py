@@ -28,8 +28,8 @@ class BuiltinChecker(Checker):
     """ Checker for x86-specific built-ins """
 
     def __init__(self):
-        self.problem_type = "Built-in"
-        self.problem_msg = "x86-specific compiler built-in"
+        self.problem_type = "x86-specific compiler built-in"
+        self.problem_msg = "x86 built-ins not supported in Power"
         self.loader = BuiltinLoader()
         self.builtins_names = self.loader.builtins_names
         self.builtins_headers = self.loader.builtins_headers

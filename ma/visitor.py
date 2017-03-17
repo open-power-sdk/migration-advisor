@@ -40,7 +40,8 @@ class Visitor(object):
                                  "Integrated Performance Primitives (IPP) API",
                                  "Math Kernel Library (MKL) API",
                                  "Message Passing Interface (MPI) API",
-                                 "Non Portable Pthread", "Built-in"]
+                                 "Non Portable Pthread",
+                                 "x86-specific compiler built-in"]
 
     def visit(self, node, file_name):
         """ Run checker accordingly, either using the TranslationUnit Unit or
