@@ -29,16 +29,18 @@ class ProblemReporter(object):
     problems = {}
 
     @classmethod
-    def report_include(cls, name, file_name, line, problem_type, problem_msg):
+    def report_include(cls, name, file_name, line, problem_type, problem_msg,
+                       solution):
         """ Report a problem in an include directive """
         if not cls.__should_report(file_name, line, file_name):
             return
         name = "include " + name
-        problem = Problem(name, file_name, line, problem_msg)
+        problem = Problem(name, file_name, line, problem_msg, solution)
         cls.__report_problem(problem, problem_type)
 
     @classmethod
-    def report_node(cls, node, current_file, problem_type, problem_msg):
+    def report_node(cls, node, current_file, problem_type, problem_msg,
+                    solution):
         """ Report a problem in a node """
         node_loc = node.location
         node_file = node_loc.file
@@ -51,16 +53,16 @@ class ProblemReporter(object):
         end = ext.end.offset
         name = core.get_file_content(str(node_file), start, end - start)
 
-        problem = Problem(name, node_file, node_line, problem_msg)
+        problem = Problem(name, node_file, node_line, problem_msg, solution)
         cls.__report_problem(problem, problem_type)
 
     @classmethod
-    def report_file(cls, file_name, num_line, name,
-                    problem_type, problem_msg):
+    def report_file(cls, file_name, num_line, name, problem_type, problem_msg,
+                    solution):
         """ Report a problem in a file """
         if not cls.__should_report(file_name, num_line, file_name):
             return
-        problem = Problem(name, file_name, num_line, problem_msg)
+        problem = Problem(name, file_name, num_line, problem_msg, solution)
         cls.__report_problem(problem, problem_type)
 
     @classmethod
@@ -94,8 +96,10 @@ class ProblemReporter(object):
             for file_name, problems in problems_dict.items():
                 print TAB + "File: " + file_name
                 for problem in problems:
-                    print (TAB * 2) + "Problem: " + problem.name
                     print (TAB * 2) + "Line: " + str(problem.line)
+                    print (TAB * 2) + "Problem: " + problem.name
+                    if problem.solution:
+                        print (TAB * 2) + "Solution: " + problem.solution
                     print ""
             print ""
 
@@ -136,11 +140,12 @@ class ProblemReporter(object):
 
 class Problem(object):
     """ Class to represent a problem """
-    def __init__(self, name, file_name, line, problem_msg):
+    def __init__(self, name, file_name, line, problem_msg, solution):
         self._name = name
         self._file_name = str(file_name)
         self._line = line
         self._problem_msg = problem_msg
+        self._solution = solution
 
     @property
     def name(self):
@@ -151,6 +156,11 @@ class Problem(object):
     def problem_msg(self):
         """ Problem message """
         return self._problem_msg
+
+    @property
+    def solution(self):
+        """ Solution for the problem """
+        return self._solution
 
     @property
     def file_name(self):
