@@ -41,6 +41,10 @@ class Checker(object):
         problem name and line number """
         return []
 
+    def get_solution(self):
+        """ Get solution for the problem """
+        return ""
+
     @abc.abstractmethod
     def get_pattern_hint(self):
         """Return the pattern that should be used to get the problematics files"""

@@ -61,7 +61,8 @@ class Visitor(object):
         if self.checker.check_node(node):
             ProblemReporter.report_node(node, self.current_file,
                                         self.checker.get_problem_type(),
-                                        self.checker.get_problem_msg())
+                                        self.checker.get_problem_msg(),
+                                        self.checker.get_solution())
 
         for node in node.get_children():
             self.visit_nodes(node)
@@ -75,7 +76,8 @@ class Visitor(object):
             if self.checker.check_include(name):
                 ProblemReporter.report_include(name, self.current_file, line,
                                                self.checker.get_problem_type(),
-                                               self.checker.get_problem_msg())
+                                               self.checker.get_problem_msg(),
+                                               self.checker.get_solution())
 
     def visit_file(self):
         """ Visit files and look for problems that clang doesn't treat """
@@ -85,4 +87,5 @@ class Visitor(object):
             num_line = report[1]
             ProblemReporter.report_file(self.current_file, num_line, name,
                                         self.checker.get_problem_type(),
-                                        self.checker.get_problem_msg())
+                                        self.checker.get_problem_msg(),
+                                        self.checker.get_solution())
