@@ -68,25 +68,57 @@ def main(argv=None):
                             action='version',
                             version=program_version_message)
         subparsers = parser.add_subparsers(help='\nMA commands\n\n')
-
+        """
+        Arguments for the run subcommand
+        """
         parser_run = subparsers.add_parser(
             'run',
             formatter_class=RawTextHelpFormatter,
             help='Analyze project for possible migration problems.\n'
                  'see ma run --help\n\n')
 
+        parser_run.add_argument(
+            dest='location',
+            metavar='LOCATION',
+            help='file or directory where the files to be migrated are',
+            nargs=1)
+
+        parser_run.add_argument(
+            '-m', '--mode',
+            dest='execution_mode',
+            type=str,
+            choices=['full', 'lightweight'], default='lightweight',
+            help='specify the execution mode of MA which can be \'full\' or\n'
+            '\'lightweight\'. The \'full\' mode looks for problems in all files\n'
+            'located in a given directory. This option may take several minutes\n'
+            'to complete. In the other hand the \'lightweight\' mode minimize\n'
+            'the amount of files where the search for problems is executed by\n'
+            'best guessing whether a file should or not be verified.\n'
+            '    e.g: ma run --mode=full <location>')
+
+        parser_run.add_argument(
+            '-s', '--stat',
+            dest='statistics',
+            type=str,
+            choices=['project', 'file'], default='',
+            help='display migration statistics by project or per file and'
+                 '\nsuppresses the migraton report')
+        """
+        Arguments for the info subcommand
+        """
         parser_info = subparsers.add_parser(
             'info',
             formatter_class=RawTextHelpFormatter,
             help='See information about possible checkers.\n'
                  'see ma info --help\n\n')
+
         parser_info.add_argument(
             '-c',
             required=True,
             dest='checker_info',
             type=str,
             choices=['api', 'asm', 'builtins', 'char', 'htm',
-                    'performance', 'pthread', 'syscall'],
+                            'performance', 'pthread', 'syscall'],
             help='\nDisplay information about the set of checkers that Migration\n'
             'Advisor uses to identify potential migration problems.\n\n'
             'The checkers are:\n'
@@ -101,31 +133,6 @@ def main(argv=None):
             '   Usage: ma info -c <checker>\n'
             '          e.g: ma info -c asm'
             )
-
-        parser_run.add_argument(
-            dest='location',
-            metavar='LOCATION',
-            help='file or directory where the files to be migrated are',
-            nargs=1)
-        parser_run.add_argument(
-            '-m', '--mode',
-            dest='execution_mode',
-            type=str,
-            choices=['full', 'lightweight'], default='lightweight',
-            help='specify the execution mode of MA which can be \'full\' or\n'
-            '\'lightweight\'. The \'full\' mode looks for problems in all files\n'
-            'located in a given directory. This option may take several minutes\n'
-            'to complete. In the other hand the \'lightweight\' mode minimize\n'
-            'the amount of files where the search for problems is executed by\n'
-            'best guessing whether a file should or not be verified.\n'
-            '    e.g: ma run --mode=full <location>')
-        parser_run.add_argument(
-            '-s', '--stat',
-            dest='statistics',
-            type=str,
-            choices=['project', 'file'], default='',
-            help='display migration statistics by project or per file'
-                 '\nThis option suppresses the migraton report')
 
         # Process arguments
         args = parser.parse_args()
