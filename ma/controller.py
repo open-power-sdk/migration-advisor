@@ -53,11 +53,12 @@ def run(args):
     Parameters:
         args - arguments collected by argparser
     """
+
     if 'checker_info' in args:
         chelp = HelpCreator()
         chelp.createHelp(args.checker_info)
         sys.exit(0)
-    for chk in _load_checkers():
+    for chk in _load_checkers(args.checkers):
         _run_checker(chk, args.execution_mode, args.location[0])
 
     statistics = args.statistics
@@ -87,27 +88,51 @@ def _run_checker(checker, mode, set_of_files):
             visitor.visit(root.cursor, c_file)
 
 
-def _load_checkers():
+def _load_checkers(checkers):
     """ This function load select checker.
     It returns a list with all active checkers """
-    api_dfp_checker = ApiDfpChecker()
-    api_ipp_checker = ApiIppChecker()
-    api_mpi_checker = ApiMpiChecker()
-    api_mkl_checker = ApiMklChecker()
-    asm_checker = AsmChecker()
-    builtin_checker = BuiltinChecker()
-    char_checker = CharChecker()
-    htm_checker = HtmChecker()
-    long_double_checker = LongDoubleChecker()
-    perf_degrad_checker = PerformanceDegradationChecker()
-    pthread_checker = PthreadChecker()
-    syscall_checker = SyscallChecker()
+    choosen_checkers = []
+    run_checkers = []
+    if not isinstance(checkers, list):
+        choosen_checkers = checkers.split(',')
+    else:
+        choosen_checkers = checkers
 
+    if 'api' in choosen_checkers:
+        api_dfp_checker = ApiDfpChecker()
+        run_checkers.append(api_dfp_checker)
+        api_ipp_checker = ApiIppChecker()
+        run_checkers.append(api_ipp_checker)
+        api_mpi_checker = ApiMpiChecker()
+        run_checkers.append(api_mpi_checker)
+        api_mkl_checker = ApiMklChecker()
+        run_checkers.append(api_mkl_checker)
+    if 'asm' in choosen_checkers:
+        asm_checker = AsmChecker()
+        run_checkers.append(asm_checker)
+    if 'builtin' in choosen_checkers:
+        builtin_checker = BuiltinChecker()
+        run_checkers.append(builtin_checker)
+    if 'char' in choosen_checkers:
+        char_checker = CharChecker()
+        run_checkers.append(char_checker)
+    if 'htm' in choosen_checkers:
+        htm_checker = HtmChecker()
+        run_checkers.append(htm_checker)
+    if 'double'in choosen_checkers:
+        long_double_checker = LongDoubleChecker()
+        run_checkers.append(long_double_checker)
+    if 'performance' in choosen_checkers:
+        perf_degrad_checker = PerformanceDegradationChecker()
+        run_checkers.append(perf_degrad_checker)
+    if 'pthread' in choosen_checkers:
+        pthread_checker = PthreadChecker()
+        run_checkers.append(pthread_checker)
+    if 'syscall' in choosen_checkers:
+        syscall_checker = SyscallChecker()
+        run_checkers.append(syscall_checker)
     # Return a list with all active checkers
-    return [api_dfp_checker, api_ipp_checker, api_mpi_checker, api_mkl_checker,
-            asm_checker, builtin_checker, char_checker, htm_checker,
-            long_double_checker, pthread_checker, perf_degrad_checker,
-            syscall_checker]
+    return run_checkers
 
 
 def __current_wip(checker, files):

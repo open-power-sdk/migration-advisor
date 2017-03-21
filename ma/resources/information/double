@@ -1,0 +1,7 @@
+Long double usage checker
+
+The use of long double might be a migration problem because of the differences
+in size and format between x86 and POWER architecture. With current GCC compilers,
+long double is 128 bits (AIX® double double format) for POWER architecture.
+Therefore, long double for POWER architecture is in a different format than long
+double for x86 ILP32 (96 bits) or x86 ILP64 (binary 128).

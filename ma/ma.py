@@ -27,6 +27,7 @@ import sys
 from argparse import ArgumentParser
 from argparse import RawTextHelpFormatter
 import pkg_resources
+import core
 
 import controller
 
@@ -103,6 +104,31 @@ def main(argv=None):
             choices=['project', 'file'], default='',
             help='display migration statistics by project or per file and'
                  '\nsuppresses the migraton report')
+
+        parser_run.add_argument(
+            '-c',
+            '--checkers',
+            dest='checkers',
+            metavar='checker_1,...,checher_n',
+            default=core.get_supported_checkers(),
+            help='allows selecting a group of checkers which will be used to\n'
+            'identify potential migration problems. By default MA will look for\n'
+            'all problems. By activating this option you will be able to select\n'
+            'a unique checker or a subset of checkers from the following list:\n'
+            '   api: Linux/x86-specific API\n'
+            '   asm: x86-specific assembly\n'
+            '   builtins: x86-specific compiler built-in\n'
+            '   char: Char usage\n'
+            '   double: Long double usage\n'
+            '   htm: Hardware Transaction Memory\n'
+            '   performance: Performance degradation\n'
+            '   pthread: Non-portable Pthreads implementation\n'
+            '   syscall: Syscall not available for Linux on Power\n\n'
+            '   Usage: ma run -c/--checkers <checkers> <location>\n'
+            '          e.g: ma run -c/--checker htm <location>\n'
+            '          e.g: ma run -c/--checker api,char,syscall <location>'
+            )
+
         """
         Arguments for the info subcommand
         """
@@ -117,8 +143,7 @@ def main(argv=None):
             required=True,
             dest='checker_info',
             type=str,
-            choices=['api', 'asm', 'builtins', 'char', 'htm',
-                            'performance', 'pthread', 'syscall'],
+            choices=core.get_supported_checkers(),
             help='\nDisplay information about the set of checkers that Migration\n'
             'Advisor uses to identify potential migration problems.\n\n'
             'The checkers are:\n'
@@ -126,6 +151,7 @@ def main(argv=None):
             '   asm: x86-specific assembly\n'
             '   builtins: x86-specific compiler built-in\n'
             '   char: Char usage\n'
+            '   double: Long double usage\n'
             '   htm: Hardware Transaction Memory\n'
             '   performance: Performance degradation\n'
             '   pthread: Non-portable Pthreads implementation\n'

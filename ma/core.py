@@ -37,6 +37,12 @@ X86_PATTERNS = ["amd64", "AMD64", "[xX]86", "[xX]86_64", "[iI]386", "[iI]486",
 PPC_PATTERNS = ["PPC", "ppc", "power[pP][cC]", "POWER[pP][cC]"]
 
 
+def get_supported_checkers():
+    """Return the supported checkers"""
+    return ['api', 'asm', 'builtins', 'char', 'htm', 'performance',
+            'pthread', 'syscall', 'double']
+
+
 def get_supported_extensions():
     """Returns the list of supported extesions on MA"""
     return ['*.cpp', '*.c', '*.h']
