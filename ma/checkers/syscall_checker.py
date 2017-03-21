@@ -19,6 +19,7 @@ limitations under the License.
         * Daniel Kreling <dbkreling@br.ibm.com>
         * Roberto Oliveira <rdutra@br.ibm.com>
         * Diego Fernandez-Merjildo <merjildo@br.ibm.com>
+        * Rafael Peria de Sene <rpsene@br.ibm.com>
 """
 
 from ma.checkers.checker import Checker
@@ -34,6 +35,7 @@ class SyscallChecker(Checker):
         self.problem_msg = "Syscall not available in Power architecture."
         self.hint = 'ch[s/g/l/f/v/o/m/]\|SYS_\|' + 'statat'
         self.syscalls_names = SyscallsLoader().get_names()
+        self.syscalls_fixes = SyscallsLoader().get_fixes()
 
     def get_pattern_hint(self):
         return self.hint
@@ -45,8 +47,17 @@ class SyscallChecker(Checker):
         return self.problem_type
 
     def check_node(self, node):
-        if node.kind != CursorKind.CALL_EXPR:
-            return False
+        if node.kind == CursorKind.CALL_EXPR:
+            if node.displayname in self.syscalls_names:
+                return True
 
-        if node.displayname in self.syscalls_names:
-            return True
+    def get_solution(self, node):
+        if node.displayname in self.syscalls_fixes:
+            return self.__create_solution(node)
+
+    def __create_solution(cls, node):
+        fix = cls.syscalls_fixes[node.displayname]
+        fix_msg = "Replace " + node.displayname + " for " + fix[0]
+        if fix[1]:
+            fix_msg += " and include " + fix[1]
+        return fix_msg

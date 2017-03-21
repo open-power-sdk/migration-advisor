@@ -16,6 +16,7 @@ limitations under the License.
 
     Contributors:
         * Daniel Kreling <dbkreling@br.ibm.com>
+        * Rafael Peria de Sene <rpsene@br.ibm.com>
 """
 
 
@@ -34,7 +35,7 @@ class SyscallsLoader(object):
         self.__load_xml(SYSCALLS_FILE)
 
     def __load_xml(self, file_name):
-        '''Function to load the contents of syscalls.xml into a Python element'''
+        '''Function to load the contents of syscalls.xml'''
         tree = elemTree.parse(file_name)
         self.root = tree.getroot()
         for sysc in self.root.iter('syscall'):
@@ -45,3 +46,12 @@ class SyscallsLoader(object):
         for sysc in self.root.findall('syscall'):
             self.syscalls.append(sysc.get("target"))
         return self.syscalls
+
+    def get_fixes(self):
+        '''Method to populate a list of syscall fixes'''
+        suggestion_dict = {}
+        for sysc in self.root.findall('syscall'):
+            if sysc.get("replacer"):
+                suggestion_dict[sysc.get("target")] = (sysc.get("replacer"),
+                    sysc.get("includes"))
+        return suggestion_dict
