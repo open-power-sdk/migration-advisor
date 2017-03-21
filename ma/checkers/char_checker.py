@@ -24,6 +24,9 @@ from clang.cindex import CursorKind
 from clang.cindex import TypeKind
 
 from ma.checkers.checker import Checker
+from ma import core
+import re
+import os
 
 
 class CharChecker(Checker):
@@ -34,6 +37,7 @@ class CharChecker(Checker):
         self.problem_msg = "This statement may cause different result in "\
             "Power architecture because char variables are unsigned by default"
         self.hint = "char"
+        self.default_solution = "Change 'char' type to 'signed char'"
 
     def get_pattern_hint(self):
         return self.hint
@@ -49,15 +53,55 @@ class CharChecker(Checker):
         if kind != CursorKind.BINARY_OPERATOR and kind != CursorKind.VAR_DECL:
             return False
 
-        if self.is_dangerous_type(node) and self.has_children(node):
+        if self._is_dangerous_type(node) and self._has_children(node):
             last_children_node = list(node.get_children())[-1]
-            return self.is_dangerous_assignment(last_children_node)
+            return self._is_dangerous_assignment(last_children_node)
 
-    def has_children(self, node):
+    def get_solution(self, node):
+        kind = node.kind
+        type_kind = node.type.kind
+        info = ""
+        if kind == CursorKind.BINARY_OPERATOR or type_kind == TypeKind.TYPEDEF:
+            node = self._get_var_declaration(node, node)
+            location = node.location
+            line = location.line
+            file_name = os.path.basename(str(location.file))
+            info = "    (file: {0} | line: {1})".format(file_name, line)
+
+        raw_node = core.get_raw_node(node)
+        char_regex = "\\bchar\\b"
+        solution = ""
+        if (re.search(char_regex, raw_node) and
+                not re.search("typedef.*(struct|union)", raw_node)):
+            solution = re.sub(char_regex, "signed char", raw_node)
+            solution += info
+        else:
+            solution = self.default_solution
+        return solution
+
+    def _get_var_declaration(self, node, definition):
+        """ Get where a variable is defined and return the corresponding
+        node """
+        aux_node = None
+        if node.type.kind == TypeKind.TYPEDEF:
+            aux_node = node.type.get_declaration()
+        elif node.kind == CursorKind.DECL_REF_EXPR:
+            aux_node = node.get_definition()
+
+        if aux_node:
+            node = aux_node
+            definition = node
+
+        for children in node.get_children():
+            return self._get_var_declaration(children, definition)
+        else:
+            return definition
+
+    def _has_children(self, node):
         """ Check if node has children """
         return len(list(node.get_children()))
 
-    def is_dangerous_type(self, node):
+    def _is_dangerous_type(self, node):
         """ Check if node type can be a dangerous type. For this checker it
         can be dangerous if it is only char (without signed or unsigned) """
         node_type = node.type
@@ -68,7 +112,7 @@ class CharChecker(Checker):
         if node_type_kind in (TypeKind.CHAR_U, TypeKind.CHAR_S):
             return True
 
-    def is_dangerous_assignment(self, node, is_dangerous=True):
+    def _is_dangerous_assignment(self, node, is_dangerous=True):
         """ Check if the assignment can cause an invalid result in ppc """
         kind = node.kind
         if kind in (CursorKind.CHARACTER_LITERAL, CursorKind.STRING_LITERAL):
@@ -86,6 +130,6 @@ class CharChecker(Checker):
             is_dangerous = True
 
         for children in node.get_children():
-            return self.is_dangerous_assignment(children, is_dangerous)
+            return self._is_dangerous_assignment(children, is_dangerous)
         else:
             return is_dangerous

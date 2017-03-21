@@ -48,11 +48,7 @@ class ProblemReporter(object):
         if not cls.__should_report(node_file, node_line, current_file):
             return
 
-        ext = node.extent
-        start = ext.start.offset
-        end = ext.end.offset
-        name = core.get_file_content(str(node_file), start, end - start)
-
+        name = core.get_raw_node(node)
         problem = Problem(name, node_file, node_line, problem_msg, solution)
         cls.__report_problem(problem, problem_type)
 

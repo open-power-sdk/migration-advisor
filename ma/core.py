@@ -108,6 +108,15 @@ def get_file_content(file_name, offset, length):
         return infile.read(length)
 
 
+def get_raw_node(node):
+    """ Get the raw signature of a node """
+    node_file = node.location.file
+    ext = node.extent
+    start = ext.start.offset
+    end = ext.end.offset
+    return get_file_content(str(node_file), start, end - start)
+
+
 def get_includes(file_path):
     """ Get the includes from a C/C++ file and return it as a dictionary with
     include line and name """
