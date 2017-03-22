@@ -41,8 +41,9 @@ class Checker(object):
         problem name and line number """
         return []
 
-    def get_solution(self):
-        """ Get solution for the problem """
+    def get_solution(self, problem):
+        """ Get solution for the problem using the node from AST or the raw node
+        from file """
         return ""
 
     @abc.abstractmethod

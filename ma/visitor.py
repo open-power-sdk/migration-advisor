@@ -62,7 +62,7 @@ class Visitor(object):
             ProblemReporter.report_node(node, self.current_file,
                                         self.checker.get_problem_type(),
                                         self.checker.get_problem_msg(),
-                                        self.checker.get_solution())
+                                        self.checker.get_solution(node))
 
         for node in node.get_children():
             self.visit_nodes(node)
@@ -77,7 +77,7 @@ class Visitor(object):
                 ProblemReporter.report_include(name, self.current_file, line,
                                                self.checker.get_problem_type(),
                                                self.checker.get_problem_msg(),
-                                               self.checker.get_solution())
+                                               self.checker.get_solution(name))
 
     def visit_file(self):
         """ Visit files and look for problems that clang doesn't treat """
@@ -88,4 +88,4 @@ class Visitor(object):
             ProblemReporter.report_file(self.current_file, num_line, name,
                                         self.checker.get_problem_type(),
                                         self.checker.get_problem_msg(),
-                                        self.checker.get_solution())
+                                        self.checker.get_solution(name))
