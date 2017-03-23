@@ -56,3 +56,11 @@ class HtmLoader(object):
             if htm.get('type') == 'header':
                 self.htms_include.append(htm.get('target'))
         return self.htms_include
+
+    def get_fixes(self):
+        '''Method to populate a list of htm fixes'''
+        suggestion_dict = {}
+        for sysc in self.root.findall('htmapi'):
+            if sysc.get("replacer"):
+                suggestion_dict[sysc.get("target")] = (sysc.get("replacer"))
+        return suggestion_dict

@@ -32,6 +32,7 @@ class HtmChecker(Checker):
         self.problem_msg = "x86 specific HTM calls are not supported in Power Systems"
         self.htm_functions = HtmLoader().get_functions()
         self.htm_includes = HtmLoader().get_includes()
+        self.htm_fixes = HtmLoader().get_fixes()
         self.hint = self.__get_hint()
 
     def get_pattern_hint(self):
@@ -52,6 +53,17 @@ class HtmChecker(Checker):
     def check_include(self, include_name):
         if include_name in self.htm_includes:
             return True
+
+    def get_solution(self, node):
+        return self.__create_solution(node)
+
+    def __create_solution(cls, node):
+        if 'rtmintrin.h' in str(node):
+            return "replace rtmintrin.h for htmintrin.h"
+        if not isinstance(node, basestring):
+            if node.displayname in cls.htm_fixes:
+                fix = cls.htm_fixes[node.displayname]
+                return "replace " + node.displayname + " for " + fix
 
     def __get_hint(self):
         """Create the self.hint string"""
