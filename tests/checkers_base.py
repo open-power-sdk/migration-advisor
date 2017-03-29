@@ -23,7 +23,6 @@ limitations under the License.
 
 from clang.cindex import Index
 from clang.cindex import TranslationUnit
-
 from ma.visitor import Visitor
 from ma.problem_reporter import ProblemReporter
 from ma import core

@@ -42,13 +42,14 @@ class Checker(object):
         return []
 
     def get_solution(self, problem):
-        """ Get solution for the problem using the node from AST or the raw node
-        from file """
+        """ Get solution for the problem using the node from AST or the raw
+        node from file """
         return ""
 
     @abc.abstractmethod
     def get_pattern_hint(self):
-        """Return the pattern that should be used to get the problematics files"""
+        """Return the pattern that should be used to get the
+        problematics files"""
         raise NotImplementedError('users must define __get_pattern_hint__ to use this base class')
 
     @abc.abstractmethod

@@ -19,6 +19,7 @@ limitations under the License.
         * Roberto Oliveira <rdutra@br.ibm.com>
         * Daniel Kreling <dbkreling@br.ibm.com>
         * Rafael Peria de Sene <rpsene@br.ibm.com>
+        * Diego Fernandez-Merjildo <merjildo@br.ibm.com>
 """
 
 import os

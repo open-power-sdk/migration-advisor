@@ -18,7 +18,6 @@ limitations under the License.
         * Daniel Kreling <dbkreling@br.ibm.com>
 """
 
-
 import xml.etree.ElementTree as elemTree
 import os
 

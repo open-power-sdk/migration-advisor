@@ -18,8 +18,8 @@ limitations under the License.
     Contributors:
         * Daniel Kreling <dbkreling@br.ibm.com>
 """
-import ma.checkers.checker_file_utils as utils
 
+import ma.checkers.checker_file_utils as utils
 from ma.checkers.checker import Checker
 from ma.xml_loader.api_dfp_loader import ApiDfpLoader
 

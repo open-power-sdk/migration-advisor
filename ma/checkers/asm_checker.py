@@ -22,7 +22,6 @@ limitations under the License.
 """
 
 from clang.cindex import CursorKind
-
 from ma.checkers.checker import Checker
 
 

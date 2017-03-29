@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-Copyright (C) 2016 IBM Corporation
+Copyright (C) 2017 IBM Corporation
 
 Licensed under the Apache License, Version 2.0 (the “License”);
 you may not use this file except in compliance with the License.
@@ -33,7 +33,6 @@ class AssemblyReplacer(object):
         self.replacer = {}
         self.load_xml(LOCAL_XML_ASM)
 
-
     def load_xml(self, file_name):
         '''Method to load ASM replace strings.
         This method open XML file and load info inside a
@@ -43,11 +42,9 @@ class AssemblyReplacer(object):
         for asm in root.iter('asm'):
             self.replacer[asm.attrib['target']] = [asm.attrib['type'], asm.attrib['replacer']]
 
-
     def get_replace(self, target):
         '''Method to get the replace for selected target'''
         return self.replacer[target][1]
-
 
     def get_type(self, target):
         '''Method to get the type for selected target'''

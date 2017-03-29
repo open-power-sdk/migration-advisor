@@ -37,6 +37,7 @@ def _get_lines(names, file_name):
     lines = core.execute_stdout(command)[1]
     return lines.split()
 
+
 def __get_comments_position(file_path):
     """ This method returns a list with comments line number """
     with open(file_path) as c_file:
@@ -60,6 +61,7 @@ def __get_comments_position(file_path):
         num += 1
     return line_numbers
 
+
 def __remove_comments(lines, comments_positions):
     """ This method removes list elements containing lines numbers"""
     new_lines = []
@@ -68,6 +70,7 @@ def __remove_comments(lines, comments_positions):
             new_lines.append(line)
 
     return new_lines
+
 
 def get_all_statements(names, file_name):
     """ Get all statements from a file that contains specific names. The
@@ -188,10 +191,10 @@ def format_statements(statements, names):
 
 def _check_token(token, names):
     """ Checks if a token exists in names list.
-    As some versions of regex module only support groups of 100, this method splits the
-    names in sub-groups in order to check the token. Best case scenario, the token will
-    be found in the first 100 elements. In the worst case, it will go through all the
-    list as usual. """
+    As some versions of regex module only support groups of 100, this method
+    splits the names in sub-groups in order to check the token. Best case
+    scenario, the token will be found in the first 100 elements. In the worst
+    case, it will go through all the list as usual. """
 
     max_regex = 99
     grouped_names = [names[i: i + max_regex] for i in xrange(0, len(names), max_regex)]

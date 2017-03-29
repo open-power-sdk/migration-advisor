@@ -43,7 +43,6 @@ class BuiltinChecker(Checker):
         names = [x for x in self.builtins_names if not x.startswith(regex)]
         names.extend(regex)
         names_hint = delimiter.join(names)
-
         return names_hint + delimiter + headers_hint
 
     def get_problem_msg(self):

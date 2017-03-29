@@ -108,7 +108,6 @@ class CharChecker(Checker):
         node_type_kind = node_type.kind
         if node_type_kind == TypeKind.TYPEDEF:
             node_type_kind = node_type.get_canonical().kind
-
         if node_type_kind in (TypeKind.CHAR_U, TypeKind.CHAR_S):
             return True
 
@@ -123,7 +122,6 @@ class CharChecker(Checker):
             type_kind = node.type.get_canonical().kind
         if type_kind == TypeKind.POINTER:
             type_kind = node.type.get_pointee().kind
-
         if type_kind in (TypeKind.CHAR_U, TypeKind.UCHAR, TypeKind.CHAR_S):
             is_dangerous = False
         else:

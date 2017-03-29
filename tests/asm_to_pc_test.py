@@ -1,8 +1,7 @@
-
 #! /usr/bin/env python
 # -*- coding: utf-8 -*-
 """
-Copyright (C) 2016 IBM Corporation
+Copyright (C) 2017 IBM Corporation
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -19,10 +18,10 @@ limitations under the License.
     Contributors:
         * Diego Fernandez-Merjildo <merjildo@br.ibm.com>
 """
+
 import unittest
-
-
 from ma.xml_loader.asm_to_ppc import AssemblyReplacer
+
 
 class AssemblyReplacerTest(unittest.TestCase):
     """ Test cases for the Assembly replacer """
@@ -36,7 +35,6 @@ class AssemblyReplacerTest(unittest.TestCase):
         self.assertTrue(asm_replacer.get_replace('lock;orl;') ==
                         "__atomic_fetch_or(/*type *ptr, type val, int memmodel*/);")
         self.assertTrue(asm_replacer.get_replace('pause;') == "\"or 27,27,27; isync\"")
-
 
     def get_type_test(self):
         '''This test aim to check correct type return from

@@ -1,8 +1,8 @@
-
 #! /usr/bin/env python
 # -*- coding: utf-8 -*-
+
 """
-Copyright (C) 2016 IBM Corporation
+Copyright (C) 2017 IBM Corporation
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -19,6 +19,7 @@ limitations under the License.
     Contributors:
         * Diego Fernandez-Merjildo <merjildo@br.ibm.com>
 """
+
 import unittest
 from ma.xml_loader.quickfix_loader import QuickfixLoader
 

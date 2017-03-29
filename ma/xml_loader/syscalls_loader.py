@@ -19,7 +19,6 @@ limitations under the License.
         * Rafael Peria de Sene <rpsene@br.ibm.com>
 """
 
-
 import xml.etree.ElementTree as elemTree
 import os
 
@@ -52,6 +51,5 @@ class SyscallsLoader(object):
         suggestion_dict = {}
         for sysc in self.root.findall('syscall'):
             if sysc.get("replacer"):
-                suggestion_dict[sysc.get("target")] = (sysc.get("replacer"),
-                    sysc.get("includes"))
+                suggestion_dict[sysc.get("target")] = (sysc.get("replacer"), sysc.get("includes"))
         return suggestion_dict
