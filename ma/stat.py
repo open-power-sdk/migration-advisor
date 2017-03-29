@@ -17,6 +17,7 @@ limitations under the License.
 
     Contributors:
         * Roberto Oliveira <rdutra@br.ibm.com>
+        * Rafael Peria de Sene <rpsene@br.ibm.com>
 """
 
 from problem_reporter import ProblemReporter
@@ -45,11 +46,16 @@ class Statistics(object):
         """ Run statistics based on overral project """
         title = "Statistics - Project"
         self._print_logo(title)
+        aux_dict = {}
 
-        table_data = [["Problem", "Amount"]]
+        # calculate the amount of problems per check
         for kind, problems in self.problems.items():
-            table_data.append([kind, str(len(problems))])
+            aux_dict[kind] = len(problems)
 
+        # sort the amount of problems
+        table_data = [["Problem", "Amount"]]
+        for kind, value in sorted(aux_dict.items(), key=lambda (k, v): (v, k)):
+            table_data.append([kind, str(value)])
         stat_table = AsciiTable(table_data)
         stat_table.justify_columns = {0: 'left', 1: 'center'}
         print stat_table.table
