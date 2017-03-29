@@ -75,13 +75,14 @@ def main(argv=None):
         parser_run = subparsers.add_parser(
             'run',
             formatter_class=RawTextHelpFormatter,
-            help='Analyze project for possible migration problems.\n'
+            help='analyze a given directory or file for possible C/C++\n'
+                 'migration problems from x86_64 to Power\n'
                  'see ma run --help\n\n')
 
         parser_run.add_argument(
             dest='location',
             metavar='LOCATION',
-            help='file or directory where the files to be migrated are',
+            help='directory or file which will be analyzed\n\n',
             nargs=1)
 
         parser_run.add_argument(
@@ -92,10 +93,10 @@ def main(argv=None):
             help='specify the execution mode of MA which can be \'full\' or\n'
             '\'lightweight\'. The \'full\' mode looks for problems in all files\n'
             'located in a given directory. This option may take several minutes\n'
-            'to complete. In the other hand the \'lightweight\' mode minimize\n'
+            'to complete. On the other hand the \'lightweight\' mode minimize\n'
             'the amount of files where the search for problems is executed by\n'
             'best guessing whether a file should or not be verified.\n'
-            '    e.g: ma run --mode=full <location>')
+            '    e.g: ma run --mode=full <location>\n\n')
 
         parser_run.add_argument(
             '-s', '--stat',
@@ -103,7 +104,7 @@ def main(argv=None):
             type=str,
             choices=['project', 'file'], default='',
             help='display migration statistics by project or per file and'
-                 '\nsuppresses the migraton report')
+                 '\nsuppresses the migraton report\n\n')
 
         parser_run.add_argument(
             '-c',
@@ -126,7 +127,7 @@ def main(argv=None):
             '   syscall: Syscall not available for Linux on Power\n\n'
             '   Usage: ma run -c/--checkers <checkers> <location>\n'
             '          e.g: ma run -c/--checker htm <location>\n'
-            '          e.g: ma run -c/--checker api,char,syscall <location>'
+            '          e.g: ma run -c/--checker api,char,syscall <location>\n\n'
             )
 
         """
@@ -135,7 +136,7 @@ def main(argv=None):
         parser_info = subparsers.add_parser(
             'info',
             formatter_class=RawTextHelpFormatter,
-            help='See information about possible checkers.\n'
+            help='show information about supported migration checkers\n'
                  'see ma info --help\n\n')
 
         parser_info.add_argument(
@@ -144,9 +145,9 @@ def main(argv=None):
             dest='checker_info',
             type=str,
             choices=core.get_supported_checkers(),
-            help='\nDisplay information about the set of checkers that Migration\n'
+            help='\ndisplay information about the set of checkers that Migration\n'
             'Advisor uses to identify potential migration problems.\n\n'
-            'The checkers are:\n'
+            'The available checkers are:\n'
             '   api: Linux/x86-specific API\n'
             '   asm: x86-specific assembly\n'
             '   builtins: x86-specific compiler built-in\n'
@@ -157,9 +158,8 @@ def main(argv=None):
             '   pthread: Non-portable Pthreads implementation\n'
             '   syscall: Syscall not available for Linux on Power\n\n'
             '   Usage: ma info -c <checker>\n'
-            '          e.g: ma info -c asm'
+            '          e.g: ma info -c asm\n\n'
             )
-
         # Process arguments
         args = parser.parse_args()
         controller.run(args)
