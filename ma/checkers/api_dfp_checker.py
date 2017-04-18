@@ -35,7 +35,7 @@ class ApiDfpChecker(Checker):
         self.api_dfp_includes = ["bid_functions.h"]
 
     def get_pattern_hint(self):
-        delimiter = "|"
+        delimiter = "\|"
         dfp_hint = delimiter.join(self.api_dfp_targets)
         return dfp_hint
 

@@ -67,6 +67,6 @@ class HtmChecker(Checker):
 
     def __get_hint(self):
         """Create the self.hint string"""
-        incl_hint = "|".join(HtmLoader().get_includes())
-        func_hint = "|".join(self.htm_functions)
-        return incl_hint + "|" + func_hint
+        incl_hint = "\|".join(HtmLoader().get_includes())
+        func_hint = "\|".join(self.htm_functions)
+        return incl_hint + "\|" + func_hint

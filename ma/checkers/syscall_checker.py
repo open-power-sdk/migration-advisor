@@ -33,7 +33,7 @@ class SyscallChecker(Checker):
     def __init__(self):
         self.problem_type = "Syscall usage"
         self.problem_msg = "Syscall not available in Power architecture."
-        self.hint = 'ch[s/g/l/f/v/o/m/]|SYS_|' + 'statat'
+        self.hint = 'ch[s/g/l/f/v/o/m/]\|SYS_\|' + 'statat'
         self.syscalls_names = SyscallsLoader().get_names()
         self.syscalls_fixes = SyscallsLoader().get_fixes()
 

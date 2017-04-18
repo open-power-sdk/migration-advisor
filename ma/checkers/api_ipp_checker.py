@@ -30,7 +30,7 @@ class ApiIppChecker(Checker):
         self.problem_type = "Integrated Performance Primitives (IPP) API"
         self.problem_msg = "x86 API not supported in Power"
         self.api_ipp_includes = ["ipp.h"]
-        self.hint = "Ipp[0-9][0-9]|ipp[AacEFGgIiMmrSs]|Ipps"
+        self.hint = "Ipp[0-9][0-9]\|ipp[AacEFGgIiMmrSs]\|Ipps"
 
     def get_pattern_hint(self):
         return self.hint

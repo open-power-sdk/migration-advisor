@@ -35,7 +35,7 @@ class BuiltinChecker(Checker):
         self.builtins_headers = self.loader.builtins_headers
 
     def get_pattern_hint(self):
-        delimiter = "|"
+        delimiter = "\|"
         headers_hint = delimiter.join(self.builtins_headers)
 
         # Change names that have same pattern for a regex
