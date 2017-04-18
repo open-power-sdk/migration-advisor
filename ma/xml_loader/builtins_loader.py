@@ -102,10 +102,10 @@ class BuiltinLoader(object):
                 foutput = ""
 
             code_list = []
-            for c in func.iter('code'):
-                endian = c.attrib['endian']
-                nlines = c.attrib['nlines']
-                replacer = c.text
+            for cfunc in func.iter('code'):
+                endian = cfunc.attrib['endian']
+                nlines = cfunc.attrib['nlines']
+                replacer = cfunc.text
                 code = Function.Code(endian, nlines, replacer)
                 code_list.append(code)
             function = Function(name, finput, foutput, code_list)
