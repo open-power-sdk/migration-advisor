@@ -69,9 +69,7 @@ def main(argv=None):
                             action='version',
                             version=program_version_message)
         subparsers = parser.add_subparsers(help='\nMA commands\n\n')
-        """
-        Arguments for the run subcommand
-        """
+        # Arguments for the run subcommand
         parser_run = subparsers.add_parser(
             'run',
             formatter_class=RawTextHelpFormatter,
@@ -129,10 +127,7 @@ def main(argv=None):
             '          e.g: ma run -c/--checker htm <location>\n'
             '          e.g: ma run -c/--checker api,char,syscall <location>\n\n'
             )
-
-        """
-        Arguments for the info subcommand
-        """
+        # Arguments for the info subcommand
         parser_info = subparsers.add_parser(
             'info',
             formatter_class=RawTextHelpFormatter,

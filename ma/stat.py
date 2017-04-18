@@ -20,8 +20,8 @@ limitations under the License.
         * Rafael Peria de Sene <rpsene@br.ibm.com>
 """
 
-from problem_reporter import ProblemReporter
 from terminaltables import AsciiTable
+from problem_reporter import ProblemReporter
 
 
 class Statistics(object):
@@ -75,13 +75,13 @@ class Statistics(object):
 
         # Calculate the amount of problems in each file
         data_dict = {}
-        for f in files:
+        for _file in files:
             problem_dict = {}
             for kind, problems in self.problems.items():
                 for problem in problems:
-                    if problem.file_name == f:
+                    if problem.file_name == _file:
                         problem_dict[kind] = problem_dict.get(kind, 0) + 1
-            data_dict[f] = problem_dict
+            data_dict[_file] = problem_dict
 
         # Create table data
         table_data = [["File", "Total Amount", "Problems"]]
@@ -99,7 +99,8 @@ class Statistics(object):
         stat_table.justify_columns = {0: 'left', 1: 'center', 2: 'left'}
         print stat_table.table
 
-    def _print_logo(self, title):
+    @staticmethod
+    def _print_logo(title):
         """ Print the statistics logo """
         border = "=" * len(title)
         print ""

@@ -56,7 +56,7 @@ def run(args):
 
     if 'checker_info' in args:
         chelp = HelpCreator()
-        chelp.createHelp(args.checker_info)
+        chelp.create_help(args.checker_info)
         sys.exit(0)
     for chk in _load_checkers(args.checkers):
         _run_checker(chk, args.execution_mode, args.location[0])

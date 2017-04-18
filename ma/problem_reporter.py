@@ -78,7 +78,7 @@ class ProblemReporter(object):
             print "\nNo migration reports found."
             return
 
-        TAB = "   "
+        tab = "   "
         cls.__print_logo()
         for problem_type, problems in cls.problems.items():
             problems_dict = {}
@@ -90,12 +90,12 @@ class ProblemReporter(object):
             print "Problem type: " + problem_type
             print "Problem description: " + problems[0].problem_msg
             for file_name, problems in problems_dict.items():
-                print TAB + "File: " + file_name
+                print tab + "File: " + file_name
                 for problem in problems:
-                    print (TAB * 2) + "Line: " + str(problem.line)
-                    print (TAB * 2) + "Problem: " + problem.name
+                    print (tab * 2) + "Line: " + str(problem.line)
+                    print (tab * 2) + "Problem: " + problem.name
                     if problem.solution:
-                        print (TAB * 2) + "Solution: " + problem.solution
+                        print (tab * 2) + "Solution: " + problem.solution
                     print ""
             print ""
 

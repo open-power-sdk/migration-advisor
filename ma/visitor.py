@@ -22,7 +22,6 @@ limitations under the License.
 """
 
 import os
-from clang.cindex import CursorKind
 from report_blocker import ReportBlocker
 from problem_reporter import ProblemReporter
 import core

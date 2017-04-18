@@ -26,12 +26,19 @@ DOC_FILE = DIR_PATH + "/resources/information/"
 
 
 class HelpCreator(object):
+    '''Creates help messages explainging each checker'''
 
-    def createHelp(cls, checker):
-        print '\n' + cls.formatHelp(checker) + '\n'
+    def create_help(self, checker):
+        '''Creates the help message show when users select
+           ma info -c <checker>
+        '''
+        print '\n' + self.format_help(checker) + '\n'
 
     @classmethod
-    def formatHelp(cls, checker):
+    def format_help(cls, checker):
+        '''Formats the help message show when users select
+           ma info -c <checker>
+        '''
         fpath = DOC_FILE + checker
         try:
             with open(fpath, 'r') as help_msg:
