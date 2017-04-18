@@ -28,15 +28,16 @@ from pip.req import parse_requirements
 import glob
 import ma.core
 
-with open('README.rst') as f:
+with open('README.md') as f:
     readme = f.read()
 
 requirement_file = './requirements.txt'
 
 if ma.core.cmdexists('clang'):
     clang_installed = glob.glob('/usr/lib*/clang/[0-9].[0-9].[0-9]')
-    if clang_installed:
-        clang_version = clang_installed[0].split('/')[-1][:-2]
+    reverse_list = list(reversed(clang_installed))
+    if reverse_list:
+        clang_version = reverse_list[0].split('/')[-1][:-2]
         clang_line = 'clang==' + clang_version
         with open(requirement_file, 'a+') as req_file:
             if not any(clang_line in line for line in req_file):

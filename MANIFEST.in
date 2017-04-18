@@ -3,3 +3,5 @@ recursive-include data *
 include ma/xml_loader/*.xml
 include ma/resources/*.xml
 include ma/resources/information/*
+include README.md
+include LICENSE
