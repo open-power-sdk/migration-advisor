@@ -22,9 +22,9 @@ limitations under the License.
         * Diego Fernandez-Merjildo <merjildo@br.ibm.com>
 """
 
-from ma.checkers.checker import Checker
 from clang.cindex import CursorKind
 from clang.cindex import TypeKind
+from ma.checkers.checker import Checker
 
 
 class LongDoubleChecker(Checker):

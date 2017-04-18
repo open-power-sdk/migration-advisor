@@ -19,14 +19,13 @@ limitations under the License.
         * Roberto Oliveira <rdutra@br.ibm.com>
         * Diego Fernandez-Merjildo <merjildo@br.ibm.com>
 """
-
+import re
+import os
 from clang.cindex import CursorKind
 from clang.cindex import TypeKind
 
 from ma.checkers.checker import Checker
 from ma import core
-import re
-import os
 
 
 class CharChecker(Checker):
@@ -94,14 +93,14 @@ class CharChecker(Checker):
 
         for children in node.get_children():
             return self._get_var_declaration(children, definition)
-        else:
-            return definition
 
-    def _has_children(self, node):
+    @staticmethod
+    def _has_children(node):
         """ Check if node has children """
         return len(list(node.get_children()))
 
-    def _is_dangerous_type(self, node):
+    @staticmethod
+    def _is_dangerous_type(node):
         """ Check if node type can be a dangerous type. For this checker it
         can be dangerous if it is only char (without signed or unsigned) """
         node_type = node.type
@@ -129,5 +128,3 @@ class CharChecker(Checker):
 
         for children in node.get_children():
             return self._is_dangerous_assignment(children, is_dangerous)
-        else:
-            return is_dangerous

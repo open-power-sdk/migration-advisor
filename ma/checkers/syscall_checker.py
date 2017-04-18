@@ -22,9 +22,9 @@ limitations under the License.
         * Rafael Peria de Sene <rpsene@br.ibm.com>
 """
 
+from clang.cindex import CursorKind
 from ma.checkers.checker import Checker
 from ma.xml_loader.syscalls_loader import SyscallsLoader
-from clang.cindex import CursorKind
 
 
 class SyscallChecker(Checker):
@@ -33,7 +33,7 @@ class SyscallChecker(Checker):
     def __init__(self):
         self.problem_type = "Syscall usage"
         self.problem_msg = "Syscall not available in Power architecture."
-        self.hint = 'ch[s/g/l/f/v/o/m/]\|SYS_\|' + 'statat'
+        self.hint = 'ch[s/g/l/f/v/o/m/]|SYS_|' + 'statat'
         self.syscalls_names = SyscallsLoader().get_names()
         self.syscalls_fixes = SyscallsLoader().get_fixes()
 
@@ -55,8 +55,8 @@ class SyscallChecker(Checker):
         if node.displayname in self.syscalls_fixes:
             return self.__create_solution(node)
 
-    def __create_solution(cls, node):
-        fix = cls.syscalls_fixes[node.displayname]
+    def __create_solution(self, node):
+        fix = self.syscalls_fixes[node.displayname]
         fix_msg = "Replace " + node.displayname + " for " + fix[0]
         if fix[1]:
             fix_msg += " and include " + fix[1]

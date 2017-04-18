@@ -19,9 +19,9 @@ limitations under the License.
         * Daniel Kreling <dbkreling@br.ibm.com>
 """
 
+from clang.cindex import CursorKind
 from ma.checkers.checker import Checker
 from ma.xml_loader.htm_loader import HtmLoader
-from clang.cindex import CursorKind
 
 
 class HtmChecker(Checker):
@@ -57,16 +57,16 @@ class HtmChecker(Checker):
     def get_solution(self, node):
         return self.__create_solution(node)
 
-    def __create_solution(cls, node):
+    def __create_solution(self, node):
         if 'rtmintrin.h' in str(node):
             return "replace rtmintrin.h for htmintrin.h"
         if not isinstance(node, basestring):
-            if node.displayname in cls.htm_fixes:
-                fix = cls.htm_fixes[node.displayname]
+            if node.displayname in self.htm_fixes:
+                fix = self.htm_fixes[node.displayname]
                 return "replace " + node.displayname + " for " + fix
 
     def __get_hint(self):
         """Create the self.hint string"""
-        incl_hint = "\|".join(HtmLoader().get_includes())
-        func_hint = "\|".join(self.htm_functions)
-        return incl_hint + "\|" + func_hint
+        incl_hint = "|".join(HtmLoader().get_includes())
+        func_hint = "|".join(self.htm_functions)
+        return incl_hint + "|" + func_hint

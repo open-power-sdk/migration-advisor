@@ -49,7 +49,9 @@ class ApiMklChecker(Checker):
 
     def check_file(self, file_name):
         values = self.mkl_values['function'] + self.mkl_values['type']
-        statements_type = utils.get_all_statements(self.mkl_values['type'], file_name)
-        statements_function = utils.get_all_statements(self.mkl_values['function'], file_name)
+        statements_type = utils.get_all_statements(self.mkl_values['type'],
+                                                   file_name)
+        statements_function = utils.get_all_statements(self.mkl_values['function'],
+                                                       file_name)
         statements = statements_type + statements_function
         return utils.format_statements(statements, values)
