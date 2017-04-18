@@ -119,6 +119,7 @@ class Checkers(unittest.TestCase):
         folder = self.resources_folder + "api/mpi"
         self.base.run(ApiMpiChecker(), folder)
         expected_lines = [1, 4, 6, 8, 10, 12, 13, 18, 19]
+        self.__check_lines(expected_lines)
 
     def pthread_test(self):
         """ Test for no portable Pthreads """

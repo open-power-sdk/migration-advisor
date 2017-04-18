@@ -21,15 +21,11 @@ limitations under the License.
 """
 
 
-from clang.cindex import Index
-from clang.cindex import TranslationUnit
-from ma.visitor import Visitor
 from ma.problem_reporter import ProblemReporter
-from ma import core
 from ma import controller
 
 
-class CheckersBase():
+class CheckersBase(object):
     """ Base class to use checkers test """
     def __init__(self):
         self.reporter = ProblemReporter()
