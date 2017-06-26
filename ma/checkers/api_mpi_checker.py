@@ -44,8 +44,3 @@ class ApiMpiChecker(Checker):
     def check_include(self, include_name):
         if include_name in self.mpi_includes:
             return True
-
-    def check_file(self, file_name):
-        statements = utils.get_all_statements(['MPI_.*', 'MPI:.*'], file_name)
-        reports = utils.format_statements(statements, ['MPI_.*', 'MPI:.*'])
-        return reports

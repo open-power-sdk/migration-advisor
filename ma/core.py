@@ -90,7 +90,7 @@ def get_files(location, hint=''):
         extensions = ' --include=' + \
             ' --include='.join([str(e) for e in get_supported_extensions()])
         cmd = 'grep -rl ' + extensions + ' \''
-        cmd += hint + '\' ' + location
+        cmd += str(hint) + '\' ' + location
         status, files = execute_stdout(cmd)
         return files.split()
     elif os.path.isfile(location):

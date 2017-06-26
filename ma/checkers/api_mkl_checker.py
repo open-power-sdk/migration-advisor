@@ -21,7 +21,6 @@ limitations under the License.
 
 import ma.checkers.checker_file_utils as utils
 from ma.checkers.checker import Checker
-from ma.xml_loader.api_mkl_loader import ApiMklLoader
 
 
 class ApiMklChecker(Checker):
@@ -32,7 +31,6 @@ class ApiMklChecker(Checker):
         self.problem_msg = "x86 API not supported in Power"
         self.mkl_includes = ["mkl.h", "mkl.*.h"]
         self.hint = r"mkl.*\|MKL.*\|Mkl.*"
-        self.mkl_values = ApiMklLoader().mkl_values
 
     def get_pattern_hint(self):
         return self.hint
@@ -46,12 +44,3 @@ class ApiMklChecker(Checker):
     def check_include(self, include_name):
         if include_name in self.mkl_includes:
             return True
-
-    def check_file(self, file_name):
-        values = self.mkl_values['function'] + self.mkl_values['type']
-        statements_type = utils.get_all_statements(self.mkl_values['type'],
-                                                   file_name)
-        statements_function = utils.get_all_statements(self.mkl_values['function'],
-                                                       file_name)
-        statements = statements_type + statements_function
-        return utils.format_statements(statements, values)

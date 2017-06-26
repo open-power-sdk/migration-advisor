@@ -40,7 +40,8 @@ class AssemblyReplacer(object):
         tree = elemTree.parse(file_name)
         root = tree.getroot()
         for asm in root.iter('asm'):
-            self.replacer[asm.attrib['target']] = [asm.attrib['type'], asm.attrib['replacer']]
+            self.replacer[asm.attrib['target']] = [asm.attrib['type'],
+                                                   asm.attrib['replacer']]
 
     def get_replace(self, target):
         '''Method to get the replace for selected target'''

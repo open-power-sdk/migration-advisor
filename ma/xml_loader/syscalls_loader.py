@@ -51,5 +51,6 @@ class SyscallsLoader(object):
         suggestion_dict = {}
         for sysc in self.root.findall('syscall'):
             if sysc.get("replacer"):
-                suggestion_dict[sysc.get("target")] = (sysc.get("replacer"), sysc.get("includes"))
+                suggestion_dict[sysc.get("target")] = (sysc.get("replacer"),
+                                                       sysc.get("includes"))
         return suggestion_dict

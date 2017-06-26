@@ -21,7 +21,6 @@ limitations under the License.
 
 import ma.checkers.checker_file_utils as utils
 from ma.checkers.checker import Checker
-from ma.xml_loader.api_dfp_loader import ApiDfpLoader
 
 
 class ApiDfpChecker(Checker):
@@ -30,14 +29,11 @@ class ApiDfpChecker(Checker):
     def __init__(self):
         self.problem_type = "Decimal Floating Point (DFP) API"
         self.problem_msg = "x86 API not supported in Power"
-        self.api_dfp_names = ApiDfpLoader().item_names
-        self.api_dfp_targets = ApiDfpLoader().item_targets
         self.api_dfp_includes = ["bid_functions.h"]
+        self.hint = "bid_.*"
 
     def get_pattern_hint(self):
-        delimiter = "\|"
-        dfp_hint = delimiter.join(self.api_dfp_targets)
-        return dfp_hint
+        return self.hint
 
     def get_problem_msg(self):
         return self.problem_msg
@@ -48,7 +44,3 @@ class ApiDfpChecker(Checker):
     def check_include(self, include_name):
         if include_name in self.api_dfp_includes:
             return True
-
-    def check_file(self, file_name):
-        statements = utils.get_all_statements(self.api_dfp_targets, file_name)
-        return utils.format_statements(statements, self.api_dfp_targets)

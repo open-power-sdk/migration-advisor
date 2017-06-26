@@ -30,7 +30,7 @@ class ApiIppChecker(Checker):
         self.problem_type = "Integrated Performance Primitives (IPP) API"
         self.problem_msg = "x86 API not supported in Power"
         self.api_ipp_includes = ["ipp.h"]
-        self.hint = "Ipp[0-9][0-9]\|ipp[AacEFGgIiMmrSs]\|Ipps"
+        self.hint = "ipp.*"
 
     def get_pattern_hint(self):
         return self.hint
@@ -44,7 +44,3 @@ class ApiIppChecker(Checker):
     def check_include(self, include_name):
         if include_name in self.api_ipp_includes:
             return True
-
-    def check_file(self, file_name):
-        statements = utils.get_all_statements(['Ipp.*', 'ipp.*'], file_name)
-        return utils.format_statements(statements, ['Ipp.*', 'ipp.*'])
