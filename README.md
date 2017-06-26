@@ -72,4 +72,4 @@ optional arguments:
 For general purpose questions, please use [StackOverflow](http://stackoverflow.com/questions/tagged/toolsforpower).
 
 ## License <a name="license"></a>
-The Source Code Advisor Project uses the [Apache License Version 2.0](LICENSE) software license.
+The Migration Advisor Project uses the [Apache License Version 2.0](LICENSE) software license.
