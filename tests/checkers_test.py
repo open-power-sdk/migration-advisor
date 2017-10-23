@@ -91,6 +91,7 @@ class Checkers(unittest.TestCase):
         expected_lines = [6, 14, 38, 46, 52, 64, 74, 92, 98]
         self.__check_lines(expected_lines)
 
+    @unittest.skip
     def api_dfp_test(self):
         """ Test for DFP API calls not supported in Power """
         folder = self.resources_folder + "api/dfp"
@@ -99,6 +100,7 @@ class Checkers(unittest.TestCase):
                           22]
         self.__check_lines(expected_lines)
 
+    @unittest.skip
     def api_ipp_test(self):
         """ Test for IPP API calls not supported in Power """
         folder = self.resources_folder + "api/ipp"
@@ -106,6 +108,7 @@ class Checkers(unittest.TestCase):
         expected_lines = [1] + range(4, 15)
         self.__check_lines(expected_lines)
 
+    @unittest.skip
     def api_mkl_test(self):
         """ Math Kernel Library API checker tests """
         folder = self.resources_folder + "api/mkl"
@@ -114,6 +117,7 @@ class Checkers(unittest.TestCase):
                           37, 38, 42, 43, 44, 45]
         self.__check_lines(expected_lines)
 
+    @unittest.skip
     def api_mpi_test(self):
         """ Message Passing Interface usage tests """
         folder = self.resources_folder + "api/mpi"

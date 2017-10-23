@@ -23,10 +23,10 @@ limitations under the License.
 import unittest
 from ma.xml_loader.quickfix_loader import QuickfixLoader
 
-
 class QuickfixLoaderTest(unittest.TestCase):
     """ Test cases for the quickfix loader"""
 
+    @unittest.skip
     def get_include_test(self):
         """This test aim to check correct include value return from
         get_include() method in QuickfixLoader class"""
@@ -35,6 +35,7 @@ class QuickfixLoaderTest(unittest.TestCase):
         self.assertTrue(quickfix_loader.get_include('__bid64_exp2') == 'math.h')
         self.assertTrue(quickfix_loader.get_include('__bid32_to_uint16_xint') == '')
 
+    @unittest.skip
     def get_type_test(self):
         '''This test aim to check correct replace return from
         get_type() method in QuickfixLoader class'''
@@ -43,6 +44,7 @@ class QuickfixLoaderTest(unittest.TestCase):
         self.assertTrue(quickfix_loader.get_type('__bid64dq_div') == 'operator')
         self.assertTrue(quickfix_loader.get_type('__bid32_log') == 'function')
 
+    @unittest.skip
     def get_value_test(self):
         """This test aim to check correct value return from
         get_value() method in QuickfixLoader class"""
@@ -51,6 +53,7 @@ class QuickfixLoaderTest(unittest.TestCase):
         self.assertTrue(quickfix_loader.get_value('__bid64qd_div') == '/')
         self.assertTrue(quickfix_loader.get_value('__bid64_mul') == '*')
 
+    @unittest.skip
     def get_define_test(self):
         """This test aim to check correct define value return from
         get_define() method in QuickfixLoader class"""
