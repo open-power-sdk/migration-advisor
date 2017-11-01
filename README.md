@@ -27,7 +27,7 @@ Non-portable Pthreads implementation
 
 Syscall not available for Linux on Power
 
-For more information about MA usage, see sca --help
+For more information about MA usage, see ma --help
 
 ## Contributing to the project
 We welcome contributions to the Migration Advisor Project in many forms. There's always plenty to do! Full details of how to contribute to this project are documented in the [CONTRIBUTING.md](CONTRIBUTING.md) file.
