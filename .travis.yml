@@ -1,19 +1,16 @@
 sudo: required
-
 language: python
-
 python:
   - "2.7"
   
-before_install:
-  - sudo apt-get -qq update
-  - sudo apt-get install clang
-
 # command to install dependencies
 install: "pip install pylint virtualenv"
 
-
 # command to build
-#script:
-#  - ./dev release
-#  - ./dev tests
+script: 
+  - ./dev release
+  - ./dev tests
+
+before_install:
+  - sudo apt-get -qq update
+  - sudo apt-get install clang
