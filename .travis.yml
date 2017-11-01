@@ -4,13 +4,11 @@ python:
   - "2.7"
   
 # command to install dependencies
-install: "pip install pylint virtualenv"
-
+install: "pip install pylint virtualenv setuptools"
+ 
 # command to build
 script: 
-  - ./dev release
-  - ./dev tests
-
-before_install:
   - sudo apt-get -qq update
   - sudo apt-get install clang
+  - ./dev release
+  - ./dev tests
