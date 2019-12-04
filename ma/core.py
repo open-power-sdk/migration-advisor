@@ -39,7 +39,7 @@ PPC_PATTERNS = ["PPC", "ppc", "power[pP][cC]", "POWER[pP][cC]"]
 
 def get_supported_checkers():
     """Return the supported checkers"""
-    return ['api', 'asm', 'builtins', 'char', 'htm', 'performance',
+    return ['api', 'asm', 'builtin', 'char', 'htm', 'performance',
             'pthread', 'syscall', 'double']
 
 
