@@ -75,7 +75,7 @@ class ProblemReporter(object):
     def print_problems(cls):
         """ Print all reported problems """
         if not cls.problems:
-            print "\nNo migration reports found."
+            print("\nNo migration reports found.")
             return
 
         tab = "   "
@@ -87,17 +87,17 @@ class ProblemReporter(object):
                 name = problem.file_name
                 problems_dict[name] = problems_dict.get(name, []) + [problem]
 
-            print "Problem type: " + problem_type
-            print "Problem description: " + problems[0].problem_msg
+            print("Problem type: " + problem_type)
+            print("Problem description: " + problems[0].problem_msg)
             for file_name, problems in problems_dict.items():
-                print tab + "File: " + file_name
+                print(tab + "File: " + file_name)
                 for problem in problems:
-                    print (tab * 2) + "Line: " + str(problem.line)
-                    print (tab * 2) + "Problem: " + problem.name
+                    print((tab * 2) + "Line: " + str(problem.line))
+                    print((tab * 2) + "Problem: " + problem.name)
                     if problem.solution:
-                        print (tab * 2) + "Solution: " + problem.solution
-                    print ""
-            print ""
+                        print((tab * 2) + "Solution: " + problem.solution)
+                    print("")
+            print("")
 
     @classmethod
     def get_problems(cls):
@@ -128,10 +128,10 @@ class ProblemReporter(object):
         """ Print the report logo """
         title = "Migration Report"
         border = "=" * len(title)
-        print ""
-        print border
-        print title
-        print border
+        print("")
+        print(border)
+        print(title)
+        print(border)
 
 
 class Problem(object):

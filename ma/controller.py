@@ -79,7 +79,7 @@ def _run_checker(checker, mode, set_of_files):
         cnf += checker.get_problem_type().lower()
         sys.stderr.write(cnf + '\n')
     else:
-        print __current_wip(checker, files)
+        print(__current_wip(checker, files))
         visitor = Visitor(checker)
         index = Index.create()
         for c_file in files:

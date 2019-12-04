@@ -43,7 +43,7 @@ if ma.core.cmdexists('clang'):
             if not any(clang_line in line for line in req_file):
                 req_file.write(clang_line + '\n')
 else:
-    print 'Looks like you do not have clang installed. Install it first.'
+    print('Looks like you do not have clang installed. Install it first.')
     exit(2)
 
 requirements_list = parse_requirements(requirement_file, session=False)

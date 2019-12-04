@@ -32,7 +32,7 @@ class HelpCreator(object):
         '''Creates the help message show when users select
            ma info -c <checker>
         '''
-        print '\n' + self.format_help(checker) + '\n'
+        print('\n' + self.format_help(checker) + '\n')
 
     @classmethod
     def format_help(cls, checker):
@@ -44,4 +44,4 @@ class HelpCreator(object):
             with open(fpath, 'r') as help_msg:
                 return help_msg.read()
         except IOError:
-            print "Could not read file:", fpath
+            print("Could not read file:", fpath)

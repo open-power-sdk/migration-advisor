@@ -34,7 +34,7 @@ class Statistics(object):
     def stat(self):
         """ Run statistics feature based on the statistic kind """
         if not self.problems:
-            print "\nNo statistics to display since no problem was found."
+            print("\nNo statistics to display since no problem was found.")
             return
 
         if self.kind == "project":
@@ -58,7 +58,7 @@ class Statistics(object):
             table_data.append([kind, str(value)])
         stat_table = AsciiTable(table_data)
         stat_table.justify_columns = {0: 'left', 1: 'center'}
-        print stat_table.table
+        print(stat_table.table)
 
     def _stat_file(self):
         """ Run statistics per file """
@@ -97,13 +97,13 @@ class Statistics(object):
         stat_table = AsciiTable(table_data)
         stat_table.inner_row_border = True
         stat_table.justify_columns = {0: 'left', 1: 'center', 2: 'left'}
-        print stat_table.table
+        print(stat_table.table)
 
     @staticmethod
     def _print_logo(title):
         """ Print the statistics logo """
         border = "=" * len(title)
-        print ""
-        print border
-        print title
-        print border
+        print("")
+        print(border)
+        print(title)
+        print(border)
