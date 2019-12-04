@@ -21,7 +21,7 @@ limitations under the License.
 """
 
 from terminaltables import AsciiTable
-from problem_reporter import ProblemReporter
+from .problem_reporter import ProblemReporter
 
 
 class Statistics(object):
@@ -54,7 +54,7 @@ class Statistics(object):
 
         # sort the amount of problems
         table_data = [["Problem", "Amount"]]
-        for kind, value in sorted(aux_dict.items(), key=lambda (k, v): (v, k)):
+        for kind, value in sorted(aux_dict.items(), key=lambda k, v: (v, k)):
             table_data.append([kind, str(value)])
         stat_table = AsciiTable(table_data)
         stat_table.justify_columns = {0: 'left', 1: 'center'}

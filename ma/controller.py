@@ -26,24 +26,24 @@ import sys
 from clang.cindex import Index
 from clang.cindex import TranslationUnit
 
-from checkers.asm_checker import AsmChecker
-from checkers.long_double_checker import LongDoubleChecker
-from checkers.syscall_checker import SyscallChecker
-from checkers.char_checker import CharChecker
-from checkers.htm_checker import HtmChecker
-from checkers.performance_degradation_checker import PerformanceDegradationChecker
-from checkers.api_dfp_checker import ApiDfpChecker
-from checkers.api_ipp_checker import ApiIppChecker
-from checkers.api_mkl_checker import ApiMklChecker
-from checkers.api_mpi_checker import ApiMpiChecker
-from checkers.pthread_checker import PthreadChecker
-from checkers.builtin_checker import BuiltinChecker
-from visitor import Visitor
-from stat import Statistics
-from problem_reporter import ProblemReporter
-from report_blocker import ReportBlocker
-from help import HelpCreator
-import core
+from .checkers.asm_checker import AsmChecker
+from .checkers.long_double_checker import LongDoubleChecker
+from .checkers.syscall_checker import SyscallChecker
+from .checkers.char_checker import CharChecker
+from .checkers.htm_checker import HtmChecker
+from .checkers.performance_degradation_checker import PerformanceDegradationChecker
+from .checkers.api_dfp_checker import ApiDfpChecker
+from .checkers.api_ipp_checker import ApiIppChecker
+from .checkers.api_mkl_checker import ApiMklChecker
+from .checkers.api_mpi_checker import ApiMpiChecker
+from .checkers.pthread_checker import PthreadChecker
+from .checkers.builtin_checker import BuiltinChecker
+from .visitor import Visitor
+from .stat import Statistics
+from .problem_reporter import ProblemReporter
+from .report_blocker import ReportBlocker
+from .help import HelpCreator
+from . import core
 
 
 def run(args):
