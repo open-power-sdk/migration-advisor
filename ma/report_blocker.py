@@ -20,7 +20,7 @@ limitations under the License.
 """
 
 import re
-import core
+from . import core
 
 
 class ReportBlocker(object):

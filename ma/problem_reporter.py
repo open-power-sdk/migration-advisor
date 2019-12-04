@@ -20,8 +20,8 @@ limitations under the License.
         * Diego Fernandez-Merjildo <merjildo@br.ibm.com>
 """
 
-import core
-from report_blocker import ReportBlocker
+from . import core
+from .report_blocker import ReportBlocker
 
 
 class ProblemReporter(object):

@@ -27,9 +27,9 @@ import sys
 from argparse import ArgumentParser
 from argparse import RawTextHelpFormatter
 import pkg_resources
-import core
+from . import core
 
-import controller
+from . import controller
 
 __all__ = []
 __version__ = pkg_resources.require("ma")[0].version

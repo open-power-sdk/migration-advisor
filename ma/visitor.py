@@ -22,9 +22,9 @@ limitations under the License.
 """
 
 import os
-from report_blocker import ReportBlocker
-from problem_reporter import ProblemReporter
-import core
+from .report_blocker import ReportBlocker
+from .problem_reporter import ProblemReporter
+from . import core
 
 
 class Visitor(object):
