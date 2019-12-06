@@ -63,7 +63,7 @@ def execute_stdout(command):
     try:
         output = subprocess.check_output([command], stderr=subprocess.STDOUT,
                                          shell=True)
-        return 0, output
+        return 0, output.decode()
     except subprocess.CalledProcessError as excp:
         return excp.returncode, excp.output
 

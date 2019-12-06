@@ -23,8 +23,11 @@ limitations under the License.
 """
 
 import sys
+import glob
 from clang.cindex import Index
+from clang.cindex import Config
 from clang.cindex import TranslationUnit
+clang_library_file = ''
 
 from .checkers.asm_checker import AsmChecker
 from .checkers.long_double_checker import LongDoubleChecker
@@ -70,6 +73,7 @@ def run(args):
 
 
 def _run_checker(checker, mode, set_of_files):
+    global clang_library_file
     if mode == 'full':
         files = core.get_files(set_of_files)
     else:
@@ -81,6 +85,12 @@ def _run_checker(checker, mode, set_of_files):
     else:
         print(__current_wip(checker, files))
         visitor = Visitor(checker)
+        if clang_library_file == '':
+            clang_libraries = glob.glob('/usr/lib*/libclang.so*')
+            reverse_list = list(reversed(clang_libraries))
+            if reverse_list:
+                clang_library_file = reverse_list[0]
+                Config.set_library_file(clang_library_file)
         index = Index.create()
         for c_file in files:
             root = index.parse(c_file, options=TranslationUnit.PARSE_DETAILED_PROCESSING_RECORD)
