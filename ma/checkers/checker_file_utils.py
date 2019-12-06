@@ -80,7 +80,7 @@ def get_all_statements(names, file_name):
      """
     # Split list to avoid problem with command size
     size = 2500
-    names = [names[x: x + size] for x in xrange(0, len(names), size)]
+    names = [names[x: x + size] for x in range(0, len(names), size)]
 
     lines = []
     for name in names:
@@ -197,7 +197,7 @@ def _check_token(token, names):
     case, it will go through all the list as usual. """
 
     max_regex = 99
-    grouped_names = [names[i: i + max_regex] for i in xrange(0, len(names), max_regex)]
+    grouped_names = [names[i: i + max_regex] for i in range(0, len(names), max_regex)]
     for sub_names in grouped_names:
         regexes = "(" + ")|(".join(sub_names) + ")"
         if re.match(regexes, token) is not None:

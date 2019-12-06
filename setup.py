@@ -38,7 +38,7 @@ if ma.core.cmdexists('clang'):
     reverse_list = list(reversed(clang_installed))
     if reverse_list:
         clang_version = reverse_list[0].split('/')[-1][:-2]
-        clang_line = 'clang==' + clang_version
+        clang_line = 'clang<=' + clang_version
         with open(requirement_file, 'a+') as req_file:
             if not any(clang_line in line for line in req_file):
                 req_file.write(clang_line + '\n')
@@ -51,7 +51,8 @@ requirements = [str(required.req) for required in requirements_list]
 
 setup(
     name='ma',
-    version='1.0.timestamp'+clang_version.replace('.', ''),
+    #version='1.0.timestamp'+clang_version.replace('.', ''),
+    version='1.0.timestamp',
     description='Migrates C/C++ applications to POWER',
     long_description=readme,
     author='Rafael Peria de Sene, Roberto Guimarães Dutra de Oliveira, \
