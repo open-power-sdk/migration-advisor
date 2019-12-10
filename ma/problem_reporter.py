@@ -93,7 +93,7 @@ class ProblemReporter(object):
                 print(tab + "File: " + file_name)
                 for problem in problems:
                     print((tab * 2) + "Line: " + str(problem.line))
-                    print((tab * 2) + "Problem: " + problem.name)
+                    print((tab * 2) + "Problem: " + str(problem.name))
                     if problem.solution:
                         print((tab * 2) + "Solution: " + problem.solution)
                     print("")

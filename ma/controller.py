@@ -23,6 +23,7 @@ limitations under the License.
 """
 
 import sys
+import subprocess
 import glob
 from clang.cindex import Index
 from clang.cindex import Config
@@ -71,6 +72,27 @@ def run(args):
     else:
         ProblemReporter.print_problems()
 
+def _include_paths():
+    include_paths = []
+    try:
+        null = open("/dev/null")
+        output = subprocess.check_output(["gcc", "-v", "-E", "-"], stdin=null, stderr=subprocess.STDOUT, shell=False)
+    except subprocess.CalledProcessError as ex:
+        print(ex.cmd)
+        print(ex.output)
+        return include_paths
+
+    save = False
+    for line in output.decode().split('\n'):
+        if line == 'End of search list.':
+                save=False
+        if save:
+                include_paths.append("-I" + line.lstrip())
+        if line == '#include <...> search starts here:':
+                save=True
+
+    return include_paths
+
 
 def _run_checker(checker, mode, set_of_files):
     global clang_library_file
@@ -93,7 +115,8 @@ def _run_checker(checker, mode, set_of_files):
                 Config.set_library_file(clang_library_file)
         index = Index.create()
         for c_file in files:
-            root = index.parse(c_file, options=TranslationUnit.PARSE_DETAILED_PROCESSING_RECORD)
+            args = ["-ferror-limit=9999"] + _include_paths()
+            root = index.parse(c_file, args=args, options=TranslationUnit.PARSE_DETAILED_PROCESSING_RECORD)
             ReportBlocker.blocked_lines = []
             visitor.visit(root.cursor, c_file)
 
