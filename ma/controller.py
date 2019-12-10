@@ -50,22 +50,22 @@ from .help import HelpCreator
 from . import core
 
 
-def run(args):
+def run(argv):
     """
     Executes the correct action according the user input.
 
     Parameters:
-        args - arguments collected by argparser
+        argv - arguments collected by argparser
     """
 
-    if 'checker_info' in args:
+    if 'checker_info' in argv:
         chelp = HelpCreator()
-        chelp.create_help(args.checker_info)
+        chelp.create_help(argv.checker_info)
         sys.exit(0)
-    for chk in _load_checkers(args.checkers):
-        _run_checker(chk, args.execution_mode, args.location[0])
+    for chk in _load_checkers(argv.checkers):
+        _run_checker(chk, argv)
 
-    statistics = args.statistics
+    statistics = argv.statistics
     if statistics:
         statistic = Statistics(statistics)
         statistic.stat()
@@ -94,12 +94,12 @@ def _include_paths():
     return include_paths
 
 
-def _run_checker(checker, mode, set_of_files):
+def _run_checker(checker, argv):
     global clang_library_file
-    if mode == 'full':
-        files = core.get_files(set_of_files)
+    if argv.execution_mode == 'full':
+        files = core.get_files(argv.location[0])
     else:
-        files = core.get_files(set_of_files, checker.get_pattern_hint())
+        files = core.get_files(argv.location[0], checker.get_pattern_hint())
     if not files:
         cnf = 'Could not find any problem related to '
         cnf += checker.get_problem_type().lower()

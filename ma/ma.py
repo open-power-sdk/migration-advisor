@@ -68,6 +68,8 @@ def main(argv=None):
         parser.add_argument('-V', '--version',
                             action='version',
                             version=program_version_message)
+        parser.add_argument('-v', '--verbose', action='store_true',
+                            help='verbose output')
         subparsers = parser.add_subparsers(help='\nMA commands\n\n',
             dest='subcommand')
         # Arguments for the run subcommand
