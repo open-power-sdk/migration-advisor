@@ -108,7 +108,7 @@ def _run_checker(checker, argv):
         print(__current_wip(checker, files))
         visitor = Visitor(checker)
         if clang_library_file == '':
-            clang_libraries = glob.glob('/usr/lib*/libclang.so*')
+            clang_libraries = glob.glob('/usr/lib*/libclang*.so*') + glob.glob('/usr/lib*/*/libclang*.so*')
             reverse_list = list(reversed(clang_libraries))
             if reverse_list:
                 clang_library_file = reverse_list[0]
