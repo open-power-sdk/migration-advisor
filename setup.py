@@ -52,7 +52,7 @@ requirements = [str(required.req) for required in requirements_list]
 setup(
     name='ma',
     #version='1.0.timestamp'+clang_version.replace('.', ''),
-    version='1.0.timestamp',
+    version='1.1.timestamp',
     description='Migrates C/C++ applications to POWER',
     long_description=readme,
     author='Rafael Peria de Sene, Roberto Guimarães Dutra de Oliveira, \
