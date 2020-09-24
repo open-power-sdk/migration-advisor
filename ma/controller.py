@@ -108,8 +108,8 @@ def _run_checker(checker, argv):
         print(__current_wip(checker, files))
         visitor = Visitor(checker)
         if clang_library_file == '':
-            clang_libraries = glob.glob('/usr/lib*/libclang*.so*') + glob.glob('/usr/lib*/*/libclang*.so*')
-            reverse_list = list(reversed(clang_libraries))
+            clang_libraries = glob.glob('/usr/lib64/libclang.so*') + glob.glob('/usr/lib64/llvm/libclang.so') + glob.glob('/usr/lib*/*/libclang-[0-9]*.so.*')
+            reverse_list = list(reversed(sorted(clang_libraries)))
             if reverse_list:
                 clang_library_file = reverse_list[0]
                 Config.set_library_file(clang_library_file)
