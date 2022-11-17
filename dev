@@ -43,7 +43,7 @@ clean(){
 
 buildTests(){
 	createVirtEnv
-	python ./setup.py test
+	python3 ./setup.py test
 	destroyVirtEnv
 	clean
 	return $TRUE
@@ -51,7 +51,7 @@ buildTests(){
 
 buildRun(){
 	createVirtEnv
-	python ./setup.py install
+	python3 ./setup.py install
 	ma -h
 	destroyVirtEnv
 	clean
@@ -60,16 +60,16 @@ buildRun(){
 
 buildInstall(){
 	clean
-	python ./setup.py sdist
-	python ./setup.py check -m
+	python3 ./setup.py sdist
+	python3 ./setup.py check -m
     sudo pip install --upgrade ./dist/*.tar.gz
 	return $TRUE
 }
 
 buildClean(){
 	clean
-	python ./setup.py clean --all
-	python ./setup.py build
+	python3 ./setup.py clean --all
+	python3 ./setup.py build
 	return $TRUE
 }
 
@@ -80,8 +80,8 @@ buildCleanAll(){
 
 buildRelease(){
 	clean
-	python ./setup.py sdist
-	python ./setup.py check -m
+	python3 ./setup.py sdist
+	python3 ./setup.py check -m
 	return $TRUE
 }
 
