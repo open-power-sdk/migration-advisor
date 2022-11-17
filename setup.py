@@ -24,7 +24,8 @@ limitations under the License.
 """
 
 from setuptools import setup, find_packages
-from pip.req import parse_requirements
+#from pip.req import parse_requirements
+import pkutils
 import glob
 import ma.core
 
@@ -46,8 +47,7 @@ else:
     print('Looks like you do not have clang installed. Install it first.')
     exit(2)
 
-requirements_list = parse_requirements(requirement_file, session=False)
-requirements = [str(required.req) for required in requirements_list]
+requirements = list(pkutils.parse_requirements(requirement_file))
 
 setup(
     name='ma',
